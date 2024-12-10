@@ -1,0 +1,6 @@
+package ikerovec20_zadaca_1.podaci;
+
+public interface VoziloPogon extends Vozilo {
+	public String getVrstaPogona();
+	public String setVrstaPogona();
+}

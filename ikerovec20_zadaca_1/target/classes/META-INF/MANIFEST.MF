@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 17
+Main-Class: ikerovec20_zadaca_1.App.Main
+Created-By: Maven Integration for Eclipse
+

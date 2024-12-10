@@ -1,0 +1,17 @@
+package ikerovec20_zadaca_1.podaci;
+
+public class PruznaStanica {
+	public String stanica;
+	public String oznakaPruge;
+	public String vrstaStanice;
+	public boolean putniciUlazIzlaz;
+	public boolean robaUtovarIstovar;
+	
+	public String kategorijaPruge;
+	public String vrstaPruge;
+	public int brojKolosjeka;
+	public float dozvoljenoOpterecenjeOsovina;
+	public float dozvoljenoOpterecenjeDuzniMetar;
+	public String statusPruge;
+	public int duzina;
+}

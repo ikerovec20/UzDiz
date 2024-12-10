@@ -1,0 +1,13 @@
+package ikerovec20_zadaca_1.App;
+
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class KompozicijskoVoziloCreator extends VoziloCreator {
+
+	@Override
+	public Vozilo kreirajVozilo() {
+		// TODO Kreiraj vozilo za vucu kompozicije
+		return null;
+	}
+
+}

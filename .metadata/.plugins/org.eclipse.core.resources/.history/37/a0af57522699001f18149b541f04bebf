@@ -1,0 +1,10 @@
+package ikerovec20_zadaca_1;
+
+public abstract class Vozilo {
+	public String oznaka;
+	public String opis;
+	public String proizvodac;
+	public String namjena; //TODO: pretvoriti u enum
+	public String vrstaPrijevoza; //TODO: pretvoriti u enum
+	public String status; //TODO: enum
+}

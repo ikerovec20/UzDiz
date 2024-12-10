@@ -1,0 +1,13 @@
+package ikerovec20_zadaca_1.tvornice;
+
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class VagonCreator extends VoziloCreator {
+
+	@Override
+	public Vozilo kreirajVozilo(String[] parametri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

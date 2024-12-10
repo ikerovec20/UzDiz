@@ -1,0 +1,43 @@
+package ikerovec20_zadaca_1.App;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import ikerovec20_zadaca_1.podaci.Kompozicija;
+import ikerovec20_zadaca_1.podaci.Pruga;
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class TvrtkaSingleton {
+	private static TvrtkaSingleton instance;
+	
+	static {
+		instance = new TvrtkaSingleton();
+	}
+	
+	private TvrtkaSingleton() {}
+	
+	public static TvrtkaSingleton getInstance() {
+		return instance;
+	}
+	
+	public void ispisiKompoziciju(String kompozicija) {
+		System.out.printf("|%-8s|%12s|%-60s|%6s|%8s|%16s|%16s|%n"
+				, "Oznaka", "Uloga", "Opis", "Godina", "Namjena"
+				, "Vrsta pogona", "Maks brzina");
+		Kompozicija komp = sveKompozicije.get(kompozicija);
+		for (var zapis : komp.prijevoznaSredstva.entrySet()) {
+			var vlak = zapis.getKey();
+			System.out.printf("|%-8s|%12s|%-60s|%6s|%8s|%16s|%16s|%n", vlak.oznaka, zapis.getValue(),
+					vlak.opis, vlak.godina, vlak.namjena, 
+					vlak.vrstaPogona, vlak.maksBrzina);
+		}
+	}
+	
+	public void ispisiPruge(String oznaka) {
+		
+	}
+	
+	public Map<String, Kompozicija> sveKompozicije = new LinkedHashMap<String, Kompozicija>();
+	public Map<String, Pruga> svePruge = new LinkedHashMap<String, Pruga>();
+	public Map<String, Vozilo> svaVozila = new LinkedHashMap<String, Vozilo>();
+}

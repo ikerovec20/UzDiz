@@ -1,0 +1,13 @@
+package ikerovec20_zadaca_1;
+
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class KompozicijskoVoziloCreator extends VoziloCreator {
+
+	@Override
+	public Vozilo kreirajVozilo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

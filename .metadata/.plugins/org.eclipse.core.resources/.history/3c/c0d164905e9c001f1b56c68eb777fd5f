@@ -1,0 +1,20 @@
+package ikerovec20_zadaca_1.App;
+
+import ikerovec20_zadaca_1.konfiguracija.Konfiguracija;
+
+public class Main {
+
+	public static void main(String[] args) {
+		try {
+			Konfiguracija.getInstance().ucitajKonfiguraciju(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		TvrtkaSingleton.getInstance().ispisiKompoziciju("8001");
+		TvrtkaSingleton.getInstance().ispisiPruge();
+		TvrtkaSingleton.getInstance().ispisiPrugu("R201", true);
+		TvrtkaSingleton.getInstance().ispisiPrugu("R201", false);
+	}
+
+}

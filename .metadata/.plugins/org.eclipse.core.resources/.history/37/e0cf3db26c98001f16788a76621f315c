@@ -1,0 +1,10 @@
+package ikerovec20_zadaca_1;
+
+public class VoziloPogonCreator extends VoziloCreator {
+
+	@Override
+	public Vozilo napraviVozilo() {
+		return new VoziloPogon();
+	}
+
+}

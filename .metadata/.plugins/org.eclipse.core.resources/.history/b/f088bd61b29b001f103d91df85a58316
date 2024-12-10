@@ -1,0 +1,14 @@
+package ikerovec20_zadaca_1.App;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Konfiguracija konfig = new Konfiguracija();
+		try {
+			konfig.ucitajKonfiguraciju(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}

@@ -1,0 +1,11 @@
+package ikerovec20_zadaca_1.konfiguracija;
+
+public class KompozicijaValidacija implements IValidacija {
+
+	@Override
+	public boolean provjeriIspravnostReda(String[] podaci, String datoteka, int brReda) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

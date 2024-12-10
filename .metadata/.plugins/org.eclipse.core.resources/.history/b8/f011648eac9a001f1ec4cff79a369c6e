@@ -1,0 +1,14 @@
+package ikerovec20_zadaca_1.tvornice;
+
+import ikerovec20_zadaca_1.podaci.PutnickoVozilo;
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class PutnickoVoziloCreator extends VoziloCreator {
+
+	@Override
+	public Vozilo kreirajVozilo(String parametri) {
+		// TODO kreiraj putnicko vozilo
+		return new PutnickoVozilo();
+	}
+
+}

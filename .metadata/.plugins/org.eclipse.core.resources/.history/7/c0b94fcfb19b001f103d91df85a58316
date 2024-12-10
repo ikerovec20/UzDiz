@@ -1,0 +1,46 @@
+package ikerovec20_zadaca_1.builderi;
+
+import ikerovec20_zadaca_1.podaci.Kompozicija;
+import ikerovec20_zadaca_1.podaci.KompozicijskoVozilo;
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class KompozicijaBuilder {
+	private Kompozicija kompozicija = new Kompozicija();
+	
+	public KompozicijaBuilder postaviOznaku(String oznaka) {
+		kompozicija.setOznaka(oznaka);
+		return this;
+	}
+	
+	public KompozicijaBuilder dodajVlak(Vozilo vlak, String uloga) {
+		if (uloga.matches("P") && vlak instanceof KompozicijskoVozilo) {
+			kompozicija.prijevoznaSredstva.put(vlak, uloga);	
+			return this;
+		}
+		else {
+			//ispisi gresku
+			return this;
+		}
+	}
+	
+	public Kompozicija konstruirajKompoziciju() {
+		boolean pogoni = true;
+		int brPogona = 0;
+		for (var zapis : kompozicija.prijevoznaSredstva.entrySet()) {
+			if (zapis.getValue().matches("V") && pogoni) {
+				pogoni = false;
+			}
+			else if (zapis.getValue().matches("P") && pogoni) {
+				brPogona++;
+			}
+			else if (zapis.getValue().matches("V") && !pogoni) {
+				continue;
+			}
+			else {
+				//pogreska
+				return null;
+			}
+		}
+		return kompozicija;
+	}
+}

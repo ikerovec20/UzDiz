@@ -1,0 +1,14 @@
+package ikerovec20_zadaca_1;
+
+import ikerovec20_zadaca_1.podaci.TeretnoVozilo;
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class TeretnoVoziloCreator extends VoziloCreator {
+
+	@Override
+	public Vozilo kreirajVozilo() {
+		// TODO kreiraj teretno vozilo
+		return new TeretnoVozilo();
+	}
+
+}

@@ -1,0 +1,14 @@
+package ikerovec20_zadaca_1.podaci;
+
+public class Tablica {
+	public String naslov;
+	
+	private String[] atributi;
+	private String[] podaci;
+	
+	public void postaviAtribute(String[] podaci) {
+		atributi = podaci;
+	}
+	
+	
+}

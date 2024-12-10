@@ -1,0 +1,6 @@
+package ikerovec20_zadaca_1.podaci;
+
+public class TeretnoVozilo extends Vozilo {
+	public float nosivost;
+	public float povrsina;
+}

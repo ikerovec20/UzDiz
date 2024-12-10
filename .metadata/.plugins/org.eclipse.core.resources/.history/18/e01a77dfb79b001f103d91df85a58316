@@ -1,0 +1,11 @@
+package ikerovec20_zadaca_1.builderi;
+
+public class KompozicijaDirector {
+	private KompozicijaBuilder builder;
+	
+	public KompozicijaDirector(final KompozicijaBuilder builder) {
+		this.builder = builder;
+	}
+	
+	public Kompozicija kreirajKompoziciju
+}

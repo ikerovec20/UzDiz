@@ -1,0 +1,6 @@
+package ikerovec20_zadaca_1;
+
+public class VoziloPogon extends Vozilo {
+	public String vrstaPogona;
+	public int maksSnaga;
+}

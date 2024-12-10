@@ -1,0 +1,13 @@
+package ikerovec20_zadaca_1.tvornice;
+
+import ikerovec20_zadaca_1.podaci.TeretnoVozilo;
+import ikerovec20_zadaca_1.podaci.Vozilo;
+
+public class TeretnoVoziloCreator extends VoziloCreator {
+
+	@Override
+	public Vozilo kreirajVozilo(String parametri) {
+		// TODO kreiraj teretno vozilo
+		return new TeretnoVozilo();
+	}
+}
