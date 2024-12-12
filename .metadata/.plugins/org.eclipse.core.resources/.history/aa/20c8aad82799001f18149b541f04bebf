@@ -1,9 +1,0 @@
-package ikerovec20_zadaca_1.podaci;
-
-public abstract class Vozilo {
-	public String oznaka;
-	public String opis;
-	public String proizvodac;
-	public int godina;
-	public String namjena;
-}

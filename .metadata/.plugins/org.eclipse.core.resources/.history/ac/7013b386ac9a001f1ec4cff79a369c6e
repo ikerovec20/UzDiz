@@ -1,7 +1,0 @@
-package ikerovec20_zadaca_1.podaci;
-
-public class PutnickiVagon extends Vozilo {
-	public int brojSjedecihMjesta;
-	public int brojStajacihMjesta;
-	public int brojBicikala;
-}

@@ -1,5 +1,0 @@
-package ikerovec20_zadaca_1.podaci;
-
-public class TeretniVagon extends Vozilo {
-
-}

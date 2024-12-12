@@ -1,9 +1,0 @@
-package ikerovec20_zadaca_1.podaci;
-
-import java.util.ArrayList;
-
-public class Kompozicija {
-	public String oznaka;
-	
-	
-}

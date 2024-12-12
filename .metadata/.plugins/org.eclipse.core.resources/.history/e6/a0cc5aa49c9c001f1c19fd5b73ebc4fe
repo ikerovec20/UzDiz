@@ -1,8 +1,0 @@
-package ikerovec20_zadaca_1.tvornice;
-
-import ikerovec20_zadaca_1.podaci.Vozilo;
-
-public abstract class VoziloCreator {
-	//TODO prepoznaj koji factory je potreban
-	public abstract Vozilo kreirajVozilo(String[] parametri);
-}

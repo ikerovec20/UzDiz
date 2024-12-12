@@ -1,9 +1,0 @@
-package ikerovec20_zadaca_1.podaci;
-
-public interface IPogon {
-	public float getMaksSnaga();
-	public void setMaksSnaga(float snaga);
-	
-	public String getVrstaPogona();
-	public void setVrstaPogona(String pogon);
-}

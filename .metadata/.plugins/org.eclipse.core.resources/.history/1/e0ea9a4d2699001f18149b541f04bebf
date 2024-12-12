@@ -1,8 +1,0 @@
-package ikerovec20_zadaca_1;
-
-import ikerovec20_zadaca_1.podaci.VoziloPogon;
-
-public abstract class VoziloFactory {
-	public abstract VoziloPogon kreirajPogonskoVozilo();
-	public abstract ikerovec20_zadaca_1.podaci.Vozilo kreirajVagon();
-}

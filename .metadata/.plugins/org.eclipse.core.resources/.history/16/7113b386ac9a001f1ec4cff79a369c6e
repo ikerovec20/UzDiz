@@ -1,8 +1,0 @@
-package ikerovec20_zadaca_1.podaci;
-
-public class TeretnoVozilo extends Vozilo {
-	public int brojAutomobila;
-	public float nosivost;
-	public float povrsina;
-	public int zapremnina;
-}
