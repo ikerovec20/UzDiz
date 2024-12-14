@@ -1,37 +1,59 @@
 package ikerovec20_zadaca_2.podaci;
 
-import java.util.ArrayList;
+
+import ikerovec20_zadaca_2_iteratori.PrugaIterator;
 
 public class Pruga {
-	public ArrayList<PruznaStanica> stanice = new ArrayList<PruznaStanica>();
+	public Stanica pocetnaStanica;
+	public Stanica zavrsnaStanica;
 	public String oznakaPruge;
 	public String kategorijaPruge;
 	public String vrstaPruge;
 	public String statusPruge;
+	public int ukupnoKm = 0;
 	
-	public PruznaStanica dohvatiPrvuStanicu(boolean odPocetka) {
-		if (odPocetka) {
-			return stanice.getFirst();
-		}
-		else {
-			return stanice.getLast();
-		}
+	public String getOznakaPruge() {
+		return oznakaPruge;
+	}
+
+	public String getKategorijaPruge() {
+		return kategorijaPruge;
+	}
+
+	public String getVrstaPruge() {
+		return vrstaPruge;
+	}
+
+	public String getStatusPruge() {
+		return statusPruge;
+	}
+
+	public Stanica dohvatiPrvuStanicu() {
+		return pocetnaStanica;
 	}
 	
-	public PruznaStanica dohvatiZadnjuStanicu(boolean odPocetka) {
-		if (odPocetka) {
-			return stanice.getLast();
-		}
-		else {
-			return stanice.getFirst();
-		}
+	public Stanica dohvatiZadnjuStanicu() {
+		return zavrsnaStanica;
 	}
-	
+
 	public int vratiUkupnuDuzinu() {
-		int duzina = 0;
-		for (var stanica : stanice) {
-			duzina += stanica.duzina;
-		}
-		return duzina;
+		return ukupnoKm;
+	}
+	
+	public PrugaIterator dohvatiIterator() {
+		return new PrugaIterator(oznakaPruge, pocetnaStanica);
+	}
+	
+	public Pruga(String oznakaPruge, String kategorijaPruge,
+			String vrstaPruge, String statusPruge) {
+		super();
+		this.oznakaPruge = oznakaPruge;
+		this.kategorijaPruge = kategorijaPruge;
+		this.vrstaPruge = vrstaPruge;
+		this.statusPruge = statusPruge;
+	}
+
+	public Pruga() {
+
 	}
 }

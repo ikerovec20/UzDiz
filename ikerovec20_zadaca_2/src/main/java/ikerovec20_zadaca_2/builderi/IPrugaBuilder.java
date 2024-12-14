@@ -1,13 +1,15 @@
 package ikerovec20_zadaca_2.builderi;
 
 import ikerovec20_zadaca_2.podaci.Pruga;
-import ikerovec20_zadaca_2.podaci.PruznaStanica;
+import ikerovec20_zadaca_2.podaci.Stanica;
 
 public interface IPrugaBuilder {
-	public PrugaBuilder setOznakaPruge(String oznaka);
-	public PrugaBuilder setKategorijaPruge(String kategorija);
-	public PrugaBuilder setVrstaPruge(String vrsta);
-	public PrugaBuilder setStatusPruge(String status);
-	public PrugaBuilder dodajStanicu(PruznaStanica stanica);
+	public IPrugaBuilder setOznakaPruge(String oznaka);
+	public IPrugaBuilder setKategorijaPruge(String kategorija);
+	public IPrugaBuilder setVrstaPruge(String vrsta);
+	public IPrugaBuilder setStatusPruge(String status);
+	public IPrugaBuilder postaviPocetnuStanicu(Stanica stanica);
+	public IPrugaBuilder postaviUkupnoKm(int km);
+	public IPrugaBuilder postaviZavrsnuStanicu(Stanica stanica);
 	public Pruga build();
 }

@@ -14,13 +14,13 @@ import ikerovec20_zadaca_2.podaci.KomponentaPruge;
 import ikerovec20_zadaca_2.podaci.Kompozicija;
 import ikerovec20_zadaca_2.podaci.KompozicijskoVozilo;
 import ikerovec20_zadaca_2.podaci.Pruga;
-import ikerovec20_zadaca_2.podaci.Pruga2;
-import ikerovec20_zadaca_2.podaci.PruznaStanica;
 import ikerovec20_zadaca_2.podaci.Stanica;
 import ikerovec20_zadaca_2.podaci.Vozilo;
 import ikerovec20_zadaca_2.tvornice.KompozicijskoVoziloCreator;
 import ikerovec20_zadaca_2.tvornice.PutnickoVoziloCreator;
 import ikerovec20_zadaca_2.tvornice.TeretnoVoziloCreator;
+import ikerovec20_zadaca_2.tvornice.VagonZaAutomobileCreator;
+import ikerovec20_zadaca_2.tvornice.VagonZaRobuCreator;
 import ikerovec20_zadaca_2.tvornice.VoziloCreator;
 
 public class Konfiguracija {
@@ -39,9 +39,10 @@ public class Konfiguracija {
 		return instance;
 	}
 	
-	public void ucitajKonfiguraciju(String[] args) throws Exception {
+	public boolean ucitajKonfiguraciju(String[] args) throws Exception {
 		if (args.length != 6) {
-			throw new Exception("Neispravan broj argumenata");
+			System.out.println("Neispravan broj argumenata");
+			return false;
 		}
 		String stanice = "";
 		String kompozicije = "";
@@ -61,12 +62,14 @@ public class Konfiguracija {
 				break;
 				
 			default: 
-				throw new Exception("Neispravan format parametara.");
+				System.out.println("Neispravan format argumenata.");
+				return false;
 			}
 		}
-		ucitajStanice2(stanice);
+		ucitajStanice(stanice);
 		ucitajVlakove(vlakovi);
 		ucitajKompozicije(kompozicije);
+		return true;
 	}
 	
 	private ArrayList<String[]> ucitajCsvDatoteku(String datoteka, int velicinaZaglavlja, IValidacija validacija) {
@@ -143,6 +146,9 @@ public class Konfiguracija {
 	
 	private void ucitajKompozicije(String datoteka) throws IOException {	
 		var lista = ucitajCsvDatoteku(datoteka, 3, new KompozicijaValidacija());
+		if (lista == null) {
+			return;
+		}
 		String zadnjaOznaka = "";
 		IKompozicijaBuilder builder = new KompozicijaBuilder();
 		int brReda = 1;
@@ -158,7 +164,9 @@ public class Konfiguracija {
 				if (!validirajKompoziciju(kompozicija)) {
 					ispisiGreskuReda(datoteka, brReda, "Kompozicija nije validna");
 				}
-				TvrtkaSingleton.getInstance().sveKompozicije.put(zadnjaOznaka, kompozicija);
+				else {
+					TvrtkaSingleton.getInstance().sveKompozicije.put(zadnjaOznaka, kompozicija);	
+				}
 				builder = new KompozicijaBuilder();
 				Vozilo vlak = TvrtkaSingleton.getInstance().svaVozila.get(podaci[1]);
 				if (vlak == null) {
@@ -200,71 +208,17 @@ public class Konfiguracija {
 	}
 	
 	
-//	private void ucitajStanice(String datoteka) throws IOException {
-//		var lista = ucitajCsvDatoteku(datoteka, 14, new StanicaValidacija());
-//		int brReda = 1;
-//		IPrugaBuilder builder = new PrugaBuilder();
-//		PruznaStanica zadnjaStanica = null;
-//		String zadnjaOznaka = "";
-//		for (var podaci : lista) {
-//			if (brReda == 1) {
-//				zadnjaOznaka = podaci[1];
-//			}
-//				if (!zadnjaOznaka.matches(podaci[1])) {
-//					Pruga pruga = builder.build();
-//					TvrtkaSingleton.getInstance().svePruge.put(pruga.oznakaPruge, pruga);
-//					builder = new PrugaBuilder();
-//				
-//					String oznakaPruge = podaci[1];
-//					String kategorijaPruge = podaci[6];
-//					String vrstaPruge = podaci[8];
-//					String statusPruge = podaci[12];
-//					builder.setKategorijaPruge(kategorijaPruge).setOznakaPruge(oznakaPruge)
-//					.setVrstaPruge(vrstaPruge).setStatusPruge(statusPruge);
-//					PruznaStanica stanica = new PruznaStanica(podaci);
-//					builder.dodajStanicu(stanica);
-//					zadnjaStanica = stanica;
-//					zadnjaOznaka = podaci[1];
-//				}
-//				else {
-//					if (zadnjaStanica == null || !zadnjaStanica.stanica.matches(podaci[0])) {
-//						String oznakaPruge = podaci[1];
-//						String kategorijaPruge = podaci[6];
-//						String vrstaPruge = podaci[8];
-//						String statusPruge = podaci[12];
-//						builder.setKategorijaPruge(kategorijaPruge).setOznakaPruge(oznakaPruge)
-//						.setVrstaPruge(vrstaPruge).setStatusPruge(statusPruge);
-//						PruznaStanica stanica = new PruznaStanica(podaci);
-//						builder.dodajStanicu(stanica);
-//						zadnjaStanica = stanica;
-//						zadnjaOznaka = podaci[1];
-//					}
-//					else {
-//						PruznaStanica stanica = zadnjaStanica.kloniraj();
-//						int brojKolosjeka = Integer.parseInt(podaci[9]);
-//						float dozvoljenoOpterecenjeOsovina = Float.parseFloat(podaci[10].replace(",", "."));
-//						float dozvoljenoOpterecenjeDuzniMetar = Float.parseFloat(podaci[11].replace(",", "."));
-//						int duzina = Integer.parseInt(podaci[13]);
-//						stanica.postaviPrugu(brojKolosjeka, dozvoljenoOpterecenjeOsovina, 
-//								dozvoljenoOpterecenjeDuzniMetar, duzina);
-//						builder.dodajStanicu(stanica);
-//						zadnjaStanica = stanica;
-//						zadnjaOznaka = podaci[1];
-//					}
-//				}
-//				brReda++;
-//			}
-//			Pruga pruga = builder.build();
-//			TvrtkaSingleton.getInstance().svePruge.put(pruga.oznakaPruge, pruga);
-//		}
 	
-	private void ucitajStanice2(String datoteka) throws IOException {
+	private void ucitajStanice(String datoteka) throws IOException {
 		var lista = ucitajCsvDatoteku(datoteka, 14, new StanicaValidacija());
+		if (lista == null) {
+			return;
+		}
 		int brReda = 1;
 		Stanica zadnjaStanica = null;
-		String[] zadnjiRed = null;
 		String zadnjaOznaka = "";
-		Pruga2 trenutnaPruga = null;
+		Pruga trenutnaPruga = null;
+		IPrugaBuilder prugaBuilder = null;
 		for (var podaci : lista) {
 			Stanica stanica = TvrtkaSingleton.getInstance().sveStanice.get(podaci[0]);
 			
@@ -273,7 +227,6 @@ public class Konfiguracija {
 			String vrstaPruge = podaci[8];
 			String statusPruge = podaci[12];
 			if (stanica == null) {
-				System.out.println("RADIM STANICU " + podaci[0]);
 				String imeStanice = podaci[0];
 				String vrstaStanice = podaci[2];
 				String statusStanice = podaci[3];
@@ -287,19 +240,17 @@ public class Konfiguracija {
 			if (brReda == 1) {
 				zadnjaStanica = stanica;
 				zadnjaOznaka = podaci[1];
-				zadnjiRed = podaci;
 				brReda++;
-				trenutnaPruga = new Pruga2(oznakaPruge, kategorijaPruge, vrstaPruge, statusPruge);
-				trenutnaPruga.pocetnaStanica = stanica;
+				prugaBuilder = new PrugaBuilder();
+				prugaBuilder.setOznakaPruge(oznakaPruge).setKategorijaPruge(kategorijaPruge).setVrstaPruge(vrstaPruge).setStatusPruge(statusPruge).postaviPocetnuStanicu(stanica);
+				trenutnaPruga = prugaBuilder.build();
 				continue;
 			}
 			else if (!zadnjaStanica.stanica.matches(podaci[0]) && zadnjaOznaka.matches(podaci[1])) {
 					KomponentaPruge pruga = new KomponentaPruge(podaci);
 					zadnjaStanica.dodajVezu(stanica, pruga);
 					trenutnaPruga.ukupnoKm += pruga.duzina;
-					System.out.println("VEZA " + zadnjaStanica.stanica + " -> " + stanica.stanica);//BRISATI
 					stanica.dodajVezu(zadnjaStanica, pruga);
-					System.out.println("VEZA " + stanica.stanica + " -> " + zadnjaStanica.stanica);//BRISATI
 
 			}
 			else if (zadnjaStanica.stanica.matches(podaci[0])) {
@@ -309,22 +260,26 @@ public class Konfiguracija {
 			if (!zadnjaOznaka.matches(podaci[1])) {
 				trenutnaPruga.zavrsnaStanica = zadnjaStanica;
 				TvrtkaSingleton.getInstance().svePruge.put(zadnjaOznaka, trenutnaPruga);
-				trenutnaPruga = new Pruga2(oznakaPruge, kategorijaPruge, vrstaPruge, statusPruge);
-				trenutnaPruga.pocetnaStanica = stanica;
+				prugaBuilder = new PrugaBuilder();
+				prugaBuilder.setOznakaPruge(oznakaPruge).setKategorijaPruge(kategorijaPruge).setVrstaPruge(vrstaPruge).setStatusPruge(statusPruge).postaviPocetnuStanicu(stanica);
+				trenutnaPruga = prugaBuilder.build();
 			}
 				zadnjaStanica = stanica;
 				zadnjaOznaka = podaci[1];
-				if (!podaci[13].matches("0")) {
-					zadnjiRed = podaci;	
-				}
 				brReda++;
 			}
-		trenutnaPruga.zavrsnaStanica = zadnjaStanica;
-		TvrtkaSingleton.getInstance().svePruge.put(zadnjaOznaka, trenutnaPruga);
+		prugaBuilder.postaviZavrsnuStanicu(zadnjaStanica);
+		var pruga = prugaBuilder.build();
+		if (!pruga.pocetnaStanica.equals(pruga.zavrsnaStanica)) {
+			TvrtkaSingleton.getInstance().svePruge.put(zadnjaOznaka, pruga);	
+			}
 		}
 	
 	private void ucitajVlakove(String datoteka) throws IOException {
 		var lista = ucitajCsvDatoteku(datoteka, 18, new VlakValidacija());
+		if (lista == null) {
+			return;
+		}
 		
 		int brReda = 1;
 		
@@ -333,6 +288,8 @@ public class Konfiguracija {
 			VoziloCreator kompozicijskoCreator = new KompozicijskoVoziloCreator();
 			VoziloCreator putnickoVoziloCreator = new PutnickoVoziloCreator();
 			VoziloCreator teretnoVoziloCreator = new TeretnoVoziloCreator();
+			VoziloCreator vagonZaAutomobileCreator = new VagonZaAutomobileCreator();
+			VoziloCreator vagonZaRobuCreator = new VagonZaRobuCreator();
 			if (podaci[5].startsWith("P")) {
 				vlak = putnickoVoziloCreator.kreirajVozilo(podaci);
 			}
@@ -344,7 +301,23 @@ public class Konfiguracija {
 				}
 			}
 			else {
-				vlak = teretnoVoziloCreator.kreirajVozilo(podaci);
+				switch(podaci[5]) {
+				case "TK":
+					vlak = teretnoVoziloCreator.kreirajVozilo(podaci);
+					break;
+				case "TA":
+					vlak = vagonZaAutomobileCreator.kreirajVozilo(podaci);
+					break;
+				case "TRS":
+				case "TPS":
+				case "TTS":
+					vlak = vagonZaRobuCreator.kreirajVozilo(podaci);
+					break;
+				default: 
+					System.out.println("Greska kod kreiranja vlaka");
+					vlak = null;
+					break;
+				}
 			}
 			if (vlak != null) {
 				TvrtkaSingleton.getInstance().svaVozila.put(vlak.oznaka, vlak);	

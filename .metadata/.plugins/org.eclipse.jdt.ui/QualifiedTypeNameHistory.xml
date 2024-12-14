@@ -41,7 +41,6 @@
     <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.podaci.KompozicijskoVozilo"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.podaci.Veza"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.podaci.Pruga"/>
     <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
@@ -49,8 +48,16 @@
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.podaci.Stanica"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.podaci.KomponentaPruge"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.App.TvrtkaSingleton"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.Pruga2"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2_iteratori.IPrugaIterator"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2_iteratori.PrugaIterator"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2_iteratori.StanicaIterator"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.io.FileNotFoundException"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.Stanica"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.Pruga2"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.builderi.PrugaBuilder"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.VagonZaAutomobile"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.VagonZaRobu"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.tvornice.VagonZaAutomobileCreator"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.tvornice.VagonZaRobuCreator"/>
 </qualifiedTypeNameHistroy>

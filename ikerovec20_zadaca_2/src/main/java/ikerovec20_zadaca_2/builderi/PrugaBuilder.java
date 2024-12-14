@@ -1,39 +1,56 @@
 package ikerovec20_zadaca_2.builderi;
 
 import ikerovec20_zadaca_2.podaci.Pruga;
-import ikerovec20_zadaca_2.podaci.PruznaStanica;
+import ikerovec20_zadaca_2.podaci.Stanica;
 
 public class PrugaBuilder implements IPrugaBuilder {
 	private Pruga pruga = new Pruga();
-	
-	public PrugaBuilder setOznakaPruge(String oznaka) {
+
+	@Override
+	public IPrugaBuilder setOznakaPruge(String oznaka) {
 		pruga.oznakaPruge = oznaka;
 		return this;
 	}
-	
-	public PrugaBuilder setKategorijaPruge(String kategorija) {
+
+	@Override
+	public IPrugaBuilder setKategorijaPruge(String kategorija) {
 		pruga.kategorijaPruge = kategorija;
 		return this;
 	}
-	
-	public PrugaBuilder setVrstaPruge(String vrsta) {
+
+	@Override
+	public IPrugaBuilder setVrstaPruge(String vrsta) {
 		pruga.vrstaPruge = vrsta;
 		return this;
 	}
-	
-	
-	public PrugaBuilder dodajStanicu(PruznaStanica stanica) {
-		pruga.stanice.add(stanica);
-		return this;
-	}
-	
-	public Pruga build() {
-		return pruga;
-	}
 
 	@Override
-	public PrugaBuilder setStatusPruge(String status) {
+	public IPrugaBuilder setStatusPruge(String status) {
 		pruga.statusPruge = status;
 		return this;
 	}
+
+	@Override
+	public IPrugaBuilder postaviPocetnuStanicu(Stanica stanica) {
+		pruga.pocetnaStanica = stanica;
+		return this;
+	}
+
+	@Override
+	public IPrugaBuilder postaviUkupnoKm(int km) {
+		pruga.ukupnoKm = km;
+		return this;
+	}
+
+	@Override
+	public IPrugaBuilder postaviZavrsnuStanicu(Stanica stanica) {
+		pruga.zavrsnaStanica = stanica;
+		return this;
+	}
+
+	@Override
+	public Pruga build() {
+		return pruga;
+	}
+	
 }

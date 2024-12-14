@@ -1,7 +1,6 @@
 package ikerovec20_zadaca_1.podaci;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class KomponentaPruge {
 	

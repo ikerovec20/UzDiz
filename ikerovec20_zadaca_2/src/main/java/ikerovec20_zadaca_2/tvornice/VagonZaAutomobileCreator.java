@@ -1,9 +1,9 @@
 package ikerovec20_zadaca_2.tvornice;
 
-import ikerovec20_zadaca_2.podaci.TeretniVagon;
+import ikerovec20_zadaca_2.podaci.VagonZaAutomobile;
 import ikerovec20_zadaca_2.podaci.Vozilo;
 
-public class TeretnoVoziloCreator extends VoziloCreator {
+public class VagonZaAutomobileCreator extends VoziloCreator {
 
 	@Override
 	public Vozilo kreirajVozilo(String[] parametri) {
@@ -17,7 +17,8 @@ public class TeretnoVoziloCreator extends VoziloCreator {
 		var status = parametri[17];
 		float nosivost = Float.parseFloat(parametri[14].replace(",", "."));
 		float povrsina = Float.parseFloat(parametri[15].replace(",", "."));
-		return new TeretniVagon(oznaka, opis, proizvodac, godina, vrstaPogona, namjena, maksBrzina, status, nosivost, povrsina);
+		int brojAutomobila = Integer.parseInt(parametri[13]);
+		return new VagonZaAutomobile(oznaka, opis, proizvodac, godina, vrstaPogona, namjena, maksBrzina, status, nosivost, povrsina, brojAutomobila);
 	}
 
 }

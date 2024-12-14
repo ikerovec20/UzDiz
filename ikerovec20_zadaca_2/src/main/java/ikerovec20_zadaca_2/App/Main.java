@@ -47,7 +47,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		try {
-			Konfiguracija.getInstance().ucitajKonfiguraciju(args);
+			if (!Konfiguracija.getInstance().ucitajKonfiguraciju(args)) {
+				return;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
