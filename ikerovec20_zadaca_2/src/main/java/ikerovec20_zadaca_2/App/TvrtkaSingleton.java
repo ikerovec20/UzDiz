@@ -1,5 +1,6 @@
 package ikerovec20_zadaca_2.App;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import ikerovec20_zadaca_2.podaci.Stanica;
 import ikerovec20_zadaca_2.podaci.Vozilo;
 import ikerovec20_zadaca_2_iteratori.IPrugaIterator;
 import ikerovec20_zadaca_2_iteratori.PrugaIterator;
+import ikerovec20_zadaca_2_iteratori.StanicaIterator;
 
 public class TvrtkaSingleton {
 	private static TvrtkaSingleton instance;
@@ -147,6 +149,62 @@ public class TvrtkaSingleton {
 //		}
 //	}
 	
+	public void ispisiStanice(String pocetna, String zavrsna) {
+		Stanica pocetnaStanica = sveStanice.get(pocetna);
+		Stanica zavrsnaStanica = sveStanice.get(zavrsna);
+		
+		if (pocetnaStanica == null) {
+			System.out.println("Pocetna stanica ne postoji.");
+			return;
+		}
+		else if (zavrsnaStanica == null) {
+			System.out.println("Zavrsna stanica ne postoji.");
+			return;
+		}
+		
+		ArrayList<Stanica> stanice = new ArrayList<Stanica>();
+		stanice = pronadiPutDoStanice(stanice, pocetnaStanica, zavrsnaStanica);
+		
+		if (stanice == null) {
+			System.out.println("Ne postoji put između te dvije stanice.");
+			return;
+		}
+		
+		int udaljenost = 0;
+		Stanica stanica = null;
+		System.out.printf("|%-30s|%6s|%-30s|%n", "Stanica", "Vrsta", "Udaljenost od prve stanice");
+		for (int i = 0; i < stanice.size() - 1; i++) {
+			stanica = stanice.get(i);
+			System.out.printf("|%-30s|%6s|%-30s|%n"
+			, stanica.stanica, stanica.vrstaStanice, udaljenost);
+			
+			udaljenost += stanica.dohvatiVezu(stanice.get(i+1)).pruga.duzina;
+		}
+		stanica = stanice.get(stanice.size() - 1);
+		System.out.printf("|%-30s|%6s|%-30s|%n"
+		, stanica.stanica, stanica.vrstaStanice, udaljenost);
+	}
+	
+	//referencirati
+	private ArrayList<Stanica> pronadiPutDoStanice(ArrayList<Stanica> posjeceneStanice, Stanica pocetna, Stanica zavrsna) {
+		var stanice = new ArrayList<Stanica>(posjeceneStanice);
+		stanice.add(pocetna);
+		
+		if (pocetna.stanica.matches(zavrsna.stanica)) {
+			return stanice;
+		}
+		
+		for (var veza : pocetna.veze) {
+			if (!veza.stanica.stanica.matches(pocetna.stanica) && !stanice.contains(veza.stanica)) {
+				var lista = pronadiPutDoStanice(stanice, veza.stanica, zavrsna);
+				if (lista != null && lista.contains(zavrsna)) {
+					return lista;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public void ispisiPrugu(String oznaka, boolean normalniRedoslijed) {
 		var pruga = svePruge.get(oznaka);
 		if (pruga == null) {
@@ -156,13 +214,12 @@ public class TvrtkaSingleton {
 		int udaljenostOdPrve = 0;
 		System.out.printf("|%-30s|%6s|%-30s|%n"
 				, "Stanica", "Vrsta", "Udaljenost od prve stanice");
-		var stanica = normalniRedoslijed ? pruga.dohvatiPrvuStanicu() : pruga.dohvatiZadnjuStanicu();
-			IPrugaIterator iterator = new PrugaIterator(stanica);
-			while (iterator.postojiSljedecaStanica(oznaka)) {
+			IPrugaIterator iterator = pruga.dohvatiIterator();
+			while (iterator.postojiSljedecaStanica()) {
 				System.out.printf("|%-30s|%6s|%-30s|%n"
 						, iterator.dohvatiTrenutnuStanicu().stanica, iterator.dohvatiTrenutnuStanicu().vrstaStanice, udaljenostOdPrve);
-				udaljenostOdPrve += iterator.dohvatiUdaljenostDoStanice(oznaka);
-				iterator.dohvatiSljedecuStanicu(oznaka);
+				udaljenostOdPrve += iterator.dohvatiUdaljenostDoStanice();
+				iterator.dohvatiSljedecuStanicu();
 			}
 			System.out.printf("|%-30s|%6s|%-30s|%n"
 					, iterator.dohvatiTrenutnuStanicu().stanica, iterator.dohvatiTrenutnuStanicu().vrstaStanice, udaljenostOdPrve);

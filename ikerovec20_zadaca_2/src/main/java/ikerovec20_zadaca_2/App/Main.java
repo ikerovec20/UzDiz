@@ -26,7 +26,7 @@ public class Main {
 		if (poklapanje.matches()) {
 			String pocetna = poklapanje.group("pocetna");
 			String zavrsna = poklapanje.group("zavrsna");
-//			TvrtkaSingleton.getInstance().ispisiStanice(pocetna, zavrsna);
+			TvrtkaSingleton.getInstance().ispisiStanice(pocetna, zavrsna);
 		}
 		else {
 			System.out.println("Neispravni argumenti za naredbu");

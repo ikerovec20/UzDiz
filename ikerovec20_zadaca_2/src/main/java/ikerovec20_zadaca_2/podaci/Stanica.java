@@ -18,6 +18,15 @@ public class Stanica {
 		Veza veza = new Veza(stanica, pruga);
 		veze.add(veza);
 	}
+	
+	public Veza dohvatiVezu(Stanica stanica) {
+		for (var veza : veze) {
+			if (veza.stanica.equals(stanica)) {
+				return veza;
+			}
+		}
+		return null;
+	}
 
 	public Stanica(String stanica, String vrstaStanice, String statusStanice, boolean putniciUlazIzlaz,
 			boolean robaUtovarIstovar, int brojPerona) {
