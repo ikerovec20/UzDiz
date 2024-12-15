@@ -1,7 +1,7 @@
 package ikerovec20_zadaca_2.podaci;
 
 
-import ikerovec20_zadaca_2_iteratori.PrugaIterator;
+import ikerovec20_zadaca_2.iteratori.PrugaIterator;
 
 public class Pruga {
 	public Stanica pocetnaStanica;
@@ -41,6 +41,10 @@ public class Pruga {
 	}
 	
 	public PrugaIterator dohvatiIterator() {
+		return new PrugaIterator(oznakaPruge, pocetnaStanica);
+	}
+	
+	public PrugaIterator dohvatiIterator(Stanica pocetnaStanica) {
 		return new PrugaIterator(oznakaPruge, pocetnaStanica);
 	}
 	

@@ -83,23 +83,28 @@ public class Konfiguracija {
 			citac.readLine();
 			int brReda = 2;
 			while(citac.ready()) {
+				String[] linije = new String[velicinaZaglavlja];
 				var linija = citac.readLine();
 				var podaci = linija.split(";");
-				if (podaci.length != 0 && podaci[0] != "#") {
+				if (podaci.length != 0 && !podaci[0].startsWith("#")) {
 					for (var podatak : podaci) {
 						podatak = podatak.trim();
 					}
-					if (podaci.length != velicinaZaglavlja) {
-						ispisiGreskuReda(datoteka, brReda, "Nedostaju podaci u redu");
+					if (podaci.length > velicinaZaglavlja) {
+						ispisiGreskuReda(datoteka, brReda, "Suvišni podaci u redu");
 						brReda++;
 						continue;
 					}
 					
-					if (!validacija.provjeriIspravnostReda(podaci, datoteka, brReda)) {
+					for (int i = 0; i < podaci.length; i++) {
+						linije[i] = podaci[i];
+					}
+					
+					if (!validacija.provjeriIspravnostReda(linije, datoteka, brReda)) {
 						brReda++;
 						continue;
 					}
-					lista.add(podaci);
+					lista.add(linije);
 					brReda++;
 				}
 				else {
@@ -207,10 +212,64 @@ public class Konfiguracija {
 		System.out.println(poruka.toString());
 	}
 	
+	private void ucitajVozniRed(ArrayList<String[]> lista) {
+		
+	}
 	
+	private void ucitajVremenaVlakova(ArrayList<String[]> lista) {
+		int brReda = 1;
+		Stanica zadnjaStanicaBrziVlak = null;
+		Stanica zadnjaStanicaUbrzaniVlak = null;
+		String zadnjaOznaka = "";
+		
+		for (var podaci : lista) {
+			
+			String oznaka = podaci[1];
+			Stanica stanica = TvrtkaSingleton.getInstance().sveStanice.get(podaci[0]);
+			int vrijemeUbrzaniVlak = Integer.parseInt(podaci[15]);
+			int vrijemeBrziVlak = Integer.parseInt(podaci[16]);
+			
+			if (brReda == 1) {
+				zadnjaOznaka = oznaka;
+			}
+			
+			if (!oznaka.matches(zadnjaOznaka)) {
+				zadnjaStanicaBrziVlak = null;
+				zadnjaStanicaUbrzaniVlak = null;
+			}
+			
+			if (vrijemeUbrzaniVlak != -1) {
+				if (zadnjaStanicaUbrzaniVlak != null) {
+					zadnjaStanicaUbrzaniVlak.dodajVezu(stanica, null).setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
+					var veza = stanica.dodajVezu(zadnjaStanicaUbrzaniVlak, null);
+					System.out.println("DODAJEM UBRZANU VEZU " + stanica.stanica + " -> " + zadnjaStanicaUbrzaniVlak.stanica);
+					veza.setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
+					System.out.println("DODAJEM UBRZANU VEZU " + zadnjaStanicaUbrzaniVlak.stanica + " -> " + stanica.stanica);
+					zadnjaStanicaUbrzaniVlak = stanica;
+				}
+				else {
+					zadnjaStanicaUbrzaniVlak = stanica;
+				}
+			}
+			if (vrijemeBrziVlak != -1) {
+				if (zadnjaStanicaBrziVlak != null) {
+					zadnjaStanicaBrziVlak.dodajVezu(stanica, null).setVrijemeBrziVlak(vrijemeBrziVlak);
+					System.out.println("DODAJEM BRZU VEZU " + stanica.stanica + " -> " + zadnjaStanicaBrziVlak.stanica);
+					stanica.dodajVezu(zadnjaStanicaBrziVlak, null).setVrijemeBrziVlak(vrijemeBrziVlak);
+					System.out.println("DODAJEM BRZU VEZU " + zadnjaStanicaBrziVlak.stanica + " -> " + stanica.stanica);
+					zadnjaStanicaBrziVlak = stanica;
+				}
+				else {
+					zadnjaStanicaBrziVlak = stanica;
+				}
+			}
+			zadnjaOznaka = oznaka;
+			brReda++;
+		}
+	}
 	
 	private void ucitajStanice(String datoteka) throws IOException {
-		var lista = ucitajCsvDatoteku(datoteka, 14, new StanicaValidacija());
+		var lista = ucitajCsvDatoteku(datoteka, 17, new StanicaValidacija());
 		if (lista == null) {
 			return;
 		}
@@ -226,6 +285,7 @@ public class Konfiguracija {
 			String kategorijaPruge = podaci[6];
 			String vrstaPruge = podaci[8];
 			String statusPruge = podaci[12];
+			int vrijemeNormalniVlak = Integer.parseInt(podaci[14]);
 			if (stanica == null) {
 				String imeStanice = podaci[0];
 				String vrstaStanice = podaci[2];
@@ -248,14 +308,14 @@ public class Konfiguracija {
 			}
 			else if (!zadnjaStanica.stanica.matches(podaci[0]) && zadnjaOznaka.matches(podaci[1])) {
 					KomponentaPruge pruga = new KomponentaPruge(podaci);
-					zadnjaStanica.dodajVezu(stanica, pruga);
+					zadnjaStanica.dodajVezu(stanica, pruga).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 					trenutnaPruga.ukupnoKm += pruga.duzina;
-					stanica.dodajVezu(zadnjaStanica, pruga);
+					stanica.dodajVezu(zadnjaStanica, pruga).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 
 			}
 			else if (zadnjaStanica.stanica.matches(podaci[0])) {
 				KomponentaPruge pruga = new KomponentaPruge(podaci);
-				stanica.dodajVezu(stanica, pruga);
+				stanica.dodajVezu(stanica, pruga).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 			}
 			if (!zadnjaOznaka.matches(podaci[1])) {
 				trenutnaPruga.zavrsnaStanica = zadnjaStanica;
@@ -273,6 +333,7 @@ public class Konfiguracija {
 		if (!pruga.pocetnaStanica.equals(pruga.zavrsnaStanica)) {
 			TvrtkaSingleton.getInstance().svePruge.put(zadnjaOznaka, pruga);	
 			}
+		ucitajVremenaVlakova(lista);
 		}
 	
 	private void ucitajVlakove(String datoteka) throws IOException {

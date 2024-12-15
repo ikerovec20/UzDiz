@@ -37,6 +37,15 @@ public class StanicaValidacija implements IValidacija {
 			Konfiguracija.getInstance().ispisiGreskuReda(datoteka, brReda, "Duzina pruge nije ispravna");
 			ispravno = false;
 		}
+		for (int i = 14; i < 17; i++) {
+			if (podaci[i] != null && !podaci[i].matches("\\d+") && podaci[i].length() != 0) {
+				Konfiguracija.getInstance().ispisiGreskuReda(datoteka, brReda, "Vrijeme vlakova nije ispravno: " + podaci[i]);
+				ispravno = false;
+			}
+			else if (podaci[i] == null || podaci[i].matches("")) {
+				podaci[i] = "-1";
+			}
+		}
 		return ispravno;
 	}
 

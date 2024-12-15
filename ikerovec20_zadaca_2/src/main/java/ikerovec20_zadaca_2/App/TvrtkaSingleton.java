@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ikerovec20_zadaca_2.iteratori.IPrugaIterator;
 import ikerovec20_zadaca_2.podaci.Kompozicija;
 import ikerovec20_zadaca_2.podaci.Pruga;
 import ikerovec20_zadaca_2.podaci.Stanica;
 import ikerovec20_zadaca_2.podaci.Vozilo;
-import ikerovec20_zadaca_2_iteratori.IPrugaIterator;
 
 public class TvrtkaSingleton {
 	private static TvrtkaSingleton instance;

@@ -1,4 +1,4 @@
-package ikerovec20_zadaca_2_iteratori;
+package ikerovec20_zadaca_2.iteratori;
 
 import ikerovec20_zadaca_2.podaci.Stanica;
 

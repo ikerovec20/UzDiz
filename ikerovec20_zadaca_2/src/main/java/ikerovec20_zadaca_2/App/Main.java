@@ -1,50 +1,15 @@
 package ikerovec20_zadaca_2.App;
 
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
+import ikerovec20_zadaca_2.chain_of_responsibility.Komanda;
+import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIK;
+import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIP;
+import ikerovec20_zadaca_2.chain_of_responsibility.KomandaISI2S;
+import ikerovec20_zadaca_2.chain_of_responsibility.KomandaISP;
 import ikerovec20_zadaca_2.konfiguracija.Konfiguracija;
 
 public class Main {
-
-	public static void ispisiPrugu(String parametri) {
-		Pattern naredbaPredlozak = Pattern.compile("^ISP (?<oznaka>\\w+) (?<redoslijed>N|O)$");
-		var poklapanje = naredbaPredlozak.matcher(parametri);
-		if (poklapanje.matches()) {
-			String oznaka = poklapanje.group("oznaka");
-			String redoslijed = poklapanje.group("redoslijed");
-			TvrtkaSingleton.getInstance().ispisiPrugu(oznaka, redoslijed.matches("N"));
-		}
-		else {
-			System.out.println("Neispravni argumenti za naredbu");
-		}
-	}
-	
-	public static void ispisiStanice(String parametri) {
-		Pattern naredbaPredlozak = Pattern.compile("^ISI2S (?<pocetna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<zavrsna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))$");
-		var poklapanje = naredbaPredlozak.matcher(parametri);
-		if (poklapanje.matches()) {
-			String pocetna = poklapanje.group("pocetna");
-			String zavrsna = poklapanje.group("zavrsna");
-			TvrtkaSingleton.getInstance().ispisiStanice(pocetna, zavrsna);
-		}
-		else {
-			System.out.println("Neispravni argumenti za naredbu");
-		}
-	}
-	
-	public static void ispisiKompoziciju(String parametri) {
-		Pattern naredbaPredlozak = Pattern.compile("^IK (?<oznaka>\\w+)$");
-		var poklapanje = naredbaPredlozak.matcher(parametri);
-		if (poklapanje.matches()) {
-			String oznaka = poklapanje.group("oznaka");
-			TvrtkaSingleton.getInstance().ispisiKompoziciju(oznaka);
-		}
-		else {
-			System.out.println("Neispravni argumenti za naredbu");
-		}
-	}
-	
 	public static void main(String[] args) {
 		try {
 			if (!Konfiguracija.getInstance().ucitajKonfiguraciju(args)) {
@@ -55,29 +20,28 @@ public class Main {
 		}
 		
 		
+		Komanda komandaIP = new KomandaIP("IP");
+		Komanda komandaISP = new KomandaISP("^ISP (?<oznaka>\\w+) (?<redoslijed>N|O)$");
+		Komanda komandaISI2S = new KomandaISI2S("^ISI2S (?<pocetna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<zavrsna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))$");
+		Komanda komandaIK = new KomandaIK("^IK (?<oznaka>\\w+)$");
+		
+		komandaIP.postaviSljedeceg(komandaISP);
+		komandaISP.postaviSljedeceg(komandaISI2S);
+		komandaISI2S.postaviSljedeceg(komandaIK);
 		Scanner citac = new Scanner(System.in);
 		
 		while (true) {
 			String ulaz = citac.nextLine();
 			
-			if (ulaz.matches("IP")) {
-				TvrtkaSingleton.getInstance().ispisiPruge();
-			}
-			else if (ulaz.startsWith("ISP")) {
-				ispisiPrugu(ulaz);
-			}
-			else if (ulaz.startsWith("IK")) {
-				ispisiKompoziciju(ulaz);
-			}
-			else if (ulaz.startsWith("ISI2S")) {
-				ispisiStanice(ulaz);
-			}
-			else if (ulaz.matches("Q")) {
-				citac.close();
-				break;
+			if (!ulaz.matches("Q")) {
+				var ispravno = komandaIP.obradiKomandu(ulaz);
+				if (!ispravno) {
+					System.out.println("Neispravna komanda.");
+				}
 			}
 			else {
-				System.out.println("Nepoznata naredba");
+				citac.close();
+				break;
 			}
 		}
 	}

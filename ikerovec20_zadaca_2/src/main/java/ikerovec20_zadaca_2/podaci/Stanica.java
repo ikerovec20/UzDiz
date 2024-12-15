@@ -11,13 +11,14 @@ public class Stanica {
 	public boolean robaUtovarIstovar;
 	public int brojPerona;
 	
-	
 	public ArrayList<Veza> veze = new ArrayList<Veza>();
 	
-	public void dodajVezu(Stanica stanica, KomponentaPruge pruga) {
+	public Veza dodajVezu(Stanica stanica, KomponentaPruge pruga) {
 		Veza veza = new Veza(stanica, pruga);
 		veze.add(veza);
+		return veza;
 	}
+	
 	
 	public Veza dohvatiVezu(Stanica stanica) {
 		for (var veza : veze) {

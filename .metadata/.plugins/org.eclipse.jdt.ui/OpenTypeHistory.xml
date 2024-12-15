@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <typeInfoHistroy>
-    <typeInfo handle="=ikerovec20_zadaca_2/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;ikerovec20_zadaca_2_iteratori{IPrugaIterator.java[IPrugaIterator" modifiers="513" timestamp="1734181356908"/>
     <typeInfo handle="=ikerovec20_zadaca_2/\/usr\/lib\/jvm\/jdk-21.0.2\/lib\/jrt-fs.jar`java.base=/javadoc_location=/https:\/\/docs.oracle.com\/en\/java\/javase\/20\/docs\/api\/=/=/maven.pomderived=/true=/&lt;java.util.function(IntPredicate.class[IntPredicate" modifiers="1537" timestamp="1704480322000"/>
     <typeInfo handle="=ikerovec20_zadaca_2/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;ikerovec20_zadaca_2.tvornice{VoziloCreator.java[VoziloCreator" modifiers="1025" timestamp="1734016155390"/>
+    <typeInfo handle="=ikerovec20_zadaca_2/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;ikerovec20_zadaca_2.chain_of_responsibility{IKomanda.java[IKomanda" modifiers="513" timestamp="1734270996282"/>
+    <typeInfo handle="=ikerovec20_zadaca_2/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;ikerovec20_zadaca_2.chain_of_responsibility{Komanda.java[Komanda" modifiers="1025" timestamp="1734271036725"/>
+    <typeInfo handle="=ikerovec20_zadaca_2/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;ikerovec20_zadaca_2.composite{IKomponentaVoznogReda.java[IKomponentaVoznogReda" modifiers="513" timestamp="1734282473127"/>
+    <typeInfo handle="=ikerovec20_zadaca_2/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;ikerovec20_zadaca_2.konfiguracija{IValidacija.java[IValidacija" modifiers="513" timestamp="1734016131998"/>
 </typeInfoHistroy>
