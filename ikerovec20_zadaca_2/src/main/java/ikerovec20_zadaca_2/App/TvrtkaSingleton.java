@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ikerovec20_zadaca_2.composite.VozniRed;
 import ikerovec20_zadaca_2.iteratori.IPrugaIterator;
+import ikerovec20_zadaca_2.iteratori.PrugaIterator;
 import ikerovec20_zadaca_2.podaci.Kompozicija;
 import ikerovec20_zadaca_2.podaci.Pruga;
 import ikerovec20_zadaca_2.podaci.Stanica;
@@ -114,7 +116,13 @@ public class TvrtkaSingleton {
 		int udaljenostOdPrve = 0;
 		System.out.printf("|%-30s|%6s|%-30s|%n"
 				, "Stanica", "Vrsta", "Udaljenost od prve stanice");
-			IPrugaIterator iterator = pruga.dohvatiIterator();
+		IPrugaIterator iterator;
+		if (normalniRedoslijed) {
+			iterator = new PrugaIterator(oznaka, pruga.dohvatiPrvuStanicu(), true);
+		}
+		else {
+			iterator = new PrugaIterator(oznaka, pruga.dohvatiZadnjuStanicu(), false);
+		}
 			while (iterator.postojiSljedecaStanica()) {
 				System.out.printf("|%-30s|%6s|%-30s|%n"
 						, iterator.dohvatiTrenutnuStanicu().stanica, iterator.dohvatiTrenutnuStanicu().vrstaStanice, udaljenostOdPrve);
@@ -125,8 +133,15 @@ public class TvrtkaSingleton {
 					, iterator.dohvatiTrenutnuStanicu().stanica, iterator.dohvatiTrenutnuStanicu().vrstaStanice, udaljenostOdPrve);
 	}
 	
+	public void ispisiTablicuVlakova() {
+		//VRIJEME DOLASKA IZRACUNATI
+		//METODA VALIDIRAJ ZA COMPOSITE
+	}
+	
+	public VozniRed vozniRed;
 	public Map<String, Kompozicija> sveKompozicije = new LinkedHashMap<String, Kompozicija>();
 	public Map<String, Pruga> svePruge = new LinkedHashMap<String, Pruga>();
 	public Map<String, Vozilo> svaVozila = new LinkedHashMap<String, Vozilo>();
 	public Map<String, Stanica> sveStanice = new LinkedHashMap<String, Stanica>();
+	public Map<Integer, String> oznakeDana = new LinkedHashMap<Integer, String>();
 }

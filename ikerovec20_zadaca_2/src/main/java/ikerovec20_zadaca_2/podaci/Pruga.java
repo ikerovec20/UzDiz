@@ -40,12 +40,17 @@ public class Pruga {
 		return ukupnoKm;
 	}
 	
-	public PrugaIterator dohvatiIterator() {
-		return new PrugaIterator(oznakaPruge, pocetnaStanica);
+	public PrugaIterator dohvatiIterator(boolean normalniSmjer) {
+		if (normalniSmjer) {
+			return new PrugaIterator(oznakaPruge, pocetnaStanica, true);	
+		}
+		else {
+			return new PrugaIterator(oznakaPruge, zavrsnaStanica, false);
+		}
 	}
 	
-	public PrugaIterator dohvatiIterator(Stanica pocetnaStanica) {
-		return new PrugaIterator(oznakaPruge, pocetnaStanica);
+	public PrugaIterator dohvatiIterator(Stanica pocetnaStanica, boolean normalniSmjer) {
+		return new PrugaIterator(oznakaPruge, pocetnaStanica, normalniSmjer);
 	}
 	
 	public Pruga(String oznakaPruge, String kategorijaPruge,

@@ -3,6 +3,8 @@ package ikerovec20_zadaca_2.konfiguracija;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import ikerovec20_zadaca_2.App.TvrtkaSingleton;
@@ -10,6 +12,9 @@ import ikerovec20_zadaca_2.builderi.IKompozicijaBuilder;
 import ikerovec20_zadaca_2.builderi.IPrugaBuilder;
 import ikerovec20_zadaca_2.builderi.KompozicijaBuilder;
 import ikerovec20_zadaca_2.builderi.PrugaBuilder;
+import ikerovec20_zadaca_2.composite.Etapa;
+import ikerovec20_zadaca_2.composite.Vlak;
+import ikerovec20_zadaca_2.composite.VozniRed;
 import ikerovec20_zadaca_2.podaci.KomponentaPruge;
 import ikerovec20_zadaca_2.podaci.Kompozicija;
 import ikerovec20_zadaca_2.podaci.KompozicijskoVozilo;
@@ -40,13 +45,15 @@ public class Konfiguracija {
 	}
 	
 	public boolean ucitajKonfiguraciju(String[] args) throws Exception {
-		if (args.length != 6) {
+		if (args.length != 10) {
 			System.out.println("Neispravan broj argumenata");
 			return false;
 		}
 		String stanice = "";
 		String kompozicije = "";
 		String vlakovi = "";
+		String dani = "";
+		String vozniRed = "";
 		for (int i = 0; i < args.length - 1; i += 2) {
 			switch(args[i]) {
 			case "--zs":
@@ -61,6 +68,13 @@ public class Konfiguracija {
 				kompozicije = args[i+1];
 				break;
 				
+			case "--zod":
+				dani = args[i+1];
+				break;
+				
+			case "--zvr":
+				vozniRed = args[i+1];
+				break;
 			default: 
 				System.out.println("Neispravan format argumenata.");
 				return false;
@@ -69,6 +83,8 @@ public class Konfiguracija {
 		ucitajStanice(stanice);
 		ucitajVlakove(vlakovi);
 		ucitajKompozicije(kompozicije);
+		ucitajVremenskeOznake(dani);
+		ucitajVozniRed(vozniRed);
 		return true;
 	}
 	
@@ -212,8 +228,94 @@ public class Konfiguracija {
 		System.out.println(poruka.toString());
 	}
 	
-	private void ucitajVozniRed(ArrayList<String[]> lista) {
+	public void ucitajVremenskeOznake(String datoteka) {
+		var lista = ucitajCsvDatoteku(datoteka, 2, new DaniValidacija());
+		if (lista == null) {
+			return;
+		}
 		
+		for (var podaci : lista) {
+			int index = Integer.parseInt(podaci[0]);
+			
+			TvrtkaSingleton.getInstance().oznakeDana.put(index, podaci[1]);
+		}
+	}
+	
+	private void ucitajVozniRed(String datoteka) {
+		var lista = ucitajCsvDatoteku(datoteka, 9, new VozniRedValidacija());
+		if (lista == null) {
+			return;
+		}
+		int brReda = 1;
+		
+		
+		VozniRed vozniRed = new VozniRed();
+		for (var podaci : lista) {
+			String oznakaPruge = podaci[0];
+			String smjer = podaci[1];
+			String pocetnaStanica = podaci[2];
+			String zavrsnaStanica = podaci[3];
+			String oznakaVlaka = podaci[4];
+			String vrstaVlaka = podaci[5];
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+			LocalTime vrijemePolaska = LocalTime.parse(podaci[6], formatter);
+			LocalTime trajanjeVoznje = LocalTime.parse(podaci[7], formatter);
+			int indeksDana;
+			if (podaci[8].length() == 0) {
+				indeksDana = -1;
+			}
+			else {
+				indeksDana = Integer.parseInt(podaci[8]);
+			}
+			String daniUTjednu = TvrtkaSingleton.getInstance().oznakeDana.get(indeksDana);
+			if (daniUTjednu == null || daniUTjednu.length() == 0) {
+				daniUTjednu = "PoUSrČPeSuN";
+			}
+			
+			var vlak = vozniRed.dohvatiVlak(oznakaVlaka);
+			if (vlak == null) {
+				vlak = new Vlak(oznakaVlaka, vrstaVlaka, daniUTjednu);
+				vozniRed.dodajKomponentu(vlak);
+			}
+			if (!vlak.vrstaVlaka.matches(vrstaVlaka)) {
+				brReda++;
+				continue;
+			}
+			Pruga pruga = TvrtkaSingleton.getInstance().svePruge.get(oznakaPruge);
+			Stanica pocetna;
+			Stanica zavrsna;
+			if (pruga == null) {
+				brReda++;
+				continue;
+			}
+			if (pocetnaStanica.length() == 0) {
+				if (smjer.matches("N")) {
+					pocetna = pruga.pocetnaStanica;
+				}
+				else {
+					pocetna = pruga.zavrsnaStanica;
+				}
+			}
+			if (zavrsnaStanica.length() == 0) {
+				if (smjer.matches("N")) {
+					pocetna = pruga.zavrsnaStanica;
+				}
+				else {
+					pocetna = pruga.pocetnaStanica;
+				}
+			}
+			pocetna = TvrtkaSingleton.getInstance().sveStanice.get(pocetnaStanica);
+			zavrsna = TvrtkaSingleton.getInstance().sveStanice.get(zavrsnaStanica);
+			if (pocetna == null || zavrsna == null || pruga == null) {
+				brReda++;
+				continue;
+			}
+			
+			Etapa etapa = new Etapa(pocetna, zavrsna, smjer, pruga, vrijemePolaska, trajanjeVoznje);
+			vlak.dodajKomponentu(etapa);
+ 		}
+		vozniRed.ucitajStanice();
+		TvrtkaSingleton.getInstance().vozniRed = vozniRed;
 	}
 	
 	private void ucitajVremenaVlakova(ArrayList<String[]> lista) {
@@ -240,8 +342,8 @@ public class Konfiguracija {
 			
 			if (vrijemeUbrzaniVlak != -1) {
 				if (zadnjaStanicaUbrzaniVlak != null) {
-					zadnjaStanicaUbrzaniVlak.dodajVezu(stanica, null).setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
-					var veza = stanica.dodajVezu(zadnjaStanicaUbrzaniVlak, null);
+					zadnjaStanicaUbrzaniVlak.dodajVezu(stanica, null, true).setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
+					var veza = stanica.dodajVezu(zadnjaStanicaUbrzaniVlak, null, false);
 					System.out.println("DODAJEM UBRZANU VEZU " + stanica.stanica + " -> " + zadnjaStanicaUbrzaniVlak.stanica);
 					veza.setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
 					System.out.println("DODAJEM UBRZANU VEZU " + zadnjaStanicaUbrzaniVlak.stanica + " -> " + stanica.stanica);
@@ -253,9 +355,9 @@ public class Konfiguracija {
 			}
 			if (vrijemeBrziVlak != -1) {
 				if (zadnjaStanicaBrziVlak != null) {
-					zadnjaStanicaBrziVlak.dodajVezu(stanica, null).setVrijemeBrziVlak(vrijemeBrziVlak);
+					zadnjaStanicaBrziVlak.dodajVezu(stanica, null, true).setVrijemeBrziVlak(vrijemeBrziVlak);
 					System.out.println("DODAJEM BRZU VEZU " + stanica.stanica + " -> " + zadnjaStanicaBrziVlak.stanica);
-					stanica.dodajVezu(zadnjaStanicaBrziVlak, null).setVrijemeBrziVlak(vrijemeBrziVlak);
+					stanica.dodajVezu(zadnjaStanicaBrziVlak, null, false).setVrijemeBrziVlak(vrijemeBrziVlak);
 					System.out.println("DODAJEM BRZU VEZU " + zadnjaStanicaBrziVlak.stanica + " -> " + stanica.stanica);
 					zadnjaStanicaBrziVlak = stanica;
 				}
@@ -308,14 +410,14 @@ public class Konfiguracija {
 			}
 			else if (!zadnjaStanica.stanica.matches(podaci[0]) && zadnjaOznaka.matches(podaci[1])) {
 					KomponentaPruge pruga = new KomponentaPruge(podaci);
-					zadnjaStanica.dodajVezu(stanica, pruga).setVrijemeNormalniVlak(vrijemeNormalniVlak);
+					zadnjaStanica.dodajVezu(stanica, pruga, true).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 					trenutnaPruga.ukupnoKm += pruga.duzina;
-					stanica.dodajVezu(zadnjaStanica, pruga).setVrijemeNormalniVlak(vrijemeNormalniVlak);
+					stanica.dodajVezu(zadnjaStanica, pruga, false).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 
 			}
 			else if (zadnjaStanica.stanica.matches(podaci[0])) {
 				KomponentaPruge pruga = new KomponentaPruge(podaci);
-				stanica.dodajVezu(stanica, pruga).setVrijemeNormalniVlak(vrijemeNormalniVlak);
+				stanica.dodajVezu(stanica, pruga, true).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 			}
 			if (!zadnjaOznaka.matches(podaci[1])) {
 				trenutnaPruga.zavrsnaStanica = zadnjaStanica;

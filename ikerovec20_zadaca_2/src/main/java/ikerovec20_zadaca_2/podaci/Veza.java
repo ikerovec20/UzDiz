@@ -4,6 +4,7 @@ public class Veza {
 	
 	public Stanica stanica;
 	public KomponentaPruge pruga;
+	public boolean normalniSmjer = true;
 
 	public int vrijemeNormalniVlak = -1;
 	public int vrijemeBrziVlak = -1;
@@ -21,9 +22,10 @@ public class Veza {
 		this.vrijemeUbrzaniVlak = vrijemeUbrzaniVlak;
 	}
 	
-	public Veza(Stanica stanica, KomponentaPruge pruga) {
+	public Veza(Stanica stanica, KomponentaPruge pruga, boolean smjer) {
 		this.stanica = stanica;
 		this.pruga = pruga;
+		this.normalniSmjer = smjer;
 	}
 	
 	public Veza(Stanica stanica) {

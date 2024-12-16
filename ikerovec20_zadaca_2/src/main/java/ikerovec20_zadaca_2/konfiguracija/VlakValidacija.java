@@ -39,7 +39,7 @@ public class VlakValidacija implements IValidacija {
 				ispravno = false;
 			}
 		}
-		if (!podaci[17].matches("I|K")) {
+		if (podaci[17] == null || !podaci[17].matches("I|K")) {
 			Konfiguracija.getInstance().ispisiGreskuReda(datoteka, brReda, "Status nije ispravan");
 			ispravno = false;
 		}

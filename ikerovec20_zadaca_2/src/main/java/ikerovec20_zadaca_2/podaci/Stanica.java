@@ -13,8 +13,8 @@ public class Stanica {
 	
 	public ArrayList<Veza> veze = new ArrayList<Veza>();
 	
-	public Veza dodajVezu(Stanica stanica, KomponentaPruge pruga) {
-		Veza veza = new Veza(stanica, pruga);
+	public Veza dodajVezu(Stanica stanica, KomponentaPruge pruga, boolean smjer) {
+		Veza veza = new Veza(stanica, pruga, smjer);
 		veze.add(veza);
 		return veza;
 	}
