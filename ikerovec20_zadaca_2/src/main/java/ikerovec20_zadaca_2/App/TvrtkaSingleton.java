@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ikerovec20_zadaca_2.composite.Etapa;
+import ikerovec20_zadaca_2.composite.Vlak;
 import ikerovec20_zadaca_2.composite.VozniRed;
 import ikerovec20_zadaca_2.iteratori.IPrugaIterator;
 import ikerovec20_zadaca_2.iteratori.PrugaIterator;
@@ -124,18 +126,36 @@ public class TvrtkaSingleton {
 			iterator = new PrugaIterator(oznaka, pruga.dohvatiZadnjuStanicu(), false);
 		}
 			while (iterator.postojiSljedecaStanica()) {
+				var stanica = iterator.dohvatiTrenutnuStanicu();
 				System.out.printf("|%-30s|%6s|%-30s|%n"
-						, iterator.dohvatiTrenutnuStanicu().stanica, iterator.dohvatiTrenutnuStanicu().vrstaStanice, udaljenostOdPrve);
-				udaljenostOdPrve += iterator.dohvatiUdaljenostDoStanice();
+						, stanica.stanica, stanica.vrstaStanice, udaljenostOdPrve);
 				iterator.dohvatiSljedecuStanicu();
+				udaljenostOdPrve += stanica.dohvatiVezu(iterator.dohvatiTrenutnuStanicu()).pruga.duzina;
 			}
 			System.out.printf("|%-30s|%6s|%-30s|%n"
 					, iterator.dohvatiTrenutnuStanicu().stanica, iterator.dohvatiTrenutnuStanicu().vrstaStanice, udaljenostOdPrve);
 	}
 	
-	public void ispisiTablicuVlakova() {
-		//VRIJEME DOLASKA IZRACUNATI
-		//METODA VALIDIRAJ ZA COMPOSITE
+	public void ispisiTablicuVlakova() {		
+		System.out.printf("%-20s %-30s %-30s %-20s %-20s %-16s %n", "Oznaka", "Polazna stanica", "Odredisna stanica", "Vrijeme polaska", "Vrijeme dolaska", "Ukupno km");
+		for (var vlak : vozniRed.vratiKomponente()) {
+			Vlak vl = (Vlak) vlak;
+			System.out.printf("%-20s %-30s %-30s %-20s %-20s %-16s %n", vl.oznaka, vl.vratiPrvuStanicu().stanica, vl.vratiZadnjuStanicu().stanica, vl.vratiPocetnoVrijeme(), vl.vratiZavrsnoVrijeme(), vl.vratiKm());
+		}
+	}
+	
+	public void ispisiVlak(String oznaka) {
+		Vlak vlak = vozniRed.dohvatiVlak(oznaka);
+		if (vlak == null) {
+			System.out.println("Ne postoji vlak s oznakom " + oznaka);
+			return;
+		}
+		
+		System.out.printf("%-12s %-13s %-22s %-22s %-16s %-16s %-10s %-11s %n", "Oznaka vlaka", "Oznaka pruge", "Polazna stanica", "Odredisna stanica", "Vrijeme polaska", "Vrijeme dolaska", "Ukupno km", "Dani");
+		for (var komp : vlak.vratiKomponente()) {
+			Etapa etapa = (Etapa) komp;
+			System.out.printf("%-12s %-13s %-22s %-22s %-16s %-16s %-10s %-11s %n", vlak.oznaka, etapa.pruga.oznakaPruge, etapa.pocetnaStanica.stanica, etapa.zavrsnaStanica.stanica, etapa.vrijemePolaska, etapa.vratiZavrsnoVrijeme(), etapa.vratiKm(), vlak.daniVoznje);
+		}
 	}
 	
 	public VozniRed vozniRed;

@@ -3,10 +3,12 @@ package ikerovec20_zadaca_2.App;
 import java.util.Scanner;
 
 import ikerovec20_zadaca_2.chain_of_responsibility.Komanda;
+import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIEV;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIK;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIP;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaISI2S;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaISP;
+import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIV;
 import ikerovec20_zadaca_2.konfiguracija.Konfiguracija;
 
 public class Main {
@@ -24,10 +26,15 @@ public class Main {
 		Komanda komandaISP = new KomandaISP("^ISP (?<oznaka>\\w+) (?<redoslijed>N|O)$");
 		Komanda komandaISI2S = new KomandaISI2S("^ISI2S (?<pocetna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<zavrsna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))$");
 		Komanda komandaIK = new KomandaIK("^IK (?<oznaka>\\w+)$");
+		Komanda komandaIV = new KomandaIV("IV");
+		Komanda komandaIEV = new KomandaIEV("IEV (?<oznaka>\\w+)");
 		
 		komandaIP.postaviSljedeceg(komandaISP);
 		komandaISP.postaviSljedeceg(komandaISI2S);
 		komandaISI2S.postaviSljedeceg(komandaIK);
+		komandaIK.postaviSljedeceg(komandaIV);
+		komandaIV.postaviSljedeceg(komandaIEV);
+		
 		Scanner citac = new Scanner(System.in);
 		
 		while (true) {

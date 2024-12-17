@@ -6,6 +6,6 @@ public interface IPrugaIterator {
 	
 	public Stanica dohvatiTrenutnuStanicu();
 	public Stanica dohvatiSljedecuStanicu();
-	public int dohvatiUdaljenostDoStanice();
+	public Stanica vratiPrvuStanicu();
 	public boolean postojiSljedecaStanica();
 }

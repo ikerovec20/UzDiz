@@ -24,4 +24,8 @@ public abstract class VozniRedComposite implements IKomponentaVoznogReda {
 		}
 		return komponente.get(index);
 	}
+	
+	public ArrayList<IKomponentaVoznogReda> vratiKomponente() {
+		return komponente;
+	}
 }

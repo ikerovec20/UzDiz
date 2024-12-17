@@ -2,7 +2,10 @@ package ikerovec20_zadaca_2.podaci;
 
 import java.util.ArrayList;
 
-public class Stanica {
+import ikerovec20_zadaca_2.composite.IKomponentaVoznogReda;
+import ikerovec20_zadaca_2.prototipovi.IStanicaPrototype;
+
+public class Stanica implements IStanicaPrototype {
 	
 	public String stanica;
 	public String vrstaStanice;
@@ -19,15 +22,20 @@ public class Stanica {
 		return veza;
 	}
 	
+	public Veza dodajVezu(Veza veza) {
+		veze.add(veza);
+		return veza;
+	}
 	
 	public Veza dohvatiVezu(Stanica stanica) {
 		for (var veza : veze) {
-			if (veza.stanica.equals(stanica)) {
+			if (veza.stanica.stanica.matches(stanica.stanica)) {
 				return veza;
 			}
 		}
 		return null;
 	}
+	
 
 	public Stanica(String stanica, String vrstaStanice, String statusStanice, boolean putniciUlazIzlaz,
 			boolean robaUtovarIstovar, int brojPerona) {
@@ -38,5 +46,21 @@ public class Stanica {
 		this.putniciUlazIzlaz = putniciUlazIzlaz;
 		this.robaUtovarIstovar = robaUtovarIstovar;
 		this.brojPerona = brojPerona;
+		this.veze = new ArrayList<Veza>();
+	}
+
+	private Stanica(Stanica stanica) {
+		this.stanica = stanica.stanica;
+		this.brojPerona = stanica.brojPerona;
+		this.putniciUlazIzlaz = stanica.putniciUlazIzlaz;
+		this.robaUtovarIstovar = stanica.robaUtovarIstovar;
+		this.statusStanice = stanica.statusStanice;
+		this.vrstaStanice = stanica.vrstaStanice;
+	}
+	
+
+	@Override
+	public Stanica kloniraj() {
+		return new Stanica(this);
 	}
 }

@@ -5,6 +5,7 @@ import ikerovec20_zadaca_2.podaci.Stanica;
 public class PrugaIterator implements IPrugaIterator {
 
 	private Stanica trenutnaStanica;
+	private Stanica prvaStanica;
 	private Stanica zadnjaStanica;
 	private final String oznaka;
 	private final boolean normalniSmjer;
@@ -12,6 +13,7 @@ public class PrugaIterator implements IPrugaIterator {
 	public PrugaIterator(String oznaka, Stanica stanica, boolean normalniSmjer) {
 		this.oznaka = oznaka;
 		trenutnaStanica = stanica;
+		prvaStanica = stanica;
 		zadnjaStanica = stanica;
 		this.normalniSmjer = normalniSmjer;
 	}
@@ -30,16 +32,6 @@ public class PrugaIterator implements IPrugaIterator {
 		}
 		return null;
 	}
-	
-	public int dohvatiUdaljenostDoStanice() {
-		for (var veza : trenutnaStanica.veze) {
-			if (veza.pruga != null && veza.pruga.oznakaPruge.contains(oznaka) && !veza.stanica.stanica.matches(trenutnaStanica.stanica)
-					&& !veza.stanica.stanica.matches(zadnjaStanica.stanica) && veza.normalniSmjer == this.normalniSmjer) {
-				return veza.pruga.duzina;
-			}
-		}
-		return -1;
-	}
 
 	@Override
 	public boolean postojiSljedecaStanica() {
@@ -55,5 +47,10 @@ public class PrugaIterator implements IPrugaIterator {
 	@Override
 	public Stanica dohvatiTrenutnuStanicu() {
 		return trenutnaStanica;
+	}
+
+	@Override
+	public Stanica vratiPrvuStanicu() {
+		return prvaStanica;
 	}
 }

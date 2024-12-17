@@ -282,8 +282,8 @@ public class Konfiguracija {
 				continue;
 			}
 			Pruga pruga = TvrtkaSingleton.getInstance().svePruge.get(oznakaPruge);
-			Stanica pocetna;
-			Stanica zavrsna;
+			Stanica pocetna = null;
+			Stanica zavrsna = null;
 			if (pruga == null) {
 				brReda++;
 				continue;
@@ -296,16 +296,22 @@ public class Konfiguracija {
 					pocetna = pruga.zavrsnaStanica;
 				}
 			}
+			else {
+				pocetna = TvrtkaSingleton.getInstance().sveStanice.get(pocetnaStanica);
+			}
+			
 			if (zavrsnaStanica.length() == 0) {
 				if (smjer.matches("N")) {
-					pocetna = pruga.zavrsnaStanica;
+					zavrsna = pruga.zavrsnaStanica;
 				}
 				else {
-					pocetna = pruga.pocetnaStanica;
+					zavrsna = pruga.pocetnaStanica;
 				}
 			}
-			pocetna = TvrtkaSingleton.getInstance().sveStanice.get(pocetnaStanica);
-			zavrsna = TvrtkaSingleton.getInstance().sveStanice.get(zavrsnaStanica);
+			else {
+				zavrsna = TvrtkaSingleton.getInstance().sveStanice.get(zavrsnaStanica);
+			}
+			
 			if (pocetna == null || zavrsna == null || pruga == null) {
 				brReda++;
 				continue;
@@ -314,7 +320,7 @@ public class Konfiguracija {
 			Etapa etapa = new Etapa(pocetna, zavrsna, smjer, pruga, vrijemePolaska, trajanjeVoznje);
 			vlak.dodajKomponentu(etapa);
  		}
-		vozniRed.ucitajStanice();
+		vozniRed.validiraj();
 		TvrtkaSingleton.getInstance().vozniRed = vozniRed;
 	}
 	
@@ -344,9 +350,9 @@ public class Konfiguracija {
 				if (zadnjaStanicaUbrzaniVlak != null) {
 					zadnjaStanicaUbrzaniVlak.dodajVezu(stanica, null, true).setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
 					var veza = stanica.dodajVezu(zadnjaStanicaUbrzaniVlak, null, false);
-					System.out.println("DODAJEM UBRZANU VEZU " + stanica.stanica + " -> " + zadnjaStanicaUbrzaniVlak.stanica);
+//					System.out.println("DODAJEM UBRZANU VEZU " + stanica.stanica + " -> " + zadnjaStanicaUbrzaniVlak.stanica);
 					veza.setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
-					System.out.println("DODAJEM UBRZANU VEZU " + zadnjaStanicaUbrzaniVlak.stanica + " -> " + stanica.stanica);
+//					System.out.println("DODAJEM UBRZANU VEZU " + zadnjaStanicaUbrzaniVlak.stanica + " -> " + stanica.stanica);
 					zadnjaStanicaUbrzaniVlak = stanica;
 				}
 				else {
@@ -356,9 +362,9 @@ public class Konfiguracija {
 			if (vrijemeBrziVlak != -1) {
 				if (zadnjaStanicaBrziVlak != null) {
 					zadnjaStanicaBrziVlak.dodajVezu(stanica, null, true).setVrijemeBrziVlak(vrijemeBrziVlak);
-					System.out.println("DODAJEM BRZU VEZU " + stanica.stanica + " -> " + zadnjaStanicaBrziVlak.stanica);
+//					System.out.println("DODAJEM BRZU VEZU " + stanica.stanica + " -> " + zadnjaStanicaBrziVlak.stanica);
 					stanica.dodajVezu(zadnjaStanicaBrziVlak, null, false).setVrijemeBrziVlak(vrijemeBrziVlak);
-					System.out.println("DODAJEM BRZU VEZU " + zadnjaStanicaBrziVlak.stanica + " -> " + stanica.stanica);
+//					System.out.println("DODAJEM BRZU VEZU " + zadnjaStanicaBrziVlak.stanica + " -> " + stanica.stanica);
 					zadnjaStanicaBrziVlak = stanica;
 				}
 				else {
