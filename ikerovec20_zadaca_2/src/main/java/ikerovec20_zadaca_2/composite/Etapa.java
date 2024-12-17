@@ -16,9 +16,10 @@ public class Etapa implements IKomponentaVoznogReda{
 	public ArrayList<Stanica> stanice;
 	public LocalTime vrijemePolaska;
 	public LocalTime vrijemeTrajanja;
+	public String dani;
 	public int ukupnoKm = 0;
 	
-	public Etapa(Stanica pocetna, Stanica zavrsna, String smjer, Pruga pruga, LocalTime vrijemePolaska, LocalTime vrijemeTrajanja) {
+	public Etapa(Stanica pocetna, Stanica zavrsna, String smjer, Pruga pruga, LocalTime vrijemePolaska, LocalTime vrijemeTrajanja, String dani) {
 		stanice = new ArrayList<Stanica>();
 		this.pocetnaStanica = pocetna;
 		this.zavrsnaStanica = zavrsna;
@@ -26,6 +27,7 @@ public class Etapa implements IKomponentaVoznogReda{
 		this.pruga = pruga;
 		this.vrijemePolaska = vrijemePolaska;
 		this.vrijemeTrajanja = vrijemeTrajanja;
+		this.dani = dani;
 		ucitajStanice();
 	}
 	

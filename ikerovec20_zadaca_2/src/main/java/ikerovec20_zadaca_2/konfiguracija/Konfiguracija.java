@@ -274,7 +274,7 @@ public class Konfiguracija {
 			
 			var vlak = vozniRed.dohvatiVlak(oznakaVlaka);
 			if (vlak == null) {
-				vlak = new Vlak(oznakaVlaka, vrstaVlaka, daniUTjednu);
+				vlak = new Vlak(oznakaVlaka, vrstaVlaka);
 				vozniRed.dodajKomponentu(vlak);
 			}
 			if (!vlak.vrstaVlaka.matches(vrstaVlaka)) {
@@ -317,7 +317,7 @@ public class Konfiguracija {
 				continue;
 			}
 			
-			Etapa etapa = new Etapa(pocetna, zavrsna, smjer, pruga, vrijemePolaska, trajanjeVoznje);
+			Etapa etapa = new Etapa(pocetna, zavrsna, smjer, pruga, vrijemePolaska, trajanjeVoznje, daniUTjednu);
 			vlak.dodajKomponentu(etapa);
  		}
 		vozniRed.validiraj();

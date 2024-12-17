@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import ikerovec20_zadaca_2.chain_of_responsibility.Komanda;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIEV;
+import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIEVD;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIK;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaIP;
 import ikerovec20_zadaca_2.chain_of_responsibility.KomandaISI2S;
@@ -27,14 +28,16 @@ public class Main {
 		Komanda komandaISI2S = new KomandaISI2S("^ISI2S (?<pocetna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<zavrsna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))$");
 		Komanda komandaIK = new KomandaIK("^IK (?<oznaka>\\w+)$");
 		Komanda komandaIV = new KomandaIV("IV");
-		Komanda komandaIEV = new KomandaIEV("IEV (?<oznaka>\\w+)");
+		Komanda komandaIEV = new KomandaIEV("^IEV (?<oznaka>[\\w-\\s]+)$");
+		Komanda komandaIEVD = new KomandaIEVD("^IEVD (?<dani>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))");
 		
 		komandaIP.postaviSljedeceg(komandaISP);
 		komandaISP.postaviSljedeceg(komandaISI2S);
 		komandaISI2S.postaviSljedeceg(komandaIK);
 		komandaIK.postaviSljedeceg(komandaIV);
 		komandaIV.postaviSljedeceg(komandaIEV);
-		
+		komandaIEV.postaviSljedeceg(komandaIEVD);
+		//posebna klasa za dane u tjednu, parsiraju se i ima metodu za provjeru
 		Scanner citac = new Scanner(System.in);
 		
 		while (true) {

@@ -7,12 +7,10 @@ import ikerovec20_zadaca_2.podaci.Stanica;
 public class Vlak extends VozniRedComposite {
 	public String oznaka;
 	public String vrstaVlaka;
-	public String daniVoznje;
 	
-	public Vlak(String oznaka, String vrstaVlaka, String daniVoznje) {
+	public Vlak(String oznaka, String vrstaVlaka) {
 		this.oznaka = oznaka;
 		this.vrstaVlaka = vrstaVlaka;
-		this.daniVoznje = daniVoznje;
 	}
 	
 	@Override
@@ -28,11 +26,17 @@ public class Vlak extends VozniRedComposite {
 		}
 		for (var komp : komponente) {
 			Etapa etapa = (Etapa) komp;
-			if (komponentaEtapa.vrijemePolaska.isBefore(etapa.vrijemePolaska)) {
+			if (komponentaEtapa.vratiZavrsnoVrijeme().isBefore(etapa.vrijemePolaska)) {
 				indeks = i;
 			}
 			i++;
 		}
+//		if (indeks+1 >= komponente.size()) {
+//			komponente.addLast(komponentaEtapa);
+//		}
+//		else {
+//			komponente.add(indeks+1, komponentaEtapa);		
+//		}
 		komponente.add(indeks, komponentaEtapa);
 	}
 
