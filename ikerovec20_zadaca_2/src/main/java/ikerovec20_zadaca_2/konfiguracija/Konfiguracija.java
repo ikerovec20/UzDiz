@@ -317,7 +317,7 @@ public class Konfiguracija {
 				continue;
 			}
 			
-			Etapa etapa = new Etapa(pocetna, zavrsna, smjer, pruga, vrijemePolaska, trajanjeVoznje, daniUTjednu);
+			Etapa etapa = new Etapa(pocetna, zavrsna, smjer, vrstaVlaka, pruga, vrijemePolaska, trajanjeVoznje, daniUTjednu);
 			vlak.dodajKomponentu(etapa);
  		}
 		vozniRed.validiraj();
@@ -348,8 +348,8 @@ public class Konfiguracija {
 			
 			if (vrijemeUbrzaniVlak != -1) {
 				if (zadnjaStanicaUbrzaniVlak != null) {
-					zadnjaStanicaUbrzaniVlak.dodajVezu(stanica, null, true).setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
-					var veza = stanica.dodajVezu(zadnjaStanicaUbrzaniVlak, null, false);
+					zadnjaStanicaUbrzaniVlak.dodajVezu(stanica, null, true, oznaka).setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
+					var veza = stanica.dodajVezu(zadnjaStanicaUbrzaniVlak, null, false, oznaka);
 //					System.out.println("DODAJEM UBRZANU VEZU " + stanica.stanica + " -> " + zadnjaStanicaUbrzaniVlak.stanica);
 					veza.setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
 //					System.out.println("DODAJEM UBRZANU VEZU " + zadnjaStanicaUbrzaniVlak.stanica + " -> " + stanica.stanica);
@@ -361,9 +361,9 @@ public class Konfiguracija {
 			}
 			if (vrijemeBrziVlak != -1) {
 				if (zadnjaStanicaBrziVlak != null) {
-					zadnjaStanicaBrziVlak.dodajVezu(stanica, null, true).setVrijemeBrziVlak(vrijemeBrziVlak);
+					zadnjaStanicaBrziVlak.dodajVezu(stanica, null, true, oznaka).setVrijemeBrziVlak(vrijemeBrziVlak);
 //					System.out.println("DODAJEM BRZU VEZU " + stanica.stanica + " -> " + zadnjaStanicaBrziVlak.stanica);
-					stanica.dodajVezu(zadnjaStanicaBrziVlak, null, false).setVrijemeBrziVlak(vrijemeBrziVlak);
+					stanica.dodajVezu(zadnjaStanicaBrziVlak, null, false, oznaka).setVrijemeBrziVlak(vrijemeBrziVlak);
 //					System.out.println("DODAJEM BRZU VEZU " + zadnjaStanicaBrziVlak.stanica + " -> " + stanica.stanica);
 					zadnjaStanicaBrziVlak = stanica;
 				}
@@ -416,14 +416,14 @@ public class Konfiguracija {
 			}
 			else if (!zadnjaStanica.stanica.matches(podaci[0]) && zadnjaOznaka.matches(podaci[1])) {
 					KomponentaPruge pruga = new KomponentaPruge(podaci);
-					zadnjaStanica.dodajVezu(stanica, pruga, true).setVrijemeNormalniVlak(vrijemeNormalniVlak);
+					zadnjaStanica.dodajVezu(stanica, pruga, true, podaci[1]).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 					trenutnaPruga.ukupnoKm += pruga.duzina;
-					stanica.dodajVezu(zadnjaStanica, pruga, false).setVrijemeNormalniVlak(vrijemeNormalniVlak);
+					stanica.dodajVezu(zadnjaStanica, pruga, false, podaci[1]).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 
 			}
 			else if (zadnjaStanica.stanica.matches(podaci[0])) {
 				KomponentaPruge pruga = new KomponentaPruge(podaci);
-				stanica.dodajVezu(stanica, pruga, true).setVrijemeNormalniVlak(vrijemeNormalniVlak);
+				stanica.dodajVezu(stanica, pruga, true, podaci[1]).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 			}
 			if (!zadnjaOznaka.matches(podaci[1])) {
 				trenutnaPruga.zavrsnaStanica = zadnjaStanica;

@@ -18,18 +18,20 @@ public class Vlak extends VozniRedComposite {
 		if (!(komponenta instanceof Etapa)) {
 			return;
 		}
-		int i = 0;
 		int indeks = 0;
+		boolean pomak = false;
 		Etapa komponentaEtapa = (Etapa) komponenta;
-		if (komponentaEtapa.pocetnaStanica.stanica.matches(komponentaEtapa.zavrsnaStanica.stanica)) {
-			return;
-		}
-		for (var komp : komponente) {
-			Etapa etapa = (Etapa) komp;
-			if (komponentaEtapa.vratiZavrsnoVrijeme().isBefore(etapa.vrijemePolaska)) {
+//		if (komponentaEtapa.pocetnaStanica.stanica.matches(komponentaEtapa.zavrsnaStanica.stanica)) {
+//			return;
+//		}
+		for (int i = 0; i < komponente.size(); i++) {
+			Etapa etapa = (Etapa) komponente.get(i);
+			boolean pravo = etapa.vratiPocetnoVrijeme().isAfter(komponentaEtapa.vratiPocetnoVrijeme());
+			if (etapa.vratiPocetnoVrijeme().isAfter(komponentaEtapa.vratiPocetnoVrijeme())) {
 				indeks = i;
+				pomak = true;
+				System.out.println("NOVA ETAPA VRIJEME: " + komponentaEtapa.vratiPocetnoVrijeme() + " | STARA ETAPA VRIJEME: " + etapa.vratiPocetnoVrijeme() + " | VRIJEDNOST: " + pravo);
 			}
-			i++;
 		}
 //		if (indeks+1 >= komponente.size()) {
 //			komponente.addLast(komponentaEtapa);
@@ -37,7 +39,12 @@ public class Vlak extends VozniRedComposite {
 //		else {
 //			komponente.add(indeks+1, komponentaEtapa);		
 //		}
-		komponente.add(indeks, komponentaEtapa);
+		if (pomak) {
+			komponente.add(indeks, komponentaEtapa);	
+		}
+		else {
+			komponente.addLast(komponentaEtapa);
+		}
 	}
 
 	@Override
@@ -88,11 +95,14 @@ public class Vlak extends VozniRedComposite {
 				ukloniKomponentu(komp);
 			}
 		}
+		if (komponente.size() == 0) {
+			return false;
+		}
 		if (komponente.size() >= 2) {
-			var komp = komponente.getFirst();
+			var komp = (Etapa) komponente.getFirst();
 			for (int i = 1; i < komponente.size(); i++) {
-				var sljedecaKomp = dohvatiKomponentu(i);
-				if (komp.vratiZavrsnoVrijeme().isAfter(sljedecaKomp.vratiPocetnoVrijeme())) {
+				var sljedecaKomp = (Etapa) dohvatiKomponentu(i);
+				if (komp.vrijemeZavrsetka.isAfter(sljedecaKomp.vrijemePolaska)) {
 					return false;
 				}
 				if (!komp.vratiZadnjuStanicu().equals(sljedecaKomp.vratiPrvuStanicu())) {

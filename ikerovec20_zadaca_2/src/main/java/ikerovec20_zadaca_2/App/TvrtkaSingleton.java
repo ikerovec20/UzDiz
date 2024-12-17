@@ -152,9 +152,11 @@ public class TvrtkaSingleton {
 		}
 		
 		System.out.printf("%-12s %-13s %-22s %-22s %-16s %-16s %-10s %-11s %n", "Oznaka vlaka", "Oznaka pruge", "Polazna stanica", "Odredisna stanica", "Vrijeme polaska", "Vrijeme dolaska", "Ukupno km", "Dani");
-		for (var komp : vlak.vratiKomponente()) {
-			Etapa etapa = (Etapa) komp;
-			System.out.printf("%-12s %-13s %-22s %-22s %-16s %-16s %-10s %-11s %n", vlak.oznaka, etapa.pruga.oznakaPruge, etapa.pocetnaStanica.stanica, etapa.zavrsnaStanica.stanica, etapa.vrijemePolaska, etapa.vratiZavrsnoVrijeme(), etapa.vratiKm(), etapa.dani);
+		var komponente = vlak.vratiKomponente();
+		for (int i = 0; i < komponente.size(); i++) {
+			Etapa etapa = (Etapa) komponente.get(i);
+			System.out.printf("%-12s %-13s %-22s %-22s %-16s %-16s %-10s %-11s %n", vlak.oznaka, etapa.pruga.oznakaPruge, etapa.pocetnaStanica.stanica, etapa.zavrsnaStanica.stanica, etapa.vratiPocetnoVrijeme(), etapa.vratiZavrsnoVrijeme(), etapa.vratiKm(), etapa.raspored.vratiDane());
+
 		}
 	}
 	
@@ -166,9 +168,9 @@ public class TvrtkaSingleton {
 			
 			for (var komp : vlak.vratiKomponente()) {
 				Etapa etapa = (Etapa) komp;
-				if (etapa.dani.contains(dani)) {
+				if (etapa.raspored.provjeriDane(dani)) {
 					System.out.printf("%-12s %-13s %-22s %-22s %-16s %-16s %-11s %n", vlak.oznaka, etapa.pruga.oznakaPruge, etapa.pocetnaStanica.stanica, 
-							etapa.zavrsnaStanica.stanica, etapa.vrijemePolaska, etapa.vratiZavrsnoVrijeme(), etapa.dani);	
+							etapa.zavrsnaStanica.stanica, etapa.vrijemePolaska, etapa.vratiZavrsnoVrijeme(), etapa.raspored.vratiDane());	
 				}
 				
 			}
