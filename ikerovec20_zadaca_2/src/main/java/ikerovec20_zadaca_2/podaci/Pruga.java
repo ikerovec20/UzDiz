@@ -1,9 +1,10 @@
 package ikerovec20_zadaca_2.podaci;
 
 
+import ikerovec20_zadaca_2.iteratori.IPrugaKolekcija;
 import ikerovec20_zadaca_2.iteratori.PrugaIterator;
 
-public class Pruga {
+public class Pruga implements IPrugaKolekcija {
 	public Stanica pocetnaStanica;
 	public Stanica zavrsnaStanica;
 	public String oznakaPruge;

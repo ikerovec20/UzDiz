@@ -16,7 +16,6 @@ public class Etapa extends VozniRedComposite {
 	public String smjer;
 	public String vrstaEtape;
 	public Pruga pruga;
-	public ArrayList<Stanica> stanice;
 	public LocalTime vrijemePolaska;
 	public LocalTime vrijemeTrajanja;
 	public LocalTime vrijemeZavrsetka;
@@ -24,7 +23,6 @@ public class Etapa extends VozniRedComposite {
 	public int ukupnoKm = 0;
 	
 	public Etapa(Stanica pocetna, Stanica zavrsna, String smjer, String vrstaEtape, Pruga pruga, LocalTime vrijemePolaska, LocalTime vrijemeTrajanja, String dani) {
-		stanice = new ArrayList<Stanica>();
 		this.pocetnaStanica = pocetna;
 		this.zavrsnaStanica = zavrsna;
 		this.smjer = smjer;
@@ -43,63 +41,91 @@ public class Etapa extends VozniRedComposite {
 		var iterator = pruga.dohvatiIterator(pocetnaStanica, smjer);
 		int ukupno = 0;
 		Stanica stanica = iterator.dohvatiTrenutnuStanicu();
-		var brzaVeza = stanica.dohvatiBrzuVezu(pruga.oznakaPruge, smjer);
-		var ubrzanaVeza = stanica.dohvatiUbrzanuVezu(pruga.oznakaPruge, smjer);
 		int vrijemeNormalno = 0;
-		int vrijemeBrzo = brzaVeza == null ? -1 : 0;
-		int vrijemeUbrzano = ubrzanaVeza == null ? -1 : 0;
-		EtapnaStanica etapna = new EtapnaStanica(stanica, ukupno, vrijemePolaska, vrijemeNormalno, vrijemeBrzo, vrijemeUbrzano);
+		EtapnaStanica etapna = new EtapnaStanica(stanica, ukupno, vrijemePolaska, vrijemeNormalno, -1, -1);
 		LocalTime vrijeme = vrijemePolaska;
 		komponente.add(etapna);
-//		stanice.add(stanica);
-		boolean proslo = false;
+		boolean zadnjaStanica = false;
+		boolean dodajStanicu = true;
 		while (iterator.postojiSljedecaStanica() && !stanica.equals(zavrsnaStanica)) {
 			stanica = iterator.dohvatiTrenutnuStanicu();
 			var nova = iterator.dohvatiSljedecuStanicu();
-			if (!proslo) {
+			if (!zadnjaStanica) {
 				var vz = stanica.dohvatiVezu(nova);
 				ukupno += vz.pruga.duzina;
-				switch (vrstaEtape) {
-				case "N":
-					vrijeme = vrijeme.plusMinutes(vz.vrijemeNormalniVlak);
-					break;
-				case "U":
-					if (ubrzanaVeza != null) {
-						vrijeme = vrijeme.plusMinutes(ubrzanaVeza.vrijemeUbrzaniVlak);	
-					}
-					break;
-				case "B":
-					if (brzaVeza != null) {
-						vrijeme = vrijeme.plusMinutes(brzaVeza.vrijemeBrziVlak);
-					}
-					break;
+				if (vrstaEtape.matches("N")) {
+					vrijeme = vrijeme.plusMinutes(vz.vrijemeNormalniVlak);	
 				}
 			}
 			if (nova.equals(zavrsnaStanica)) {
-				proslo = true;
+				zadnjaStanica = true;
 			}
 			var veza = stanica.dohvatiVezu(nova);
-			brzaVeza = stanica.dohvatiBrzuVezu(pruga.oznakaPruge, smjer);
-			ubrzanaVeza = stanica.dohvatiUbrzanuVezu(pruga.oznakaPruge, smjer);
-			vrijemeBrzo = brzaVeza == null ? -1 : brzaVeza.vrijemeBrziVlak;
-			vrijemeUbrzano = ubrzanaVeza == null ? -1 : ubrzanaVeza.vrijemeUbrzaniVlak;
-			etapna = new EtapnaStanica(nova, ukupno, vrijeme, veza.vrijemeNormalniVlak, vrijemeBrzo, vrijemeUbrzano);
-			dodajKomponentu(etapna);
+			if (dodajStanicu) {
+				etapna = new EtapnaStanica(nova, ukupno, vrijeme, veza.vrijemeNormalniVlak, -1, -1);
+				dodajKomponentu(etapna);
+				if (zadnjaStanica) {
+					dodajStanicu = false;
+				}
+			}
 		}
-//		etapna = new EtapnaStanica(stanica, ukupno, vrijeme, vrijemeNormalno, vrijemeBrzo, vrijemeUbrzano);
-//		dodajKomponentu(etapna);
-		this.ukupnoKm = ukupno;
+		if (!vrstaEtape.matches("N")) {
+			ucitajVremenaStanica();	
+		}
 	}
 
+	private void ucitajVremenaStanica() {
+		boolean smjer = this.smjer.matches("N");
+		boolean prvi = true;
+		for (var komp : komponente) {
+			var stanica = (EtapnaStanica) komp;
+			switch (vrstaEtape) {
+			case "U":
+				var vezaUbrzana = stanica.stanica.dohvatiUbrzanuVezu(pruga.oznakaPruge, smjer);
+				if (vezaUbrzana != null) {
+					if (prvi) {
+						stanica.vrijemeUbrzaniVlak = 0;
+						prvi = false;
+					}
+					dodajVrijemeStanici(vezaUbrzana.stanica, vezaUbrzana.vrijemeUbrzaniVlak);
+				}
+				break;
+			case "B":
+				var vezaBrza = stanica.stanica.dohvatiBrzuVezu(pruga.oznakaPruge, smjer);
+				if (vezaBrza != null) {
+					if (prvi) {
+						stanica.vrijemeBrziVlak = 0;
+						prvi = false;
+					}
+					dodajVrijemeStanici(vezaBrza.stanica, vezaBrza.vrijemeBrziVlak);
+				}
+				break;
+			}
+		}
+	}
+	
+	private void dodajVrijemeStanici(Stanica stanica, int vrijeme) {
+		for (var komp : komponente) {
+			EtapnaStanica etapnaStanica = (EtapnaStanica) komp;
+			if (etapnaStanica.stanica.equals(stanica)) {
+				switch (vrstaEtape) {
+				case "B":
+					etapnaStanica.vrijemeBrziVlak = vrijeme;
+					etapnaStanica.vrijemeDolaska = etapnaStanica.vrijemeDolaska.plusMinutes(vrijeme);
+					break;
+				case "U":
+					etapnaStanica.vrijemeUbrzaniVlak = vrijeme;
+					etapnaStanica.vrijemeDolaska = etapnaStanica.vrijemeDolaska.plusMinutes(vrijeme);
+					break;
+				}
+				break;
+			}
+		}
+	}
 	
 	@Override
 	public int vratiKm() {
 		return komponente.getLast().vratiKm();
-//		int km = 0;
-//		for (var komp : komponente) {
-//			km += komp.vratiKm();
-//		}
-//		return km;
 	}
 
 	@Override
@@ -121,7 +147,6 @@ public class Etapa extends VozniRedComposite {
 			return false;
 		}
 		if (vrijemeZavrsetka.isBefore(vratiZavrsnoVrijeme())) {
-			System.out.println("BRIŠE SE ETAPA: " + pruga.oznakaPruge);
 			return false;
 		}
 		return true;

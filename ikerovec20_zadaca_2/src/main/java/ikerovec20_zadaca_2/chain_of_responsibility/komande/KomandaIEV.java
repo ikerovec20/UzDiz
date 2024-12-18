@@ -1,19 +1,20 @@
-package ikerovec20_zadaca_2.chain_of_responsibility;
+package ikerovec20_zadaca_2.chain_of_responsibility.komande;
 
 import java.util.regex.Matcher;
 
 import ikerovec20_zadaca_2.App.TvrtkaSingleton;
 
-public class KomandaIK extends Komanda {
+public class KomandaIEV extends Komanda {
 
-	public KomandaIK(String predlozak) {
+	public KomandaIEV(String predlozak) {
 		super(predlozak);
 	}
 
 	@Override
 	protected void obradi(Matcher parametri) {
 		String oznaka = parametri.group("oznaka");
-		TvrtkaSingleton.getInstance().ispisiKompoziciju(oznaka);
+		
+		TvrtkaSingleton.getInstance().ispisiVlak(oznaka);
 	}
 
 }

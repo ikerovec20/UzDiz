@@ -2,6 +2,9 @@ package ikerovec20_zadaca_2.composite;
 
 import java.util.ArrayList;
 
+import ikerovec20_zadaca_2.iteratori.IVozniRedIterator;
+import ikerovec20_zadaca_2.iteratori.VozniRedIterator;
+
 public abstract class VozniRedComposite implements IKomponentaVoznogReda {
 	
 	protected ArrayList<IKomponentaVoznogReda> komponente;
@@ -27,5 +30,10 @@ public abstract class VozniRedComposite implements IKomponentaVoznogReda {
 	
 	public ArrayList<IKomponentaVoznogReda> vratiKomponente() {
 		return komponente;
+	}
+	
+	public IVozniRedIterator dohvatiIterator() {
+		IVozniRedIterator iterator = new VozniRedIterator(komponente);
+		return iterator;
 	}
 }

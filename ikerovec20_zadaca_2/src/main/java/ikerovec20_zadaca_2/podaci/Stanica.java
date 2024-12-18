@@ -2,7 +2,6 @@ package ikerovec20_zadaca_2.podaci;
 
 import java.util.ArrayList;
 
-import ikerovec20_zadaca_2.composite.IKomponentaVoznogReda;
 import ikerovec20_zadaca_2.prototipovi.IStanicaPrototype;
 
 public class Stanica implements IStanicaPrototype {

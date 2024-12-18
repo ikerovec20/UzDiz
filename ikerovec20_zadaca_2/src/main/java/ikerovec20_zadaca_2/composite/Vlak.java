@@ -1,12 +1,12 @@
 package ikerovec20_zadaca_2.composite;
 
 import java.time.LocalTime;
-
 import ikerovec20_zadaca_2.podaci.Stanica;
 
 public class Vlak extends VozniRedComposite {
 	public String oznaka;
 	public String vrstaVlaka;
+	
 	
 	public Vlak(String oznaka, String vrstaVlaka) {
 		this.oznaka = oznaka;
@@ -26,11 +26,10 @@ public class Vlak extends VozniRedComposite {
 //		}
 		for (int i = 0; i < komponente.size(); i++) {
 			Etapa etapa = (Etapa) komponente.get(i);
-			boolean pravo = etapa.vratiPocetnoVrijeme().isAfter(komponentaEtapa.vratiPocetnoVrijeme());
 			if (etapa.vratiPocetnoVrijeme().isAfter(komponentaEtapa.vratiPocetnoVrijeme())) {
 				indeks = i;
 				pomak = true;
-				System.out.println("NOVA ETAPA VRIJEME: " + komponentaEtapa.vratiPocetnoVrijeme() + " | STARA ETAPA VRIJEME: " + etapa.vratiPocetnoVrijeme() + " | VRIJEDNOST: " + pravo);
+//				System.out.println("NOVA ETAPA VRIJEME: " + komponentaEtapa.vratiPocetnoVrijeme() + " | STARA ETAPA VRIJEME: " + etapa.vratiPocetnoVrijeme() + " | VRIJEDNOST: " + pravo);
 			}
 		}
 //		if (indeks+1 >= komponente.size()) {

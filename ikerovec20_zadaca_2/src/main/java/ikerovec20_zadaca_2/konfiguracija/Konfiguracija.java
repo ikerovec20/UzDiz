@@ -350,9 +350,8 @@ public class Konfiguracija {
 				if (zadnjaStanicaUbrzaniVlak != null) {
 					zadnjaStanicaUbrzaniVlak.dodajVezu(stanica, null, true, oznaka).setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
 					var veza = stanica.dodajVezu(zadnjaStanicaUbrzaniVlak, null, false, oznaka);
-//					System.out.println("DODAJEM UBRZANU VEZU " + stanica.stanica + " -> " + zadnjaStanicaUbrzaniVlak.stanica);
 					veza.setVrijemeUbrzaniVlak(vrijemeUbrzaniVlak);
-//					System.out.println("DODAJEM UBRZANU VEZU " + zadnjaStanicaUbrzaniVlak.stanica + " -> " + stanica.stanica);
+
 					zadnjaStanicaUbrzaniVlak = stanica;
 				}
 				else {
@@ -362,9 +361,7 @@ public class Konfiguracija {
 			if (vrijemeBrziVlak != -1) {
 				if (zadnjaStanicaBrziVlak != null) {
 					zadnjaStanicaBrziVlak.dodajVezu(stanica, null, true, oznaka).setVrijemeBrziVlak(vrijemeBrziVlak);
-//					System.out.println("DODAJEM BRZU VEZU " + stanica.stanica + " -> " + zadnjaStanicaBrziVlak.stanica);
 					stanica.dodajVezu(zadnjaStanicaBrziVlak, null, false, oznaka).setVrijemeBrziVlak(vrijemeBrziVlak);
-//					System.out.println("DODAJEM BRZU VEZU " + zadnjaStanicaBrziVlak.stanica + " -> " + stanica.stanica);
 					zadnjaStanicaBrziVlak = stanica;
 				}
 				else {

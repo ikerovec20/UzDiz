@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_1.builderi.IKompozicijaBuilder"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_1.podaci.Kompozicija"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_1.builderi.KompozicijaBuilder"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_1.prototipovi.IStanicaPrototype"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_1.builderi.IPrugaBuilder"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.builderi.PrugaBuilder"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.podaci.PruznaStanica"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_1.konfiguracija.IValidacija"/>
@@ -39,7 +34,6 @@
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.KomandaIK"/>
     <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.VozniRedComposite"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.PrugaIterator"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.konfiguracija.DaniValidacija"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.konfiguracija.VozniRedValidacija"/>
@@ -47,12 +41,10 @@
     <fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.VozniRed"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.prototipovi.IStanicaPrototype"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.Vlak"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.Stanica"/>
     <fullyQualifiedTypeName name="java.time.LocalTime"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.KomandaIV"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.IKomponentaVoznogReda"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.Etapa"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.KomandaIEV"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.App.TvrtkaSingleton"/>
@@ -60,4 +52,12 @@
     <fullyQualifiedTypeName name="boolean"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.Raspored"/>
     <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.KomponentaPruge"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.VozniRedComposite"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.EtapnaStanica"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.IKomponentaVoznogReda"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.IVozniRedIterator"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.VozniRedIterator"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.IPrugaKolekcija"/>
 </qualifiedTypeNameHistroy>

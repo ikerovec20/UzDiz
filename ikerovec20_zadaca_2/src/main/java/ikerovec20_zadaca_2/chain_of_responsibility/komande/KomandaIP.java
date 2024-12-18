@@ -1,4 +1,4 @@
-package ikerovec20_zadaca_2.chain_of_responsibility;
+package ikerovec20_zadaca_2.chain_of_responsibility.komande;
 
 import java.util.regex.Matcher;
 

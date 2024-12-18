@@ -42,7 +42,7 @@ public class StanicaValidacija implements IValidacija {
 				Konfiguracija.getInstance().ispisiGreskuReda(datoteka, brReda, "Vrijeme vlakova nije ispravno: " + podaci[i]);
 				ispravno = false;
 			}
-			else if (podaci[i] == null || podaci[i].matches("")) {
+			else if (podaci[i] == null || podaci[i].length() == 0) {
 				podaci[i] = "-1";
 			}
 		}
