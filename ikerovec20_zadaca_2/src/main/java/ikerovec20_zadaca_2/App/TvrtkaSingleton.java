@@ -11,7 +11,7 @@ import ikerovec20_zadaca_2.composite.Vlak;
 import ikerovec20_zadaca_2.composite.VozniRed;
 import ikerovec20_zadaca_2.iteratori.IPrugaIterator;
 import ikerovec20_zadaca_2.iteratori.PrugaIterator;
-import ikerovec20_zadaca_2.observer.IKorisnik;
+import ikerovec20_zadaca_2.observer.DojavljacKorisnika;
 import ikerovec20_zadaca_2.observer.Korisnik;
 import ikerovec20_zadaca_2.podaci.Kompozicija;
 import ikerovec20_zadaca_2.podaci.Pruga;
@@ -136,7 +136,7 @@ public class TvrtkaSingleton {
 				iterator.dohvatiSljedecuStanicu();
 				udaljenostOdPrve += stanica.dohvatiVezu(iterator.dohvatiTrenutnuStanicu()).pruga.duzina;
 			}
-			System.out.printf("|%-23s|%6s|%-30s|%n"
+			System.out.printf("|%-23s|%6s|%-23s|%n"
 					, iterator.dohvatiTrenutnuStanicu().stanica, iterator.dohvatiTrenutnuStanicu().vrstaStanice, udaljenostOdPrve);
 	}
 	
@@ -195,15 +195,10 @@ public class TvrtkaSingleton {
 		int ukupno = 0;
 		EtapnaStanica zadnjaStanica = null;
 		while (etapaIterator.postojiSljedecaKomponenta()) {
-			LocalTime vrijeme = null;
 			var etapa = (Etapa) etapaIterator.dohvatiSljedecuKomponentu();
 			var stanicaIterator = etapa.dohvatiIterator();
 			while (stanicaIterator.postojiSljedecaKomponenta()) {
 				var stanica = (EtapnaStanica) stanicaIterator.dohvatiSljedecuKomponentu();
-				if (vrijeme != null && stanica.vrijemeDolaska.compareTo(vrijeme) == 0) {
-					vrijeme = stanica.vrijemeDolaska;
-					continue;
-				}
 				switch (etapa.vrstaEtape) {
 				case "B":
 					if (stanica.vrijemeBrziVlak != -1) {
@@ -233,12 +228,38 @@ public class TvrtkaSingleton {
 		}
 	}
 	
+	public void ispisIVI2S(String pocetna, String odredisna, String dani, LocalTime pocetno, LocalTime zavrsno, String stupci) {
+		var prvaStanica = sveStanice.get(pocetna);
+		var drugaStanica = sveStanice.get(odredisna);
+		if (prvaStanica == null || drugaStanica == null) {
+			System.out.println("Jedna od stanica ne postoji.");
+		}
+		
+		var vlakovi = vozniRed.vratiKomponente();
+		ArrayList<Vlak> izabraniVlakovi = new ArrayList<Vlak>();
+		for (var vlak : vlakovi) {
+			Vlak v = (Vlak) vlak;
+			if (!v.raspored.provjeriDane(dani)) {
+				continue;
+			}
+			if (vlak.postojiStanica(pocetna) && vlak.postojiStanica(odredisna)) {
+				var poc = vlak.dohvatiStanicu(pocetna);
+				var zav = vlak.dohvatiStanicu(odredisna);
+				
+				if (poc.vratiPocetnoVrijeme().isAfter(pocetno) && zav.vratiZavrsnoVrijeme().isBefore(zavrsno)) {
+					izabraniVlakovi.add(v);
+				}
+			}
+		}
+	}
+	
 	public void dodajKorisnika(String ime, String prezime) {
 		Korisnik korisnik = new Korisnik(ime, prezime);
 		korisnici.add(korisnik);
 	}
 	
 	public void ispisiKorisnike() {
+		System.out.printf("%-25s %-25s%n", "Ime", "Prezime");
 		for (var korisnik : korisnici) {
 			System.out.printf("%-25s %-25s%n", korisnik.ime, korisnik.prezime);
 		}
@@ -263,10 +284,50 @@ public class TvrtkaSingleton {
 			return;
 		}
 		
+		if (stanica != null && sveStanice.get(stanica) == null) {
+			System.out.println("Ne postoji trazena stanica.");
+			return;
+		}
 		
+		dojavljac.pretplati(korisnik, oznakaVlaka, stanica);
+	}
+	
+	public void simulacijaVlaka(String oznakaVlaka, String dan, int koeficijent) {
+		var vlak = vozniRed.dohvatiVlak(oznakaVlaka);
+		if (vlak == null) {
+			System.out.println("Ne postoji trazeni vlak.");
+			return;
+		}
+		
+		if (koeficijent <= 0) {
+			System.out.println("Koeficijent ne smije biti 0 ili manji.");
+			return;
+		}
+		
+		if (!vlak.raspored.provjeriDane(dan)) {
+			System.out.println("Vlak ne vozi na te dane.");
+			return;
+		}
+		
+		var simulacija = new SimulacijaVlaka(oznakaVlaka, vlak, dojavljac, koeficijent, dan);
+		simulacije.add(simulacija);
+		var dretvaFactory = Thread.ofVirtual().factory();
+		var dretva = dretvaFactory.newThread(simulacija);
+		dretva.start();
+	}
+	
+	public void zaustaviSimulacije() {
+		if (simulacije.size() == 0) {
+			System.out.println("Nema aktivnih simulacija.");
+		}
+		for (var sim : simulacije) {
+			sim.zaustavi();
+		}
 	}
 	
 	public VozniRed vozniRed;
+	private DojavljacKorisnika dojavljac = new DojavljacKorisnika();
+	private ArrayList<SimulacijaVlaka> simulacije = new ArrayList<SimulacijaVlaka>();
 	public Map<String, Kompozicija> sveKompozicije = new LinkedHashMap<String, Kompozicija>();
 	public Map<String, Pruga> svePruge = new LinkedHashMap<String, Pruga>();
 	public Map<String, Vozilo> svaVozila = new LinkedHashMap<String, Vozilo>();

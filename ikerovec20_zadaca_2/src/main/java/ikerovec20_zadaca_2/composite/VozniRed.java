@@ -25,7 +25,6 @@ public class VozniRed extends VozniRedComposite {
 		return ukupno;
 	}
 
-
 	@Override
 	public Stanica vratiPrvuStanicu() {
 		return komponente.getFirst().vratiPrvuStanicu();
@@ -46,7 +45,9 @@ public class VozniRed extends VozniRedComposite {
 				ukloniKomponentu(komp);
 			}
 		}
+		komponente.sort(((o1, o2) -> o1.vratiPocetnoVrijeme().compareTo(o2.vratiPocetnoVrijeme())));
 		return true;
+		
 	}
 
 
@@ -59,5 +60,28 @@ public class VozniRed extends VozniRedComposite {
 	@Override
 	public LocalTime vratiZavrsnoVrijeme() {
 		return komponente.getLast().vratiZavrsnoVrijeme();
+	}
+
+
+	@Override
+	public boolean postojiStanica(String stanica) {
+		for (var komp : komponente) {
+			if (komp.postojiStanica(stanica)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	@Override
+	public EtapnaStanica dohvatiStanicu(String stanica) {
+		for (var komp: komponente) {
+			var stn = komp.dohvatiStanicu(stanica);
+			if (stn != null) {
+				return stn;
+			}
+		}
+		return null;
 	}
 }

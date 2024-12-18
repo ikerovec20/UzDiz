@@ -3,6 +3,8 @@ package ikerovec20_zadaca_2.App;
 import java.util.Scanner;
 
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.Komanda;
+import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaDK;
+import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaDPK;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIEV;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIEVD;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIK;
@@ -11,6 +13,9 @@ import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaISI2S;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaISP;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIV;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIVRV;
+import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaPK;
+import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaSVV;
+import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaX;
 import ikerovec20_zadaca_2.konfiguracija.Konfiguracija;
 
 public class Main {
@@ -30,8 +35,13 @@ public class Main {
 		Komanda komandaIK = new KomandaIK("^IK (?<oznaka>\\w+)$");
 		Komanda komandaIV = new KomandaIV("IV");
 		Komanda komandaIEV = new KomandaIEV("^IEV (?<oznaka>[\\w-\\s]+)$");
-		Komanda komandaIEVD = new KomandaIEVD("^IEVD (?<dani>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))");
+		Komanda komandaIEVD = new KomandaIEVD("^IEVD (?<dani>[PoUSrČPeSuN]+)$");
 		Komanda komandaIVRV = new KomandaIVRV("^IVRV (?<oznaka>[\\w-\\s]+)$");
+		Komanda komandaDK = new KomandaDK("^DK (?<ime>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) (?<prezime>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))$");
+		Komanda komandaPK = new KomandaPK("PK");
+		Komanda komandaDPK = new KomandaDPK("^DPK (?<ime>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) (?<prezime>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<oznakaVlaka>[\\w-\\s]+)( - (?<stanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))?)?$");
+		Komanda komandaSVV = new KomandaSVV("^SVV (?<oznaka>[\\w-\\s]+) - (?<dan>[PoUSrČPeSuN]+) - (?<koeficijent>[1-9]\\d*)$");
+		Komanda komandaX = new KomandaX("X");
 		
 		komandaIP.postaviSljedeceg(komandaISP);
 		komandaISP.postaviSljedeceg(komandaISI2S);
@@ -40,7 +50,11 @@ public class Main {
 		komandaIV.postaviSljedeceg(komandaIEV);
 		komandaIEV.postaviSljedeceg(komandaIEVD);
 		komandaIEVD.postaviSljedeceg(komandaIVRV);
-
+		komandaIVRV.postaviSljedeceg(komandaDK);
+		komandaDK.postaviSljedeceg(komandaPK);
+		komandaPK.postaviSljedeceg(komandaDPK);
+		komandaDPK.postaviSljedeceg(komandaSVV);
+		komandaSVV.postaviSljedeceg(komandaX);
 		Scanner citac = new Scanner(System.in);
 		
 		while (true) {

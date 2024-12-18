@@ -12,6 +12,8 @@ public class VozniRedIterator implements IVozniRedIterator {
 	
 	public VozniRedIterator(ArrayList<IKomponentaVoznogReda> komponente) {
 		this.komponente = komponente;
+		this.trenutnaKomponenta = komponente.getFirst();
+		pozicija = 0;
 	}
 	
 	@Override

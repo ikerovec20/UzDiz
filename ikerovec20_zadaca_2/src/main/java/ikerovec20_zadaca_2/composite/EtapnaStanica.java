@@ -57,4 +57,21 @@ public class EtapnaStanica implements IKomponentaVoznogReda {
 		return vrijemeDolaska;
 	}
 
+
+	@Override
+	public boolean postojiStanica(String stanica) {
+		if (this.stanica.stanica.matches(stanica)) {
+			return true;
+		}
+		return false;
+	}
+
+
+	@Override
+	public EtapnaStanica dohvatiStanicu(String stanica) {
+		if (this.stanica.stanica.matches(stanica)) {
+			return this;
+		}
+		return null;
+	}
 }

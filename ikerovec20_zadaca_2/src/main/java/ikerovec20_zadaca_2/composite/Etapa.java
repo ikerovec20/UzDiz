@@ -1,11 +1,8 @@
 package ikerovec20_zadaca_2.composite;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-import ikerovec20_zadaca_2.podaci.KomponentaPruge;
+import ikerovec20_zadaca_2.konfiguracija.Konfiguracija;
 import ikerovec20_zadaca_2.podaci.Pruga;
 import ikerovec20_zadaca_2.podaci.Raspored;
 import ikerovec20_zadaca_2.podaci.Stanica;
@@ -141,12 +138,15 @@ public class Etapa extends VozniRedComposite {
 	@Override
 	public boolean validiraj() {
 		if (pocetnaStanica.equals(zavrsnaStanica)) {
+			Konfiguracija.getInstance().ispisiGresku("Briše se etapa koja ima istu početnu i završnu stanicu.");
 			return false;
 		}
 		if (vrijemeTrajanja.getHour() == 0 && vrijemeTrajanja.getMinute() == 0) {
+			Konfiguracija.getInstance().ispisiGresku("Briše se etapa koja nema vrijeme trajanja.");
 			return false;
 		}
 		if (vrijemeZavrsetka.isBefore(vratiZavrsnoVrijeme())) {
+			Konfiguracija.getInstance().ispisiGresku("Briše se etapa kojoj je vrijeme završetka neispravno.");
 			return false;
 		}
 		return true;
@@ -160,5 +160,26 @@ public class Etapa extends VozniRedComposite {
 	@Override
 	public LocalTime vratiZavrsnoVrijeme() {
 		return komponente.getLast().vratiZavrsnoVrijeme();
+	}
+
+	@Override
+	public boolean postojiStanica(String stanica) {
+		for (var komp : komponente) {
+			if (komp.postojiStanica(stanica)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public EtapnaStanica dohvatiStanicu(String stanica) {
+		for (var komp: komponente) {
+			var stn = komp.dohvatiStanicu(stanica);
+			if (stn != null) {
+				return stn;
+			}
+		}
+		return null;
 	}
 }

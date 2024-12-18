@@ -11,4 +11,6 @@ public interface IKomponentaVoznogReda {
 	public Stanica vratiZadnjuStanicu();
 	public LocalTime vratiPocetnoVrijeme();
 	public LocalTime vratiZavrsnoVrijeme();
+	public boolean postojiStanica(String stanica);
+	public EtapnaStanica dohvatiStanicu(String stanica);
 }

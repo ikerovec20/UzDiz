@@ -228,6 +228,14 @@ public class Konfiguracija {
 		System.out.println(poruka.toString());
 	}
 	
+	public void ispisiGresku(String opis) {
+		brGreski++;
+		StringBuilder poruka = new StringBuilder();
+		poruka.append(opis)
+		.append(" |Br. greski: ").append(brGreski);
+		System.out.println(poruka.toString());
+	}
+	
 	public void ucitajVremenskeOznake(String datoteka) {
 		var lista = ucitajCsvDatoteku(datoteka, 2, new DaniValidacija());
 		if (lista == null) {
@@ -278,6 +286,7 @@ public class Konfiguracija {
 				vozniRed.dodajKomponentu(vlak);
 			}
 			if (!vlak.vrstaVlaka.matches(vrstaVlaka)) {
+				ispisiGreskuReda(datoteka, brReda, "Vlak s oznakom " + oznakaVlaka + " postoji, ali s različitom vrstom.");
 				brReda++;
 				continue;
 			}
@@ -285,6 +294,7 @@ public class Konfiguracija {
 			Stanica pocetna = null;
 			Stanica zavrsna = null;
 			if (pruga == null) {
+				ispisiGreskuReda(datoteka, brReda, "Ne postoji pruga s oznakom " + oznakaPruge);
 				brReda++;
 				continue;
 			}
@@ -313,6 +323,7 @@ public class Konfiguracija {
 			}
 			
 			if (pocetna == null || zavrsna == null || pruga == null) {
+				ispisiGreskuReda(datoteka, brReda, "Ne postoji pocetna stanica, zavrsna stanica ili pruga.");
 				brReda++;
 				continue;
 			}
