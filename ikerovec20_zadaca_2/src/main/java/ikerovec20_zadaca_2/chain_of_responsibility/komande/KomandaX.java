@@ -8,7 +8,6 @@ public class KomandaX extends Komanda {
 
 	public KomandaX(String predlozak) {
 		super(predlozak);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIP;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaISI2S;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaISP;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIV;
+import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIVI2S;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIVRV;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaPK;
 import ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaSVV;
@@ -42,6 +43,7 @@ public class Main {
 		Komanda komandaDPK = new KomandaDPK("^DPK (?<ime>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) (?<prezime>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<oznakaVlaka>[\\w-\\s]+)( - (?<stanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))?)?$");
 		Komanda komandaSVV = new KomandaSVV("^SVV (?<oznaka>[\\w-\\s]+) - (?<dan>[PoUSrČPeSuN]+) - (?<koeficijent>[1-9]\\d*)$");
 		Komanda komandaX = new KomandaX("X");
+		Komanda komandaIVI2S = new KomandaIVI2S("^IVI2S (?<polazna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<dan>[PoUSrČPeSuN]+) - (?<pocetno>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) - (?<zavrsno>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) - (?<stupci>[KVPS]+)$");
 		
 		komandaIP.postaviSljedeceg(komandaISP);
 		komandaISP.postaviSljedeceg(komandaISI2S);
@@ -55,6 +57,7 @@ public class Main {
 		komandaPK.postaviSljedeceg(komandaDPK);
 		komandaDPK.postaviSljedeceg(komandaSVV);
 		komandaSVV.postaviSljedeceg(komandaX);
+		komandaX.postaviSljedeceg(komandaIVI2S);
 		Scanner citac = new Scanner(System.in);
 		
 		while (true) {

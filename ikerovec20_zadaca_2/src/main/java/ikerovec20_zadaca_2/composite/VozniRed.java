@@ -84,4 +84,19 @@ public class VozniRed extends VozniRedComposite {
 		}
 		return null;
 	}
+
+
+	@Override
+	public boolean jePrijeStanice(String prvaStanica, String drugaStanica) {
+		for (var komp : komponente) {
+			var vlak = (Vlak) komp;
+			if (vlak.postojiStanica(prvaStanica)) {
+				return true;
+			}
+			if (vlak.postojiStanica(drugaStanica)) {
+				return false;
+			}
+		}
+		return false;
+	}
 }

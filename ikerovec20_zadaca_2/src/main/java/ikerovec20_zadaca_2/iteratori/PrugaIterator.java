@@ -21,7 +21,6 @@ public class PrugaIterator implements IPrugaIterator {
 	@Override
 	public Stanica dohvatiSljedecuStanicu() {
 		for (var veza : trenutnaStanica.veze) {
-//			System.out.println("VEZA: " + veza.stanica.stanica + " : " + veza.pruga.oznakaPruge);
 			if (veza.pruga != null && veza.pruga.oznakaPruge.contains(oznaka)
 					&& !veza.stanica.stanica.matches(trenutnaStanica.stanica)
 					&& !veza.stanica.stanica.matches(zadnjaStanica.stanica) && veza.normalniSmjer == this.normalniSmjer) {

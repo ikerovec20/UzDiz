@@ -42,7 +42,6 @@ public class SimulacijaVlaka implements Runnable {
 				try {
 					Thread.sleep(virtualnaSekunda);
 					vrijeme = vrijeme.plusMinutes(1);
-					System.out.println("VRIJEME: " + vrijeme + " DOLAZAK: " + pocetnaStanica.vratiPocetnoVrijeme());
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -81,7 +80,6 @@ public class SimulacijaVlaka implements Runnable {
 						return;
 					}
 					vrijeme = vrijeme.plusMinutes(1);
-					System.out.println("VRIJEME: " + vrijeme + " DOLAZAK: " + vrijemeDolaska);
 				}
 				System.out.println("Vlak " + oznaka + " stigao je na stanicu " + stanica.vratiPrvuStanicu().stanica + " u vrijeme " + vrijeme);
 				dojavljac.javiKorisnicima(oznaka, stanica.stanica.stanica);	

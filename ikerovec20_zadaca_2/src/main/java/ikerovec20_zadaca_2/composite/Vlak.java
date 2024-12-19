@@ -132,4 +132,22 @@ public class Vlak extends VozniRedComposite {
 		}
 		return null;
 	}
+
+	@Override
+	public boolean jePrijeStanice(String prvaStanica, String drugaStanica) {
+		for (var komp : komponente) {
+			var etapa = (Etapa) komp;
+			var iterator = etapa.dohvatiIterator();
+			while (iterator.postojiSljedecaKomponenta()) {
+				var stanica = (EtapnaStanica) iterator.dohvatiSljedecuKomponentu();
+				if (stanica.postojiStanica(drugaStanica)) {
+					return false;
+				}
+				if (stanica.postojiStanica(prvaStanica)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

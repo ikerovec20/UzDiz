@@ -186,10 +186,10 @@ public class Konfiguracija {
 					ispisiGreskuReda(datoteka, brReda, "Kompozicija nije validna");
 				}
 				else {
-					TvrtkaSingleton.getInstance().sveKompozicije.put(zadnjaOznaka, kompozicija);	
+					TvrtkaSingleton.getInstance().getSveKompozicije().put(zadnjaOznaka, kompozicija);	
 				}
 				builder = new KompozicijaBuilder();
-				Vozilo vlak = TvrtkaSingleton.getInstance().svaVozila.get(podaci[1]);
+				Vozilo vlak = TvrtkaSingleton.getInstance().getSvaVozila().get(podaci[1]);
 				if (vlak == null) {
 					ispisiGreskuReda(datoteka, brReda, "Vlak u kompoziciji ne postoji");
 				}
@@ -198,7 +198,7 @@ public class Konfiguracija {
 				}
 			}
 			else {
-				Vozilo vlak = TvrtkaSingleton.getInstance().svaVozila.get(podaci[1]);
+				Vozilo vlak = TvrtkaSingleton.getInstance().getSvaVozila().get(podaci[1]);
 				if (vlak == null) {
 					ispisiGreskuReda(datoteka, brReda, "Vlak u kompoziciji ne postoji");
 				}
@@ -214,7 +214,7 @@ public class Konfiguracija {
 		if (!validirajKompoziciju(kompozicija)) {
 			ispisiGreskuReda(datoteka, brReda, "Kompozicija nije validna");
 		}
-		TvrtkaSingleton.getInstance().sveKompozicije.put(kompozicija.getOznaka(), kompozicija);
+		TvrtkaSingleton.getInstance().getSveKompozicije().put(kompozicija.getOznaka(), kompozicija);
 	}
 	
 	
@@ -245,7 +245,7 @@ public class Konfiguracija {
 		for (var podaci : lista) {
 			int index = Integer.parseInt(podaci[0]);
 			
-			TvrtkaSingleton.getInstance().oznakeDana.put(index, podaci[1]);
+			TvrtkaSingleton.getInstance().getOznakeDana().put(index, podaci[1]);
 		}
 	}
 	
@@ -275,7 +275,7 @@ public class Konfiguracija {
 			else {
 				indeksDana = Integer.parseInt(podaci[8]);
 			}
-			String daniUTjednu = TvrtkaSingleton.getInstance().oznakeDana.get(indeksDana);
+			String daniUTjednu = TvrtkaSingleton.getInstance().getOznakeDana().get(indeksDana);
 			if (daniUTjednu == null || daniUTjednu.length() == 0) {
 				daniUTjednu = "PoUSrČPeSuN";
 			}
@@ -290,7 +290,7 @@ public class Konfiguracija {
 				brReda++;
 				continue;
 			}
-			Pruga pruga = TvrtkaSingleton.getInstance().svePruge.get(oznakaPruge);
+			Pruga pruga = TvrtkaSingleton.getInstance().getSvePruge().get(oznakaPruge);
 			Stanica pocetna = null;
 			Stanica zavrsna = null;
 			if (pruga == null) {
@@ -307,7 +307,7 @@ public class Konfiguracija {
 				}
 			}
 			else {
-				pocetna = TvrtkaSingleton.getInstance().sveStanice.get(pocetnaStanica);
+				pocetna = TvrtkaSingleton.getInstance().getSveStanice().get(pocetnaStanica);
 			}
 			
 			if (zavrsnaStanica.length() == 0) {
@@ -319,7 +319,7 @@ public class Konfiguracija {
 				}
 			}
 			else {
-				zavrsna = TvrtkaSingleton.getInstance().sveStanice.get(zavrsnaStanica);
+				zavrsna = TvrtkaSingleton.getInstance().getSveStanice().get(zavrsnaStanica);
 			}
 			
 			if (pocetna == null || zavrsna == null || pruga == null) {
@@ -332,7 +332,7 @@ public class Konfiguracija {
 			vlak.dodajKomponentu(etapa);
  		}
 		vozniRed.validiraj();
-		TvrtkaSingleton.getInstance().vozniRed = vozniRed;
+		TvrtkaSingleton.getInstance().setVozniRed(vozniRed);
 	}
 	
 	private void ucitajVremenaVlakova(ArrayList<String[]> lista) {
@@ -344,7 +344,7 @@ public class Konfiguracija {
 		for (var podaci : lista) {
 			
 			String oznaka = podaci[1];
-			Stanica stanica = TvrtkaSingleton.getInstance().sveStanice.get(podaci[0]);
+			Stanica stanica = TvrtkaSingleton.getInstance().getSveStanice().get(podaci[0]);
 			int vrijemeUbrzaniVlak = Integer.parseInt(podaci[15]);
 			int vrijemeBrziVlak = Integer.parseInt(podaci[16]);
 			
@@ -395,7 +395,7 @@ public class Konfiguracija {
 		Pruga trenutnaPruga = null;
 		IPrugaBuilder prugaBuilder = null;
 		for (var podaci : lista) {
-			Stanica stanica = TvrtkaSingleton.getInstance().sveStanice.get(podaci[0]);
+			Stanica stanica = TvrtkaSingleton.getInstance().getSveStanice().get(podaci[0]);
 			
 			String oznakaPruge = podaci[1];
 			String kategorijaPruge = podaci[6];
@@ -410,7 +410,7 @@ public class Konfiguracija {
 				boolean robaUtovarIstovar = podaci[5].matches("DA");
 				int brojPerona = Integer.parseInt(podaci[7]);
 				stanica = new Stanica(imeStanice, vrstaStanice, statusStanice, putniciUlazIzlaz, robaUtovarIstovar, brojPerona);
-				TvrtkaSingleton.getInstance().sveStanice.put(stanica.stanica, stanica);
+				TvrtkaSingleton.getInstance().getSveStanice().put(stanica.stanica, stanica);
 			}
 			
 			if (brReda == 1) {
@@ -435,7 +435,7 @@ public class Konfiguracija {
 			}
 			if (!zadnjaOznaka.matches(podaci[1])) {
 				trenutnaPruga.zavrsnaStanica = zadnjaStanica;
-				TvrtkaSingleton.getInstance().svePruge.put(zadnjaOznaka, trenutnaPruga);
+				TvrtkaSingleton.getInstance().getSvePruge().put(zadnjaOznaka, trenutnaPruga);
 				prugaBuilder = new PrugaBuilder();
 				prugaBuilder.setOznakaPruge(oznakaPruge).setKategorijaPruge(kategorijaPruge).setVrstaPruge(vrstaPruge).setStatusPruge(statusPruge).postaviPocetnuStanicu(stanica);
 				trenutnaPruga = prugaBuilder.build();
@@ -447,7 +447,7 @@ public class Konfiguracija {
 		prugaBuilder.postaviZavrsnuStanicu(zadnjaStanica);
 		var pruga = prugaBuilder.build();
 		if (!pruga.pocetnaStanica.equals(pruga.zavrsnaStanica)) {
-			TvrtkaSingleton.getInstance().svePruge.put(zadnjaOznaka, pruga);	
+			TvrtkaSingleton.getInstance().getSvePruge().put(zadnjaOznaka, pruga);	
 			}
 		ucitajVremenaVlakova(lista);
 		}
@@ -497,7 +497,7 @@ public class Konfiguracija {
 				}
 			}
 			if (vlak != null) {
-				TvrtkaSingleton.getInstance().svaVozila.put(vlak.oznaka, vlak);	
+				TvrtkaSingleton.getInstance().getSvaVozila().put(vlak.oznaka, vlak);	
 			}
 			brReda++;
 		}

@@ -39,7 +39,7 @@ public class Etapa extends VozniRedComposite {
 		int ukupno = 0;
 		Stanica stanica = iterator.dohvatiTrenutnuStanicu();
 		int vrijemeNormalno = 0;
-		EtapnaStanica etapna = new EtapnaStanica(stanica, ukupno, vrijemePolaska, vrijemeNormalno, -1, -1);
+		EtapnaStanica etapna = new EtapnaStanica(stanica, ukupno, vrijemePolaska, vrijemeNormalno, -1, -1, this.pruga.oznakaPruge);
 		LocalTime vrijeme = vrijemePolaska;
 		komponente.add(etapna);
 		boolean zadnjaStanica = false;
@@ -59,7 +59,7 @@ public class Etapa extends VozniRedComposite {
 			}
 			var veza = stanica.dohvatiVezu(nova);
 			if (dodajStanicu) {
-				etapna = new EtapnaStanica(nova, ukupno, vrijeme, veza.vrijemeNormalniVlak, -1, -1);
+				etapna = new EtapnaStanica(nova, ukupno, vrijeme, veza.vrijemeNormalniVlak, -1, -1, this.pruga.oznakaPruge);
 				dodajKomponentu(etapna);
 				if (zadnjaStanica) {
 					dodajStanicu = false;
@@ -181,5 +181,19 @@ public class Etapa extends VozniRedComposite {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean jePrijeStanice(String prvaStanica, String drugaStanica) {
+		for (var komp : komponente) {
+			var stanica = (EtapnaStanica) komp;
+			if (stanica.postojiStanica(prvaStanica)) {
+				return true;
+			}
+			if (stanica.postojiStanica(drugaStanica)) {
+				return false;
+			}
+		}
+		return false;
 	}
 }

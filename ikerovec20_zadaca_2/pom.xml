@@ -10,7 +10,7 @@
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>ikerovec20_zadaca_1</name>
+	<name>ikerovec20_zadaca_2</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

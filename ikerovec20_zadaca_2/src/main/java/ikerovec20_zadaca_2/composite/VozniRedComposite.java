@@ -36,4 +36,6 @@ public abstract class VozniRedComposite implements IKomponentaVoznogReda {
 		IVozniRedIterator iterator = new VozniRedIterator(komponente);
 		return iterator;
 	}
+	
+	public abstract boolean jePrijeStanice(String prvaStanica, String drugaStanica);
 }

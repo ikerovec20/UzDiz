@@ -9,18 +9,20 @@ public class EtapnaStanica implements IKomponentaVoznogReda {
 	public Stanica stanica;
 	public int km;
 	public LocalTime vrijemeDolaska;
+	public String oznakaPruge;
 	
 	public int vrijemeNormalniVlak = -1;
 	public int vrijemeBrziVlak = -1;
 	public int vrijemeUbrzaniVlak = -1;
 	
-	public EtapnaStanica(Stanica stanica, int km, LocalTime vrijemeDolaska, int vrijemeNormalniVlak, int vrijemeBrziVlak, int vrijemeUbrzaniVlak) {
+	public EtapnaStanica(Stanica stanica, int km, LocalTime vrijemeDolaska, int vrijemeNormalniVlak, int vrijemeBrziVlak, int vrijemeUbrzaniVlak, String oznakaPruge) {
 		this.stanica = stanica;
 		this.km = km;
 		this.vrijemeDolaska = vrijemeDolaska;
 		this.vrijemeNormalniVlak = vrijemeNormalniVlak;
 		this.vrijemeBrziVlak = vrijemeBrziVlak;
 		this.vrijemeUbrzaniVlak = vrijemeUbrzaniVlak;
+		this.oznakaPruge = oznakaPruge;
 	}
 	
 

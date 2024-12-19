@@ -5,8 +5,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ikerovec20_zadaca_2.chain_of_responsibility.IVI2S.IspisIVI2S;
+import ikerovec20_zadaca_2.chain_of_responsibility.IVI2S.IspisK;
+import ikerovec20_zadaca_2.chain_of_responsibility.IVI2S.IspisP;
+import ikerovec20_zadaca_2.chain_of_responsibility.IVI2S.IspisS;
+import ikerovec20_zadaca_2.chain_of_responsibility.IVI2S.IspisV;
 import ikerovec20_zadaca_2.composite.Etapa;
 import ikerovec20_zadaca_2.composite.EtapnaStanica;
+import ikerovec20_zadaca_2.composite.IKomponentaVoznogReda;
 import ikerovec20_zadaca_2.composite.Vlak;
 import ikerovec20_zadaca_2.composite.VozniRed;
 import ikerovec20_zadaca_2.iteratori.IPrugaIterator;
@@ -233,29 +239,111 @@ public class TvrtkaSingleton {
 		var drugaStanica = sveStanice.get(odredisna);
 		if (prvaStanica == null || drugaStanica == null) {
 			System.out.println("Jedna od stanica ne postoji.");
+			return;
+		}
+		
+		if (pocetno.isAfter(zavrsno)) {
+			System.out.println("Vremena su neispravna.");
+			return;
 		}
 		
 		var vlakovi = vozniRed.vratiKomponente();
-		ArrayList<Vlak> izabraniVlakovi = new ArrayList<Vlak>();
+		ArrayList<IKomponentaVoznogReda> izabraniVlakovi = new ArrayList<IKomponentaVoznogReda>();
 		for (var vlak : vlakovi) {
 			Vlak v = (Vlak) vlak;
 			if (!v.raspored.provjeriDane(dani)) {
 				continue;
 			}
-			if (vlak.postojiStanica(pocetna) && vlak.postojiStanica(odredisna)) {
-				var poc = vlak.dohvatiStanicu(pocetna);
-				var zav = vlak.dohvatiStanicu(odredisna);
+			if (v.postojiStanica(pocetna) && v.postojiStanica(odredisna)) {
+				var poc = v.dohvatiStanicu(pocetna);
+				var zav = v.dohvatiStanicu(odredisna);
+				
+				if (!v.jePrijeStanice(pocetna, odredisna)) {
+					continue;
+				}
 				
 				if (poc.vratiPocetnoVrijeme().isAfter(pocetno) && zav.vratiZavrsnoVrijeme().isBefore(zavrsno)) {
 					izabraniVlakovi.add(v);
 				}
 			}
 		}
+		if (izabraniVlakovi.size() == 0) {
+			System.out.println("Ne postoje vlakovi s određenim argumentima.");
+			return;
+		}
+		ArrayList<IKomponentaVoznogReda> stanice = new ArrayList<IKomponentaVoznogReda>();
+		boolean uzimajStanice = false;
+		boolean prekid = false;
+		int brReda = 0;
+		var v = (Vlak) izabraniVlakovi.get(0);
+		var iterator = v.dohvatiIterator();
+		while (iterator.postojiSljedecaKomponenta()) {
+			var komp = (Etapa) iterator.dohvatiSljedecuKomponentu();
+			var stanicaIterator = komp.dohvatiIterator();
+			var prethodna = (EtapnaStanica) stanicaIterator.dohvatiTrenutnuKomponentu();
+			while (stanicaIterator.postojiSljedecaKomponenta()) {
+				var stanica = (EtapnaStanica) stanicaIterator.dohvatiSljedecuKomponentu();
+				if (stanica.postojiStanica(pocetna)) {
+					uzimajStanice = true;
+				}
+				if (stanica.postojiStanica(odredisna) && uzimajStanice) {
+					prekid = true;
+				}
+				if (uzimajStanice) {
+					if (!prethodna.stanica.stanica.matches(stanica.stanica.stanica) || brReda == 0) {
+						stanice.add(stanica);	
+					}
+					if (prekid) {
+						break;
+					}
+				}
+				prethodna = stanica;
+				brReda++;
+			}
+			if (prekid) {
+				break;
+			}
+		}
+		posloziIspis(stanice, izabraniVlakovi, stupci);
+	}
+	
+	private void posloziIspis(ArrayList<IKomponentaVoznogReda> stanice, ArrayList<IKomponentaVoznogReda> izabraniVlakovi, String ispis) {
+		var redoslijed = ispis.toCharArray();
+		ArrayList<IspisIVI2S> stupci = new ArrayList<IspisIVI2S>();
+		
+		for (int i = 0; i < redoslijed.length; i++) {
+			switch (redoslijed[i]) {
+			case 'K':
+				stupci.add(new IspisK(stanice));
+				break;
+			case 'V':
+				stupci.add(new IspisV(stanice, izabraniVlakovi));
+				break;
+			case 'P':
+				stupci.add(new IspisP(stanice));
+				break;
+			case 'S':
+				stupci.add(new IspisS(stanice));
+				break;
+			}
+		}
+		var lanac = stupci.get(0);
+		for (int i = 1; i < stupci.size(); i++) {
+			lanac.postaviSljedeceg(stupci.get(i));
+			lanac = stupci.get(i);
+		}
+		for (int i = -1; i < stanice.size(); i++) {
+			for (int j = 0; j < redoslijed.length; j++) {
+				stupci.get(0).ispisiRed(redoslijed[j]);	
+			}
+			System.out.printf("%n", "");
+		}
 	}
 	
 	public void dodajKorisnika(String ime, String prezime) {
 		Korisnik korisnik = new Korisnik(ime, prezime);
 		korisnici.add(korisnik);
+		System.out.println("Korisnik " + ime + " " + prezime + " je dodan u registar.");
 	}
 	
 	public void ispisiKorisnike() {
@@ -288,7 +376,7 @@ public class TvrtkaSingleton {
 			System.out.println("Ne postoji trazena stanica.");
 			return;
 		}
-		
+		System.out.println("Korisnik " + ime + " " + prezime + " je pretplaćen.");
 		dojavljac.pretplati(korisnik, oznakaVlaka, stanica);
 	}
 	
@@ -325,13 +413,52 @@ public class TvrtkaSingleton {
 		}
 	}
 	
-	public VozniRed vozniRed;
+	private VozniRed vozniRed;
 	private DojavljacKorisnika dojavljac = new DojavljacKorisnika();
 	private ArrayList<SimulacijaVlaka> simulacije = new ArrayList<SimulacijaVlaka>();
-	public Map<String, Kompozicija> sveKompozicije = new LinkedHashMap<String, Kompozicija>();
-	public Map<String, Pruga> svePruge = new LinkedHashMap<String, Pruga>();
-	public Map<String, Vozilo> svaVozila = new LinkedHashMap<String, Vozilo>();
-	public Map<String, Stanica> sveStanice = new LinkedHashMap<String, Stanica>();
-	public Map<Integer, String> oznakeDana = new LinkedHashMap<Integer, String>();
-	public ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
+	private Map<String, Kompozicija> sveKompozicije = new LinkedHashMap<String, Kompozicija>();
+	private Map<String, Pruga> svePruge = new LinkedHashMap<String, Pruga>();
+	private Map<String, Vozilo> svaVozila = new LinkedHashMap<String, Vozilo>();
+	private Map<String, Stanica> sveStanice = new LinkedHashMap<String, Stanica>();
+	private Map<Integer, String> oznakeDana = new LinkedHashMap<Integer, String>();
+	private ArrayList<Korisnik> korisnici = new ArrayList<Korisnik>();
+	public VozniRed getVozniRed() {
+		return vozniRed;
+	}
+
+	public void setVozniRed(VozniRed vozniRed) {
+		this.vozniRed = vozniRed;
+	}
+
+	public DojavljacKorisnika getDojavljac() {
+		return dojavljac;
+	}
+
+	public ArrayList<SimulacijaVlaka> getSimulacije() {
+		return simulacije;
+	}
+
+	public Map<String, Kompozicija> getSveKompozicije() {
+		return sveKompozicije;
+	}
+
+	public Map<String, Pruga> getSvePruge() {
+		return svePruge;
+	}
+
+	public Map<String, Vozilo> getSvaVozila() {
+		return svaVozila;
+	}
+
+	public Map<String, Stanica> getSveStanice() {
+		return sveStanice;
+	}
+
+	public Map<Integer, String> getOznakeDana() {
+		return oznakeDana;
+	}
+
+	public ArrayList<Korisnik> getKorisnici() {
+		return korisnici;
+	}
 }
