@@ -20,9 +20,9 @@ public class IspisS extends IspisIVI2S {
 			index++;
 			return;
 		}
-		var stanica = (EtapnaStanica) komponente.get(index);
-		System.out.printf("%-23s", stanica.stanica.stanica);
-		index++;
+			var stanica = (EtapnaStanica) komponente.get(index);
+			System.out.printf("%-23s", stanica.stanica.stanica);
+			index++;
 	}
 
 }

@@ -306,7 +306,7 @@ public class TvrtkaSingleton {
 		}
 		posloziIspis(stanice, izabraniVlakovi, stupci);
 	}
-	
+	//POPRAVITI IVI2S
 	private void posloziIspis(ArrayList<IKomponentaVoznogReda> stanice, ArrayList<IKomponentaVoznogReda> izabraniVlakovi, String ispis) {
 		var redoslijed = ispis.toCharArray();
 		ArrayList<IspisIVI2S> stupci = new ArrayList<IspisIVI2S>();
@@ -332,9 +332,10 @@ public class TvrtkaSingleton {
 			lanac.postaviSljedeceg(stupci.get(i));
 			lanac = stupci.get(i);
 		}
+		char[] oznake = {'V', 'S', 'P', 'K'};
 		for (int i = -1; i < stanice.size(); i++) {
-			for (int j = 0; j < redoslijed.length; j++) {
-				stupci.get(0).ispisiRed(redoslijed[j]);	
+			for (int j = 0; j < oznake.length; j++) {
+				stupci.get(0).ispisiRed(oznake[j]);	
 			}
 			System.out.printf("%n", "");
 		}

@@ -21,7 +21,7 @@ public abstract class IspisIVI2S implements IIVI2S {
 	}
 	
 	@Override
-	public void ispisiRed(char oznaka) {
+	public void ispisiRed(char oznaka) {//ZAMIJENI OZNAKU SA STANICOM
 		if (oznaka == this.oznaka) {
 			ispisi();	
 		}

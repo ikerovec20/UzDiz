@@ -17,7 +17,7 @@ public class StanicaValidacija implements IValidacija {
 			Konfiguracija.getInstance().ispisiGreskuReda(datoteka, brReda, "Putnici ulaz/izlaz i/ili roba utovar/istovar nisu ispravni");
 			ispravno = false;
 		}
-		if (!podaci[6].matches("L|R|M") || !podaci[12].matches("I|K|Z")) {
+		if (!podaci[6].matches("L|R|M") || !podaci[12].matches("I|K|Z|T")) {
 			Konfiguracija.getInstance().ispisiGreskuReda(datoteka, brReda, "Kategorija i/ili status pruge nije ispravan");
 			ispravno = false;
 		}
