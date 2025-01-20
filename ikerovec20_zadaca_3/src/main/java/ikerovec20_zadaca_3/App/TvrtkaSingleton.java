@@ -1,7 +1,9 @@
 package ikerovec20_zadaca_3.App;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -17,8 +19,11 @@ import ikerovec20_zadaca_3.composite.Vlak;
 import ikerovec20_zadaca_3.composite.VozniRed;
 import ikerovec20_zadaca_3.iteratori.IPrugaIterator;
 import ikerovec20_zadaca_3.iteratori.PrugaIterator;
+import ikerovec20_zadaca_3.memento.KartaMemento;
+import ikerovec20_zadaca_3.memento.RegistarKarti;
 import ikerovec20_zadaca_3.observer.DojavljacKorisnika;
 import ikerovec20_zadaca_3.observer.Korisnik;
+import ikerovec20_zadaca_3.podaci.Karta;
 import ikerovec20_zadaca_3.podaci.Kompozicija;
 import ikerovec20_zadaca_3.podaci.Pruga;
 import ikerovec20_zadaca_3.podaci.Stanica;
@@ -412,9 +417,62 @@ public class TvrtkaSingleton {
 		for (var sim : simulacije) {
 			sim.zaustavi();
 		}
+		
+		simulacije = new ArrayList<SimulacijaVlaka>();
+	}
+	
+	public void postaviCijeneKarti(double cijenaNormalni, double cijenaUbrzani, double cijenaBrzi, double popustSuN, double popustWebMob, double uvecanjeVlak) {
+		
+		prodajaKarti.postaviCijene(cijenaNormalni, cijenaUbrzani, cijenaBrzi, popustSuN, popustWebMob, uvecanjeVlak);
+	}
+	
+	public void kupiKartu(String oznaka, String polaznaStanica, String odredisnaStanica, String datum, String nacinKupovine) {
+		LocalDate datumKupovine = LocalDate.parse(datum);
+		
+		var karta = prodajaKarti.kupiKartu(oznaka, polaznaStanica, odredisnaStanica, datumKupovine, nacinKupovine);
+		
+		if (karta == null) {
+			return;
+		}
+		
+		KartaMemento memento = karta.spremiStanje();
+		
+		registarKarti.spremiMemento(memento);
+		zadnjaKarta = karta;
+	}
+	
+	public void ispisiKarte(int index) {
+		System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", "Oznaka vlaka", "Polazna stanica", 
+				"Odredisna stanica", "Datum", "Vrijeme kretanja", "Vrijeme dolaska", 
+				"Izvorna cijena", "Popust", "Konacna cijena", "Nacin kupovine", "Vrijeme kupovine");
+
+		if (index == -1) {
+			for (int i = 0; i < registarKarti.dohvatiBrojStanja(); i++) {
+				zadnjaKarta.postaviStanje(registarKarti.dohvatiMemento(i+1));
+				System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
+						zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
+						zadnjaKarta.izvornaCijena, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
+						zadnjaKarta.konacnaCijena, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine);
+			}
+		}
+		else {
+			var memento = registarKarti.dohvatiMemento(index);
+			if (memento == null) {
+				return;
+			}
+			
+			zadnjaKarta.postaviStanje(memento);
+			System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
+					zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
+					zadnjaKarta.izvornaCijena, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
+					zadnjaKarta.konacnaCijena, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine);
+		}
 	}
 	
 	private VozniRed vozniRed;
+	private Karta zadnjaKarta;
+	private ProdajaKarti prodajaKarti = new ProdajaKarti();
+	private RegistarKarti registarKarti = new RegistarKarti();
 	private DojavljacKorisnika dojavljac = new DojavljacKorisnika();
 	private ArrayList<SimulacijaVlaka> simulacije = new ArrayList<SimulacijaVlaka>();
 	private Map<String, Kompozicija> sveKompozicije = new LinkedHashMap<String, Kompozicija>();

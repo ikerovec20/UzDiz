@@ -1,5 +1,7 @@
 package ikerovec20_zadaca_3.App;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,11 +44,11 @@ public class ProdajaKarti {
 		}
 	}
 	
-	public void kupiKartu(String oznaka, String polaznaStanica, String odredisnaStanica, Date datum, String nacin) {
+	public Karta kupiKartu(String oznaka, String polaznaStanica, String odredisnaStanica, LocalDate datum, String nacin) {
 		var vlak = TvrtkaSingleton.getInstance().getVozniRed().dohvatiVlak(oznaka);
 		if (vlak == null) {
 			System.out.println("Ne postoji vlak s oznakom " + oznaka);
-			return;
+			return null;
 		}
 		
 		var polazna = vlak.dohvatiStanicu(polaznaStanica);
@@ -54,25 +56,25 @@ public class ProdajaKarti {
 		
 		if (polazna == null || odredisna == null || !vlak.jePrijeStanice(polaznaStanica, odredisnaStanica)) {
 			System.out.println("Stanice su neispravne.");
-			return;
+			return null;
 		}
 		
 		if (kupovinaNaBlagajni == null) {
 			System.out.println("Nisu postavljene cijene i popusti.");
-			return;
+			return null;
 		}
 		
 		postaviNacinKupovanja(nacin);
 		
 		var kalendar = Calendar.getInstance();
-		kalendar.setTime(datum);
-		boolean vikend = kalendar.get(Calendar.DAY_OF_WEEK) == 0 || kalendar.get(Calendar.DAY_OF_WEEK) == 6 ? true : false;
+		boolean vikend = datum.getDayOfWeek() == DayOfWeek.SATURDAY || datum.getDayOfWeek() == DayOfWeek.SUNDAY;
 		int km = izracunajKm(vlak, polaznaStanica, odredisnaStanica);
 		double izvornaCijena = kupovina.izracunajOsnovnuCijenu(km, vlak);
 		double konacnaCijena = kupovina.izracunajKonacnuCijenu(km, vlak, vikend);
 		var popusti = kupovina.dohvatiPopuste(vikend);
 		Karta karta = new Karta(oznaka, polaznaStanica, odredisnaStanica, polazna.vratiPocetnoVrijeme(), odredisna.vrijemeDolaska, izvornaCijena, 
 				popusti.get(1), popusti.get(0), popusti.get(2), konacnaCijena, nacin, datum, LocalTime.now());
+		return karta;
 	}
 	
 	private int izracunajKm(Vlak vlak, String polaznaStanica, String odredisnaStanica) {
