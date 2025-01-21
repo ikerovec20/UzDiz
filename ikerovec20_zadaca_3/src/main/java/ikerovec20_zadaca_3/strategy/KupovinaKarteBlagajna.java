@@ -35,8 +35,7 @@ public class KupovinaKarteBlagajna implements IKupovinaKarteStrategy {
 			break;
 		}
 		
-		double osnovnaCijena = km * cijenaPoKm;
-		return osnovnaCijena;
+		return km * cijenaPoKm;
 	}
 
 	@Override

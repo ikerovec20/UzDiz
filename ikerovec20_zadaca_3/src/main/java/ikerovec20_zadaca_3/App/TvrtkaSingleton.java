@@ -452,14 +452,14 @@ public class TvrtkaSingleton {
 	}
 	
 	public void ispisiKarte(int index) {
-		System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", "Oznaka vlaka", "Polazna stanica", 
-				"Odredisna stanica", "Datum", "Vrijeme kretanja", "Vrijeme dolaska", 
-				"Izvorna cijena", "Popust", "Konacna cijena", "Nacin kupovine", "Vrijeme kupovine");
+		System.out.printf("%-12s %-23s %-23s %-10s %-7s %-7s %-15s %-8s %-15s %-5s %-8s%n", "Oznaka vlaka", "Polazna stanica", 
+				"Odredisna stanica", "Datum", "Polazak", "Dolazak", 
+				"Izvorna cijena", "Popust", "Konacna cijena", "Nacin", "Kupljeno");
 
 		if (index == -1) {
 			for (int i = 0; i < registarKarti.dohvatiBrojStanja(); i++) {
 				zadnjaKarta.postaviStanje(registarKarti.dohvatiMemento(i+1));
-				System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
+				System.out.printf("%-12s %-23s %-23s %-10s %-7s %-7s %-15s %-8s %-15s %-5s %-8s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
 						zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
 						(double) Math.round(zadnjaKarta.izvornaCijena * 100) / 100, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
 						(double) Math.round(zadnjaKarta.konacnaCijena * 100) / 100, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine.truncatedTo(ChronoUnit.SECONDS));
@@ -473,7 +473,7 @@ public class TvrtkaSingleton {
 			}
 			
 			zadnjaKarta.postaviStanje(memento);
-			System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
+			System.out.printf("%-12s %-23s %-23s %-10s %-7s %-7s %-15s %-8s %-15s %-5s %-8s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
 					zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
 					(double) Math.round(zadnjaKarta.izvornaCijena * 100) / 100, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
 					(double) Math.round(zadnjaKarta.konacnaCijena * 100) / 100, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine);

@@ -1,10 +1,13 @@
 package ikerovec20_zadaca_3.podaci;
 
+import ikerovec20_zadaca_3.state.StanjePruge;
+
 public class KomponentaPruge {
 	public String oznakaPruge;
 	public int brojKolosjeka;
 	public float dozvoljenoOpterecenjeOsovina;
 	public float dozvoljenoOpterecenjeDuzniMetar;
+	public StanjePruge stanje;
 	public int duzina;
 	
 	public KomponentaPruge(int brojKolosjeka, float dozvoljenoOpterecenjeOsovina, float dozvoljenoOpterecenjeDuzniMetar, int duzina) {
