@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.PrugaIterator"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.konfiguracija.DaniValidacija"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.konfiguracija.VozniRedValidacija"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.Pruga"/>
-    <fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.VozniRed"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.prototipovi.IStanicaPrototype"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.Stanica"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.KomandaIV"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.KomandaIEV"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.KomandaIEVD"/>
-    <fullyQualifiedTypeName name="boolean"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.podaci.KomponentaPruge"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.VozniRedComposite"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.IVozniRedIterator"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.VozniRedIterator"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.IPrugaKolekcija"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIVRV"/>
@@ -52,12 +37,27 @@
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.strategy.KupovinaKarteUVlaku"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.strategy.IKupovinaKarteStrategy"/>
     <fullyQualifiedTypeName name="java.sql.Date"/>
-    <fullyQualifiedTypeName name="java.util.Date"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.App.TvrtkaSingleton"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.composite.EtapnaStanica"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.composite.Vlak"/>
     <fullyQualifiedTypeName name="java.util.Calendar"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.podaci.Karta"/>
     <fullyQualifiedTypeName name="java.time.LocalTime"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.App.ProdajaKarti"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.memento.RegistarKarti"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.time.DayOfWeek"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.memento.KartaMemento"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.podaci.Karta"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaCVP"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaKKPV2S"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIKKPV"/>
+    <fullyQualifiedTypeName name="java.time.format.DateTimeFormatter"/>
+    <fullyQualifiedTypeName name="java.util.Locale"/>
+    <fullyQualifiedTypeName name="java.text.DateFormat"/>
+    <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.App.TvrtkaSingleton"/>
+    <fullyQualifiedTypeName name="java.time.ZoneId"/>
 </qualifiedTypeNameHistroy>

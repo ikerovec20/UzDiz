@@ -63,8 +63,8 @@ public class Main {
 				new KomandaX("X"),
 				new KomandaIVI2S("^IVI2S (?<polazna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisna>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<dan>[PoUSrČPeSuN]+) - (?<pocetno>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) - (?<zavrsno>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) - (?<stupci>[KVPS]+)$"),
 				new KomandaCVP("^CVP (?<cijenaNormalni>\\d+(?:[\\.\\,]\\d+)?) (?<cijenaUbrzani>\\d+(?:[\\.\\,]\\d+)?) (?<cijenaBrzi>\\d+(?:[\\.\\,]\\d+)?) (?<popustSuN>\\d+(?:[\\.\\,]\\d+)?) (?<popustWebMob>\\d+(?:[\\.\\,]\\d+)?) (?<uvecanjeVlak>\\d+(?:[\\.\\,]\\d+)?)$"),
-				new KomandaKKPV2S("^KKPV2S (?<oznaka>[\\w-\\s]+) - (?<polaznaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - ((?<datum> [0]?[1-9]|[1|2][0-9]|[3][0|1])[\\.]([0]?[1-9]|[1][0-2])[\\.]([0-9]{4}|[0-9]{2})) - (?<nacinKupovine> [B|WM|V])$"),
-				new KomandaIKKPV("^IKKPV( (?<index>)[[1-9]\\d*])?$")
+				new KomandaKKPV2S("^KKPV2S (?<oznaka>[\\w\\s]+) - (?<polaznaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<datum>([0]?[1-9]|[1|2][0-9]|[3][0|1])[\\.]([0]?[1-9]|[1][0-2])[\\.]([0-9]{4}|[0-9]{2}))\\.? - (?<nacinKupovine>B|WM|V)$"),
+				new KomandaIKKPV("^IKKPV( (?<index>[[1-9]\\d*]))?$")
 		};
 //		
 //		komandaIP.postaviSljedeceg(komandaISP);

@@ -1,10 +1,17 @@
 package ikerovec20_zadaca_3.App;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import ikerovec20_zadaca_3.chain_of_responsibility.IVI2S.IspisIVI2S;
@@ -424,10 +431,13 @@ public class TvrtkaSingleton {
 	public void postaviCijeneKarti(double cijenaNormalni, double cijenaUbrzani, double cijenaBrzi, double popustSuN, double popustWebMob, double uvecanjeVlak) {
 		
 		prodajaKarti.postaviCijene(cijenaNormalni, cijenaUbrzani, cijenaBrzi, popustSuN, popustWebMob, uvecanjeVlak);
+		System.out.println("Cijene postavljene.");
 	}
 	
 	public void kupiKartu(String oznaka, String polaznaStanica, String odredisnaStanica, String datum, String nacinKupovine) {
-		LocalDate datumKupovine = LocalDate.parse(datum);
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yyyy").withLocale(Locale.GERMAN);
+		LocalDate datumKupovine = LocalDate.parse(datum, formatter);
 		
 		var karta = prodajaKarti.kupiKartu(oznaka, polaznaStanica, odredisnaStanica, datumKupovine, nacinKupovine);
 		
@@ -451,13 +461,14 @@ public class TvrtkaSingleton {
 				zadnjaKarta.postaviStanje(registarKarti.dohvatiMemento(i+1));
 				System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
 						zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
-						zadnjaKarta.izvornaCijena, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
-						zadnjaKarta.konacnaCijena, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine);
+						(double) Math.round(zadnjaKarta.izvornaCijena * 100) / 100, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
+						(double) Math.round(zadnjaKarta.konacnaCijena * 100) / 100, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine.truncatedTo(ChronoUnit.SECONDS));
 			}
 		}
 		else {
 			var memento = registarKarti.dohvatiMemento(index);
 			if (memento == null) {
+				System.out.println("Ne postoji karta s navedenim indexom.");
 				return;
 			}
 			

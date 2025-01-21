@@ -12,12 +12,20 @@ public class KomandaCVP extends Komanda {
 
 	@Override
 	protected void obradi(Matcher parametri) {
-		double cijenaNormalni = Double.parseDouble(parametri.group("cijenaNormalni"));
-		double cijenaUbrzani = Double.parseDouble(parametri.group("cijenaUbrzani"));
-		double cijenaBrzi = Double.parseDouble(parametri.group("cijenaBrzi"));
-		double popustSuN = Double.parseDouble(parametri.group("popustSuN"));
-		double popustWebMob = Double.parseDouble(parametri.group("popustWebMob"));
-		double uvecanjeVlak = Double.parseDouble(parametri.group("uvecanjeVlak"));
+		
+		String cijenaN = parametri.group("cijenaNormalni").replace(',', '.');
+		String cijenaU = parametri.group("cijenaUbrzani").replace(',', '.');
+		String cijenaB = parametri.group("cijenaBrzi").replace(',', '.');
+		String popustS = parametri.group("popustSuN").replace(',', '.');
+		String popustW = parametri.group("popustWebMob").replace(',', '.');
+		String uvecanje = parametri.group("uvecanjeVlak").replace(',', '.');
+
+		double cijenaNormalni = Double.parseDouble(cijenaN);
+		double cijenaUbrzani = Double.parseDouble(cijenaU);
+		double cijenaBrzi = Double.parseDouble(cijenaB);
+		double popustSuN = Double.parseDouble(popustS);
+		double popustWebMob = Double.parseDouble(popustW);
+		double uvecanjeVlak = Double.parseDouble(uvecanje);
 		
 		TvrtkaSingleton.getInstance().postaviCijeneKarti(cijenaNormalni, cijenaUbrzani, cijenaBrzi, popustSuN, popustWebMob, uvecanjeVlak);
 	}

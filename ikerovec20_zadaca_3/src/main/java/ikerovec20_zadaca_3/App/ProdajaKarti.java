@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Date;
 
+import ikerovec20_zadaca_3.composite.Etapa;
 import ikerovec20_zadaca_3.composite.EtapnaStanica;
 import ikerovec20_zadaca_3.composite.Vlak;
 import ikerovec20_zadaca_3.podaci.Karta;
@@ -78,25 +79,34 @@ public class ProdajaKarti {
 	}
 	
 	private int izracunajKm(Vlak vlak, String polaznaStanica, String odredisnaStanica) {
-		var iterator = vlak.dohvatiIterator();
+		var etapaIterator = vlak.dohvatiIterator();
 		int km = 0;
 		boolean racunaj = false;
-		EtapnaStanica stanica = (EtapnaStanica) iterator.dohvatiSljedecuKomponentu();
-		if (stanica.stanica.stanica.matches(polaznaStanica)) {
-			racunaj = true;
-		}
-		while (iterator.postojiSljedecaKomponenta()) {
-			var nova = (EtapnaStanica) iterator.dohvatiSljedecuKomponentu();
-			if (racunaj) {
-				km += stanica.stanica.dohvatiVezu(nova.stanica).pruga.duzina;
-			}
+		boolean prekid = false;
+		while (etapaIterator.postojiSljedecaKomponenta()) {
+			var etapa = (Etapa) etapaIterator.dohvatiSljedecuKomponentu();
+			var iterator = etapa.dohvatiIterator();
+			EtapnaStanica stanica = (EtapnaStanica) iterator.dohvatiSljedecuKomponentu();
 			if (stanica.stanica.stanica.matches(polaznaStanica)) {
 				racunaj = true;
 			}
-			if (nova.stanica.stanica.matches(odredisnaStanica)) {
+			while (iterator.postojiSljedecaKomponenta()) {
+				var nova = (EtapnaStanica) iterator.dohvatiSljedecuKomponentu();
+				if (stanica.stanica.stanica.matches(polaznaStanica)) {
+					racunaj = true;
+				}
+				if (racunaj) {					
+					km += stanica.stanica.dohvatiVezu(nova.stanica).pruga.duzina;
+				}
+				if (nova.stanica.stanica.matches(odredisnaStanica)) {
+					prekid = true;
+					break;
+				}
+				stanica = nova;
+			}
+			if (prekid) {
 				break;
 			}
-			stanica = nova;
 		}
 		return km;
 	}
