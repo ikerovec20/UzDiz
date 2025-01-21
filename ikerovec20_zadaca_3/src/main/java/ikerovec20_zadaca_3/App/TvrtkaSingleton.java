@@ -475,8 +475,8 @@ public class TvrtkaSingleton {
 			zadnjaKarta.postaviStanje(memento);
 			System.out.printf("%-12s %-23s %-23s %-12s %-17s %-17s %-15s %-8s %-15s %-14s %-16s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
 					zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
-					zadnjaKarta.izvornaCijena, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
-					zadnjaKarta.konacnaCijena, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine);
+					(double) Math.round(zadnjaKarta.izvornaCijena * 100) / 100, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
+					(double) Math.round(zadnjaKarta.konacnaCijena * 100) / 100, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine);
 		}
 	}
 	
