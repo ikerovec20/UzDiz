@@ -2,11 +2,11 @@ package ikerovec20_zadaca_3.state;
 
 import ikerovec20_zadaca_3.podaci.KomponentaPruge;
 
-public class UKvaruStanje extends StanjePruge {
+public class UTestiranjuStanje extends StanjePruge {
 
-	public UKvaruStanje(KomponentaPruge pruga) {
+	public UTestiranjuStanje(KomponentaPruge pruga) {
 		super(pruga);
-		statusOznaka = "K";
+		statusOznaka = "T";
 	}
 
 	@Override
@@ -15,20 +15,23 @@ public class UKvaruStanje extends StanjePruge {
 		case "I":
 			pruga.promjeniStanje(new IspravnoStanje(pruga));
 			return true;
+		case "K":
+			pruga.promjeniStanje(new UKvaruStanje(pruga));
+			return true;
 		case "Z":
 			pruga.promjeniStanje(new ZatvorenoStanje(pruga));
 			return true;
-		case "K":
-			return false;
+		case "T":
+			return true;
 		default:
-			System.out.println("Promjena stanja 'K' -> '" + stanje + "' nije dozvoljena.");
+			System.out.println("Promjena stanja 'T' -> '" + stanje + "' nije dozvoljena.");
 			return false;
 		}
 	}
 
 	@Override
 	public boolean dozvoljenaVoznja() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -36,12 +39,14 @@ public class UKvaruStanje extends StanjePruge {
 		switch (stanje) {
 		case "I":
 			return true;
+		case "K":
+			return true;
 		case "Z":
 			return true;
-		case "K":
+		case "T":
 			return false;
 		default:
-			System.out.println("Promjena stanja 'K' -> '" + stanje + "' nije dozvoljena.");
+			System.out.println("Promjena stanja 'T' -> '" + stanje + "' nije dozvoljena.");
 			return false;
 		}
 	}

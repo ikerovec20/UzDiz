@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.VozniRedIterator"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.iteratori.IPrugaKolekcija"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.chain_of_responsibility.komande.KomandaIVRV"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.observer.Korisnik"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.observer.IKorisnik"/>
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
@@ -60,4 +56,8 @@
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.App.TvrtkaSingleton"/>
     <fullyQualifiedTypeName name="java.time.ZoneId"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.composite.Etapa"/>
+    <fullyQualifiedTypeName name="java.time.temporal.ChronoUnit"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.podaci.KomponentaPruge"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.state.StanjePruge"/>
 </qualifiedTypeNameHistroy>

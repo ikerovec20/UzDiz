@@ -480,6 +480,95 @@ public class TvrtkaSingleton {
 		}
 	}
 	
+	public void promjeniStanjePruge(String oznaka, String pocetnaStanica, String zavrsnaStanica, String status) {
+		var pruga = svePruge.get(oznaka);
+		if (pruga == null) {
+			System.out.println("Ne postoji pruga s tom oznakom.");
+			return;
+		}
+		
+		var iterator = pruga.dohvatiIterator(true);
+		boolean normalniSmjer = true;
+		Stanica prva = null;
+		Stanica druga = null;
+		while (iterator.postojiSljedecaStanica()) {
+			var stanica = iterator.dohvatiTrenutnuStanicu();
+			if (stanica.stanica.matches(pocetnaStanica) || stanica.stanica.matches(zavrsnaStanica)) {
+					if (!stanica.stanica.matches(pocetnaStanica)) {
+						if (prva == null) {
+							normalniSmjer = false;	
+						}
+						druga = stanica;
+					}
+					else {
+						prva = stanica;	
+					}
+			}
+			if (prva != null && druga != null) {
+				break;
+			}
+			iterator.dohvatiSljedecuStanicu();
+		}
+		
+		if (prva == null || druga == null) {
+			System.out.println("Stanice se ne nalaze na pruzi.");
+			return;
+		}
+		
+		if (!provjeriStanjaPruga(pruga, prva, druga, status, normalniSmjer)) {
+			System.out.println("Neispravna promjena stanja.");
+			return;
+		}
+		
+		iterator = pruga.dohvatiIterator(normalniSmjer);
+		var stanica = iterator.dohvatiTrenutnuStanicu();
+		boolean mijenjaj = false;
+		if (stanica == prva) {
+			mijenjaj = true;
+		}
+		while (iterator.postojiSljedecaStanica()) {
+			var nova = iterator.dohvatiSljedecuStanicu();
+			if (mijenjaj) {
+				var komponenta = stanica.dohvatiVezu(nova).pruga;
+				komponenta.stanje.promjeniStanje(status);
+				if (komponenta.brojKolosjeka == 1) {
+					komponenta = nova.dohvatiVezu(stanica).pruga;
+					komponenta.stanje.promjeniStanje(status);
+				}
+			}
+			if (nova == druga) {
+				break;
+			}
+			if (nova == prva) {
+				mijenjaj = true;
+			}
+			stanica = nova;
+		}
+	}
+	
+	private boolean provjeriStanjaPruga(Pruga pruga, Stanica prva, Stanica druga, String status, boolean normalniSmjer) {
+		var iterator = pruga.dohvatiIterator(normalniSmjer);
+		var stanica = iterator.dohvatiTrenutnuStanicu();
+		boolean provjeri = false;
+		while (iterator.postojiSljedecaStanica()) {
+			var nova = iterator.dohvatiSljedecuStanicu();
+			if (nova == prva) {
+				provjeri = true;
+			}
+			if (provjeri) {
+				var komp = stanica.dohvatiVezu(nova).pruga;
+				if (!komp.stanje.dozvoljenaPromjenaStanja(status)) {
+					return false;
+				}
+			}
+			if (nova == druga) {
+				break;
+			}
+			stanica = nova;
+		}
+		return true;
+	}
+	
 	private VozniRed vozniRed;
 	private Karta zadnjaKarta;
 	private ProdajaKarti prodajaKarti = new ProdajaKarti();

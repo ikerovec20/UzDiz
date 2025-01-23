@@ -21,6 +21,7 @@ import ikerovec20_zadaca_3.podaci.KompozicijskoVozilo;
 import ikerovec20_zadaca_3.podaci.Pruga;
 import ikerovec20_zadaca_3.podaci.Stanica;
 import ikerovec20_zadaca_3.podaci.Vozilo;
+import ikerovec20_zadaca_3.state.IspravnoStanje;
 import ikerovec20_zadaca_3.tvornice.KompozicijskoVoziloCreator;
 import ikerovec20_zadaca_3.tvornice.PutnickoVoziloCreator;
 import ikerovec20_zadaca_3.tvornice.TeretnoVoziloCreator;

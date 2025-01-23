@@ -10,19 +10,39 @@ public class IspravnoStanje extends StanjePruge {
 
 	@Override
 	public boolean promjeniStanje(String stanje) {
-		if (stanje.matches("K")) {
-			//promjeni u kvar
+		switch (stanje) {
+		case "K":
+			pruga.promjeniStanje(new UKvaruStanje(pruga));
 			return true;
-		}
-		else {
+		case "Z":
+			pruga.promjeniStanje(new ZatvorenoStanje(pruga));
+			return true;
+		case "I":
+			return true;
+		default:
+			System.out.println("Promjena stanja 'I' -> '" + stanje + "' nije dozvoljena.");
 			return false;
 		}
 	}
 
 	@Override
 	public boolean dozvoljenaVoznja() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
+	}
+
+	@Override
+	public boolean dozvoljenaPromjenaStanja(String stanje) {
+		switch (stanje) {
+		case "K":
+			return true;
+		case "Z":
+			return true;
+		case "I":
+			return false;
+		default:
+			System.out.println("Promjena stanja 'I' -> '" + stanje + "' nije dozvoljena.");
+			return false;
+		}
 	}
 
 }

@@ -1,6 +1,10 @@
 package ikerovec20_zadaca_3.podaci;
 
+import ikerovec20_zadaca_3.state.IspravnoStanje;
 import ikerovec20_zadaca_3.state.StanjePruge;
+import ikerovec20_zadaca_3.state.UKvaruStanje;
+import ikerovec20_zadaca_3.state.UTestiranjuStanje;
+import ikerovec20_zadaca_3.state.ZatvorenoStanje;
 
 public class KomponentaPruge {
 	public String oznakaPruge;
@@ -29,9 +33,25 @@ public class KomponentaPruge {
 		this.dozvoljenoOpterecenjeOsovina = dozvoljenoOpterecenjeOsovina;
 		this.dozvoljenoOpterecenjeDuzniMetar = dozvoljenoOpterecenjeDuzniMetar;
 		this.duzina = duzina;
+		
+		switch (podaci[12]) {
+		case "I":
+			this.stanje = new IspravnoStanje(this);
+			break;
+		case "K":
+			this.stanje = new UKvaruStanje(this);
+			break;
+		case "T":
+			this.stanje = new UTestiranjuStanje(this);
+			break;
+		case "Z":
+			this.stanje = new ZatvorenoStanje(this);
+		}
 	}
 	
-	
+	public void promjeniStanje(StanjePruge stanje) {
+		this.stanje = stanje;
+	}
 	
 	
 	

@@ -12,6 +12,7 @@ public class Stanica implements IStanicaPrototype {
 	public boolean putniciUlazIzlaz;
 	public boolean robaUtovarIstovar;
 	public int brojPerona;
+	public String statusPruge;
 	
 	public ArrayList<Veza> veze = new ArrayList<Veza>();
 	
