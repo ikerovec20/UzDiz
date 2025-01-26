@@ -1,15 +1,10 @@
 package ikerovec20_zadaca_3.App;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -19,6 +14,11 @@ import ikerovec20_zadaca_3.chain_of_responsibility.IVI2S.IspisK;
 import ikerovec20_zadaca_3.chain_of_responsibility.IVI2S.IspisP;
 import ikerovec20_zadaca_3.chain_of_responsibility.IVI2S.IspisS;
 import ikerovec20_zadaca_3.chain_of_responsibility.IVI2S.IspisV;
+import ikerovec20_zadaca_3.command.DodajEtapuKomanda;
+import ikerovec20_zadaca_3.command.DodajVlakKomanda;
+import ikerovec20_zadaca_3.command.KopirajEtapeVlakaKomanda;
+import ikerovec20_zadaca_3.command.VozniRedInvoker;
+import ikerovec20_zadaca_3.command.VozniRedKomanda;
 import ikerovec20_zadaca_3.composite.Etapa;
 import ikerovec20_zadaca_3.composite.EtapnaStanica;
 import ikerovec20_zadaca_3.composite.IKomponentaVoznogReda;
@@ -318,7 +318,6 @@ public class TvrtkaSingleton {
 		}
 		posloziIspis(stanice, izabraniVlakovi, stupci);
 	}
-	//POPRAVITI IVI2S
 	private void posloziIspis(ArrayList<IKomponentaVoznogReda> stanice, ArrayList<IKomponentaVoznogReda> izabraniVlakovi, String ispis) {
 		var redoslijed = ispis.toCharArray();
 		ArrayList<IspisIVI2S> stupci = new ArrayList<IspisIVI2S>();
@@ -344,14 +343,9 @@ public class TvrtkaSingleton {
 			lanac.postaviSljedeceg(stupci.get(i));
 			lanac = stupci.get(i);
 		}
-		char[] oznake = {'V', 'S', 'P', 'K'};
-		for (int i = -1; i < stanice.size(); i++) {
-			for (int j = 0; j < oznake.length; j++) {
-				stupci.get(0).ispisiRed(oznake[j]);	
-			}
+			stupci.get(0).ispisiRed();
 			System.out.printf("%n", "");
 		}
-	}
 	
 	public void dodajKorisnika(String ime, String prezime) {
 		Korisnik korisnik = new Korisnik(ime, prezime);
@@ -452,6 +446,7 @@ public class TvrtkaSingleton {
 	}
 	
 	public void ispisiKarte(int index) {
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy").withLocale(Locale.GERMAN);
 		System.out.printf("%-12s %-23s %-23s %-10s %-7s %-7s %-15s %-8s %-15s %-5s %-8s%n", "Oznaka vlaka", "Polazna stanica", 
 				"Odredisna stanica", "Datum", "Polazak", "Dolazak", 
 				"Izvorna cijena", "Popust", "Konacna cijena", "Nacin", "Kupljeno");
@@ -460,7 +455,7 @@ public class TvrtkaSingleton {
 			for (int i = 0; i < registarKarti.dohvatiBrojStanja(); i++) {
 				zadnjaKarta.postaviStanje(registarKarti.dohvatiMemento(i+1));
 				System.out.printf("%-12s %-23s %-23s %-10s %-7s %-7s %-15s %-8s %-15s %-5s %-8s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
-						zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
+						zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine.format(format), zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
 						(double) Math.round(zadnjaKarta.izvornaCijena * 100) / 100, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
 						(double) Math.round(zadnjaKarta.konacnaCijena * 100) / 100, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine.truncatedTo(ChronoUnit.SECONDS));
 			}
@@ -473,8 +468,9 @@ public class TvrtkaSingleton {
 			}
 			
 			zadnjaKarta.postaviStanje(memento);
+
 			System.out.printf("%-12s %-23s %-23s %-10s %-7s %-7s %-15s %-8s %-15s %-5s %-8s%n", zadnjaKarta.oznakaVlaka, zadnjaKarta.pocetnaStanica, 
-					zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine, zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
+					zadnjaKarta.odredisnaStanica, zadnjaKarta.datumKupovine.format(format), zadnjaKarta.vrijemeKretanja, zadnjaKarta.vrijemeDolaska, 
 					(double) Math.round(zadnjaKarta.izvornaCijena * 100) / 100, zadnjaKarta.popustApp + zadnjaKarta.popustVikend - zadnjaKarta.povecanje, 
 					(double) Math.round(zadnjaKarta.konacnaCijena * 100) / 100, zadnjaKarta.nacinKupovine, zadnjaKarta.vrijemeKupovine);
 		}
@@ -560,6 +556,12 @@ public class TvrtkaSingleton {
 				if (!komp.stanje.dozvoljenaPromjenaStanja(status)) {
 					return false;
 				}
+				if (komp.brojKolosjeka == 1) {
+					komp = nova.dohvatiVezu(stanica).pruga;
+					if (!komp.stanje.dozvoljenaPromjenaStanja(status)) {
+						return false;
+					}
+				}
 			}
 			if (nova == druga) {
 				break;
@@ -569,8 +571,118 @@ public class TvrtkaSingleton {
 		return true;
 	}
 	
+	public void ispisiPrugeStatus(String status, String oznaka) {
+		System.out.printf("%-10s %-23s %-23s%n", "Pruga", "Polazna stanica", "Odredisna stanica");
+		if (oznaka == null) {
+			for (var p : svePruge.entrySet()) {
+				
+				var pruga = p.getValue();
+				var iterator = pruga.dohvatiIterator(true);
+				var stanica = iterator.dohvatiTrenutnuStanicu();
+				while (iterator.postojiSljedecaStanica()) {
+
+					var nova = iterator.dohvatiSljedecuStanicu();
+					if (stanica.dohvatiVezu(nova).pruga.stanje.dohvatiOznaku().matches(status)) {
+						System.out.printf("%-10s %-23s %-23s%n", pruga.oznakaPruge, stanica.stanica, nova.stanica);
+					}
+					if (nova.dohvatiVezu(stanica).pruga.stanje.dohvatiOznaku().matches(status)) {
+						System.out.printf("%-10s %-23s %-23s%n", pruga.oznakaPruge, nova.stanica, stanica.stanica);
+					}
+					stanica = nova;
+				}
+			}
+		}
+		else {
+			var pruga = svePruge.get(oznaka);
+			if (pruga == null) {
+				System.out.println("Ne postoji pruga s danom oznakom.");
+				return;
+			}
+			
+			var iterator = pruga.dohvatiIterator(true);
+			var stanica = iterator.dohvatiTrenutnuStanicu();
+			while (iterator.postojiSljedecaStanica()) {
+				var nova = iterator.dohvatiSljedecuStanicu();
+				if (stanica.dohvatiVezu(nova).pruga.stanje.dohvatiOznaku().matches(status)) {
+					System.out.printf("%-10s %-23s %-23s%n", pruga.oznakaPruge, stanica.stanica, nova.stanica);
+				}
+				if (nova.dohvatiVezu(stanica).pruga.stanje.dohvatiOznaku().matches(status)) {
+					System.out.printf("%-10s %-23s %-23s%n", pruga.oznakaPruge, nova.stanica, stanica.stanica);
+				}
+				stanica = nova;
+			}
+		}
+	}
+	
+	public void dodajVlakKomanda(String oznaka, String vrstaVlaka) {
+		if (vozniRed.dohvatiVlak(oznaka) != null) {
+			System.out.println("Vlak s tom oznakom vec postoji.");
+			return;
+		}
+		
+		Vlak vlak = new Vlak(oznaka, vrstaVlaka);
+		DodajVlakKomanda komanda = new DodajVlakKomanda(vozniRed, vlak);
+		invoker.dodajKomandu(komanda);
+	}
+	
+	public void dodajEtapuKomanda(String oznakaVlaka, String vrstaVlaka, String pocetna, String zavrsna, String smjer, String pruga, String vrijemePolaska, String vrijemeTrajanja, String dani) {
+		
+		var pr = svePruge.get(pruga);
+		if (pr == null) {
+			System.out.println("Ne postoji navedena pruga");
+			return;
+		}
+		
+		var stanica1 = sveStanice.get(pocetna);
+		var stanica2 = sveStanice.get(zavrsna);
+		
+		if (stanica1 == null || stanica2 == null) {
+			System.out.println("Stanica/ce ne postoje.");
+			return;
+		}
+		
+		if (!pr.postojiStanica(stanica1) || !pr.postojiStanica(stanica2)) {
+			System.out.println("Stanica/ce ne postoje na zadanoj pruzi.");
+			return;
+		}
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:mm");
+		LocalTime pocetno = LocalTime.parse(vrijemePolaska, formatter);
+		LocalTime trajanje = LocalTime.parse(vrijemeTrajanja, formatter);
+		
+		var vlak = vozniRed.dohvatiVlak(oznakaVlaka);
+		
+		Etapa etapa = new Etapa(stanica1, stanica2, smjer, vrstaVlaka, pr, pocetno, trajanje, dani);
+		VozniRedKomanda komanda = new DodajEtapuKomanda(vlak, etapa, oznakaVlaka, vrstaVlaka);
+		invoker.dodajKomandu(komanda);
+	}
+	
+	public void kopirajEtapeVlaka(String oznakaVlaka1, String oznakaVlaka2) {
+		var vlak1 = vozniRed.dohvatiVlak(oznakaVlaka1);
+		var vlak2 = vozniRed.dohvatiVlak(oznakaVlaka2);
+		
+		VozniRedKomanda komanda = new KopirajEtapeVlakaKomanda(vlak1, vlak2, oznakaVlaka1, oznakaVlaka2);
+		invoker.dodajKomandu(komanda);
+	}
+	
+	public void vratiKomanda() {
+		invoker.vratiZadnjuKomandu();
+		vozniRed.validiraj();
+	}
+	
+	public void vratiSveKomande() {
+		invoker.vratiSveKomande();
+	}
+	
+	public void izvrsiKomande() {
+		invoker.izvrsiKomande();
+		System.out.println("Sve komande su izvrsene. Krece validacija.");
+		vozniRed.validiraj();
+	}
+	
 	private VozniRed vozniRed;
 	private Karta zadnjaKarta;
+	private VozniRedInvoker invoker = new VozniRedInvoker();
 	private ProdajaKarti prodajaKarti = new ProdajaKarti();
 	private RegistarKarti registarKarti = new RegistarKarti();
 	private DojavljacKorisnika dojavljac = new DojavljacKorisnika();

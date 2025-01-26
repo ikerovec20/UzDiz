@@ -3,8 +3,6 @@ package ikerovec20_zadaca_3.App;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Calendar;
-import java.util.Date;
 
 import ikerovec20_zadaca_3.composite.Etapa;
 import ikerovec20_zadaca_3.composite.EtapnaStanica;
@@ -40,7 +38,6 @@ public class ProdajaKarti {
 			kupovina = kupovinaPrekoAplikacije;
 			break;
 		default:
-			//ERROR
 			break;
 		}
 	}
@@ -65,9 +62,18 @@ public class ProdajaKarti {
 			return null;
 		}
 		
+		if (!vlak.provjeriStatusPruge(polazna.stanica, odredisna.stanica)) {
+			System.out.println("Trenutno nije moguce kupiti kartu za tu relaciju.");
+			return null;
+		}
+		
+		if (!vlak.raspored.provjeriDatum(datum)) {
+			System.out.println("Vlak ne vozi na taj dan.");
+			return null;
+		}
+		
 		postaviNacinKupovanja(nacin);
 		
-		var kalendar = Calendar.getInstance();
 		boolean vikend = datum.getDayOfWeek() == DayOfWeek.SATURDAY || datum.getDayOfWeek() == DayOfWeek.SUNDAY;
 		int km = izracunajKm(vlak, polaznaStanica, odredisnaStanica);
 		double izvornaCijena = kupovina.izracunajOsnovnuCijenu(km, vlak);

@@ -33,6 +33,24 @@ public class Etapa extends VozniRedComposite {
 		ucitajStanice();
 	}
 	
+	private Etapa(Etapa etapa) {
+		this.pocetnaStanica = etapa.pocetnaStanica;
+		this.zavrsnaStanica = etapa.zavrsnaStanica;
+		this.smjer = etapa.smjer;
+		this.vrstaEtape = etapa.vrstaEtape;
+		this.pruga = etapa.pruga;
+		this.vrijemePolaska = etapa.vrijemePolaska;
+		this.vrijemeTrajanja = etapa.vrijemeTrajanja;
+		LocalTime vrijeme = etapa.vrijemePolaska.plusHours(etapa.vrijemeTrajanja.getHour());
+		this.vrijemeZavrsetka = vrijeme.plusMinutes(etapa.vrijemeTrajanja.getMinute());
+		this.raspored = new Raspored(etapa.raspored.vratiDane());
+		ucitajStanice();
+	}
+	
+	public Etapa kloniraj() {
+		return new Etapa(this);
+	}
+	
 	public void ucitajStanice() {
 		boolean smjer = this.smjer.matches("N");
 		var iterator = pruga.dohvatiIterator(pocetnaStanica, smjer);
@@ -195,5 +213,10 @@ public class Etapa extends VozniRedComposite {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public boolean provjeriStatusPruge(Stanica prva, Stanica druga) {
+		return pruga.provjeriStatus(prva, druga, smjer.matches("N"));
 	}
 }

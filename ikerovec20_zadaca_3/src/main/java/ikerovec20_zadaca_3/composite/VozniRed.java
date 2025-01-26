@@ -99,4 +99,16 @@ public class VozniRed extends VozniRedComposite {
 		}
 		return false;
 	}
+
+
+	@Override
+	public boolean provjeriStatusPruge(Stanica prva, Stanica druga) {
+		for (var v : komponente) {
+			var vlak = (Vlak) v;
+			if (!vlak.provjeriStatusPruge(vlak.vratiPrvuStanicu(), vlak.vratiZadnjuStanicu())) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

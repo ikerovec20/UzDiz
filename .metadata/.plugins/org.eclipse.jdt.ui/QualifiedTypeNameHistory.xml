@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_2.observer.IKorisnik"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
-    <fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
-    <fullyQualifiedTypeName name="java.lang.StringBuilder"/>
-    <fullyQualifiedTypeName name="SimulacijaVlaka"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.observer.DojavljacKorisnika"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.observer.IDojavljac"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_2.composite.Etapa"/>
@@ -54,10 +49,15 @@
     <fullyQualifiedTypeName name="java.util.Locale"/>
     <fullyQualifiedTypeName name="java.text.DateFormat"/>
     <fullyQualifiedTypeName name="java.text.SimpleDateFormat"/>
-    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.App.TvrtkaSingleton"/>
     <fullyQualifiedTypeName name="java.time.ZoneId"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.composite.Etapa"/>
     <fullyQualifiedTypeName name="java.time.temporal.ChronoUnit"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.podaci.KomponentaPruge"/>
     <fullyQualifiedTypeName name="ikerovec20_zadaca_3.state.StanjePruge"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.state.ZatvorenoStanje"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.state.IspravnoStanje"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.state.UKvaruStanje"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.state.UTestiranjuStanje"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.App.TvrtkaSingleton"/>
+    <fullyQualifiedTypeName name="ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaPSP2S"/>
 </qualifiedTypeNameHistroy>

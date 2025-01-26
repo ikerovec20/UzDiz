@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ikerovec20_zadaca_3.iteratori.IVozniRedIterator;
 import ikerovec20_zadaca_3.iteratori.VozniRedIterator;
+import ikerovec20_zadaca_3.podaci.Stanica;
 
 public abstract class VozniRedComposite implements IKomponentaVoznogReda {
 	
@@ -38,4 +39,5 @@ public abstract class VozniRedComposite implements IKomponentaVoznogReda {
 	}
 	
 	public abstract boolean jePrijeStanice(String prvaStanica, String drugaStanica);
+	public abstract boolean provjeriStatusPruge(Stanica prva, Stanica druga);
 }

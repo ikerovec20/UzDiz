@@ -6,6 +6,7 @@ public class IspravnoStanje extends StanjePruge {
 
 	public IspravnoStanje(KomponentaPruge pruga) {
 		super(pruga);
+		statusOznaka = "I";
 	}
 
 	@Override

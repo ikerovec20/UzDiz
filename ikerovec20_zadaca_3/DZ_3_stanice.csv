@@ -50,7 +50,7 @@ Zaprešić Savska;M101;staj.;O;DA;NE;M;2;E;2;22,5;8;I;2;2;;
 Zaprešić;M101;kol.;O;DA;DA;M;2;E;2;22,5;8;I;2;2;;0
 Podsused Stajalište;M101;staj.;O;DA;NE;M;2;E;2;22,5;8;I;4;4;;
 Gajnice;M101;staj.;O;DA;NE;M;2;E;2;22,5;8;I;3;3;;
-Vrapče;M101;staj.;O;DA;NE;M;2;E;2;22,5;8;I;1;2;;
+Vrapče;M101;staj.;O;DA;NE;M;2;E;2;22,5;8;K;1;2;;
 Kustošija;M101;staj.;O;DA;NE;M;2;E;2;22,5;8;I;3;3;;
 Zagreb zapadni kolodvor;M101;kol.;O;DA;DA;M;3;E;2;22,5;8;I;2;4;;
 Zagreb glavni kolodvor;M101;kol.;O;DA;DA;M;5;E;2;22,5;8;I;2;4;;12
@@ -71,8 +71,8 @@ Novakovec;R202;staj.;O;DA;NE;R;1;K;1;22,5;8;I;2;3;;
 Martijanec;R202;staj.;O;DA;NE;R;1;K;1;22,5;8;I;3;3;;
 Ludbreg;R202;kol.;O;DA;DA;R;1;K;1;22,5;8;I;6;11;;23
 Čukovec;R202;staj.;O;DA;NE;R;1;K;1;22,5;8;I;5;5;;
-Rasinja;R202;kol.;O;DA;DA;R;1;K;1;22,5;8;I;5;7;;
-Kunovec-Subotica;R202;staj.;O;DA;NE;R;1;K;1;22,5;8;I;3;4;;
+Rasinja;R202;kol.;O;DA;DA;R;1;K;1;22,5;8;T;5;7;;
+Kunovec-Subotica;R202;staj.;O;DA;NE;R;1;K;1;22,5;8;Z;3;4;;
 Koprivnica;R202;kol.;O;DA;DA;R;2;K;1;22,5;8;I;6;7;;18
 # 20;;;;;;;;;;;;;;;;
 Koprivnica;M201;kol.;O;DA;DA;M;2;E;1;22,5;8;I;0;0;;0

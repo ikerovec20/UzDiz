@@ -150,4 +150,39 @@ public class Vlak extends VozniRedComposite {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean provjeriStatusPruge(Stanica prva, Stanica druga) {
+		for (var etapa : komponente) {
+			var e = (Etapa) etapa;
+			if (e.postojiStanica(prva.stanica) && e.postojiStanica(druga.stanica)) {
+				return e.provjeriStatusPruge(prva, druga);
+			}
+		}
+		Etapa prvaEtapa = null;
+		for (var e : komponente) {
+			var etapa = (Etapa) e;
+			if (etapa.postojiStanica(prva.stanica)) {
+				prvaEtapa = etapa;
+			}
+			if (prvaEtapa != null) {
+				if (etapa.postojiStanica(prva.stanica)) {
+					if (!etapa.provjeriStatusPruge(prva, etapa.zavrsnaStanica)) {
+						return false;
+					}
+				}
+				else if (etapa.postojiStanica(druga.stanica)) {
+					if (!etapa.provjeriStatusPruge(etapa.pocetnaStanica, druga)) {
+						return false;
+					}
+				}
+				else {
+					if (!etapa.provjeriStatusPruge(etapa.pocetnaStanica, etapa.zavrsnaStanica)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
 }

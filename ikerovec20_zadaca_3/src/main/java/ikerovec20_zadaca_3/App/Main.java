@@ -4,22 +4,29 @@ import java.util.Scanner;
 
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.Komanda;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaCVP;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDE;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDK;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDPK;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDV;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaGO;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIEV;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIEVD;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIK;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIKKPV;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIP;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIRPS;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaISI2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaISP;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIV;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIVI2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIVRV;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaKE;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaKKPV2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaPK;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaPSP2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaSVV;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaUNDO;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaUNDOSVE;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaX;
 import ikerovec20_zadaca_3.konfiguracija.Konfiguracija;
 
@@ -66,8 +73,25 @@ public class Main {
 				new KomandaCVP("^CVP (?<cijenaNormalni>\\d+(?:[\\.\\,]\\d+)?) (?<cijenaUbrzani>\\d+(?:[\\.\\,]\\d+)?) (?<cijenaBrzi>\\d+(?:[\\.\\,]\\d+)?) (?<popustSuN>\\d+(?:[\\.\\,]\\d+)?) (?<popustWebMob>\\d+(?:[\\.\\,]\\d+)?) (?<uvecanjeVlak>\\d+(?:[\\.\\,]\\d+)?)$"),
 				new KomandaKKPV2S("^KKPV2S (?<oznaka>[\\w\\s]+) - (?<polaznaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<datum>([0]?[1-9]|[1|2][0-9]|[3][0|1])[\\.]([0]?[1-9]|[1][0-2])[\\.]([0-9]{4}|[0-9]{2}))\\.? - (?<nacinKupovine>B|WM|V)$"),
 				new KomandaIKKPV("^IKKPV( (?<index>[[1-9]\\d*]))?$"),
-				new KomandaPSP2S("^PSP2S (?<oznaka>\\w+) - (?<polaznaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<status>I|K|T|Z)$")
+				new KomandaPSP2S("^PSP2S (?<oznaka>\\w+) - (?<polaznaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<status>I|K|T|Z)$"),
+				new KomandaIRPS("^IRPS (?<status>I|K|T|Z)( (?<oznaka>\\w+))?$"),
+				new KomandaDV("^DV (?<oznaka>[\\w-\\s]+) (?<vrsta>N|U|B)$"),
+				new KomandaDE("^DE (?<oznakaVlaka>[\\w-\\s]+) (?<vrstaVlaka>N|U|B) (?<pocetnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) (?<pruga>\\w+) (?<smjer>N|O) (?<vrijemePolaska>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) (?<trajanje>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) (?<dani>[PoUSrČPeSuN]+)$"),
+				new KomandaKE("^KE (?<primatelj>[\\w-\\s]+) (?<kopiraj>[\\w-\\s]+)$"),
+				new KomandaUNDO("UNDO"),
+				new KomandaUNDOSVE("UNDO SVE"),
+				new KomandaGO("GO")
 		};
+		
+//		String oznakaVlaka = parametri.group("oznakaVlaka");
+//		String pocetnaStanica = parametri.group("pocetnaStanica");
+//		String odredisnaStanica = parametri.group("odredisnaStanica");
+//		String pruga = parametri.group("pruga");
+//		String smjer = parametri.group("smjer");
+//		String vrijemePolaska = parametri.group("vrijemePolaska");
+//		String trajanje = parametri.group("trajanje");
+//		String dani = parametri.group("dani");
+		
 //		
 //		komandaIP.postaviSljedeceg(komandaISP);
 //		komandaISP.postaviSljedeceg(komandaISI2S);

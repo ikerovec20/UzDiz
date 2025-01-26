@@ -1,5 +1,7 @@
 package ikerovec20_zadaca_3.podaci;
 
+import java.time.LocalDate;
+
 public class Raspored {
 	private String[] dani = new String[] {"Po", "U", "Sr", "Č", "Pe", "Su", "N"};
 	private boolean[] voziNaDan = new boolean[7];
@@ -34,6 +36,34 @@ public class Raspored {
 			}
 		}
 		return vozi;
+	}
+	
+	public boolean provjeriDatum(LocalDate datum) {
+		String dan = "";
+		switch (datum.getDayOfWeek()) {
+		case MONDAY:
+			dan = "Po";
+			break;
+		case TUESDAY:
+			dan = "U";
+			break;
+		case WEDNESDAY:
+			dan = "Sr";
+			break;
+		case THURSDAY:
+			dan = "Č";
+			break;
+		case FRIDAY:
+			dan = "Pe";
+			break;
+		case SATURDAY:
+			dan = "Su";
+			break;
+		case SUNDAY:
+			dan = "N";
+			break;
+		}
+		return provjeriDane(dan);
 	}
 	
 	public void prilagodiRaspored(String dani) {

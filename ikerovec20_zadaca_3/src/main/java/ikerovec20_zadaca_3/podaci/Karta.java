@@ -2,7 +2,6 @@ package ikerovec20_zadaca_3.podaci;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 import ikerovec20_zadaca_3.memento.KartaMemento;
 

@@ -21,7 +21,6 @@ import ikerovec20_zadaca_3.podaci.KompozicijskoVozilo;
 import ikerovec20_zadaca_3.podaci.Pruga;
 import ikerovec20_zadaca_3.podaci.Stanica;
 import ikerovec20_zadaca_3.podaci.Vozilo;
-import ikerovec20_zadaca_3.state.IspravnoStanje;
 import ikerovec20_zadaca_3.tvornice.KompozicijskoVoziloCreator;
 import ikerovec20_zadaca_3.tvornice.PutnickoVoziloCreator;
 import ikerovec20_zadaca_3.tvornice.TeretnoVoziloCreator;
@@ -427,6 +426,7 @@ public class Konfiguracija {
 					KomponentaPruge pruga = new KomponentaPruge(podaci);
 					zadnjaStanica.dodajVezu(stanica, pruga, true, podaci[1]).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 					trenutnaPruga.ukupnoKm += pruga.duzina;
+					pruga = new KomponentaPruge(podaci);
 					stanica.dodajVezu(zadnjaStanica, pruga, false, podaci[1]).setVrijemeNormalniVlak(vrijemeNormalniVlak);
 
 			}
