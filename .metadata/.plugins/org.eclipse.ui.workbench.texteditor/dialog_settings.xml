@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="&#x09;&#x09;Komanda komandaIP = new KomandaIP(&quot;IP&quot;);"/>
+		<item key="selection" value="for (int j = 0; j &lt; oznake.length; j++) {"/>
 		<list key="findhistory">
+			<item value="for (int j = 0; j &lt; oznake.length; j++) {"/>
+			<item value="&#x09;&#x09;&#x09;&#x09;&#x09;System.out.println(&quot;STANICA 1: &quot; + stanica.stanica);"/>
 			<item value="&#x09;&#x09;Komanda komandaIP = new KomandaIP(&quot;IP&quot;);"/>
 			<item value="//&#x09;&#x09;for (var veza : trenutnaStanica.veze) {"/>
 			<item value="public void ispisiStanice(String pocetna, String zavrsna) {"/>

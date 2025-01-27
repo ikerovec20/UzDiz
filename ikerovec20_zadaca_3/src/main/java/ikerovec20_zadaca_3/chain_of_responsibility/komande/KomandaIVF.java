@@ -4,15 +4,15 @@ import java.util.regex.Matcher;
 
 import ikerovec20_zadaca_3.App.TvrtkaSingleton;
 
-public class KomandaUNDOSVE extends Komanda {
+public class KomandaIVF extends Komanda {
 
-	public KomandaUNDOSVE(String predlozak) {
+	public KomandaIVF(String predlozak) {
 		super(predlozak);
 	}
 
 	@Override
 	protected void obradi(Matcher parametri) {
-		TvrtkaSingleton.getInstance().vratiSveKomande();
+		TvrtkaSingleton.getInstance().ispisiTablicuVlakovaFilt();
 	}
 
 }

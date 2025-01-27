@@ -4,11 +4,11 @@ import java.util.Scanner;
 
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.Komanda;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaCVP;
-import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDE;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDK;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDPK;
-import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaDV;
-import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaGO;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaFD;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaFS;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaFV;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIEV;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIEVD;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIK;
@@ -18,15 +18,15 @@ import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIRPS;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaISI2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaISP;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIV;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIVF;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIVI2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaIVRV;
-import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaKE;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaKKPV2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaPK;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaPSP2S;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaSVV;
-import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaUNDO;
-import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaUNDOSVE;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaUF;
+import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaUFS;
 import ikerovec20_zadaca_3.chain_of_responsibility.komande.KomandaX;
 import ikerovec20_zadaca_3.konfiguracija.Konfiguracija;
 
@@ -75,12 +75,12 @@ public class Main {
 				new KomandaIKKPV("^IKKPV( (?<index>[[1-9]\\d*]))?$"),
 				new KomandaPSP2S("^PSP2S (?<oznaka>\\w+) - (?<polaznaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) - (?<status>I|K|T|Z)$"),
 				new KomandaIRPS("^IRPS (?<status>I|K|T|Z)( (?<oznaka>\\w+))?$"),
-				new KomandaDV("^DV (?<oznaka>[\\w-\\s]+) (?<vrsta>N|U|B)$"),
-				new KomandaDE("^DE (?<oznakaVlaka>[\\w-\\s]+) (?<vrstaVlaka>N|U|B) (?<pocetnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) (?<odredisnaStanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}])) (?<pruga>\\w+) (?<smjer>N|O) (?<vrijemePolaska>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) (?<trajanje>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) (?<dani>[PoUSrČPeSuN]+)$"),
-				new KomandaKE("^KE (?<primatelj>[\\w-\\s]+) (?<kopiraj>[\\w-\\s]+)$"),
-				new KomandaUNDO("UNDO"),
-				new KomandaUNDOSVE("UNDO SVE"),
-				new KomandaGO("GO")
+				new KomandaFS("^FS (?<stanica>[ \\p{L}]([ \\p{L} -]*[ \\p{L}]))$"),
+				new KomandaFV("^FV (?<vrijeme>([0-1]?[0-9]|2[0-3]):[0-5][0-9]) (?<prije>PRIJE|POSLIJE)$"),
+				new KomandaFD("^FD (?<dani>(Po|U|Sr|Č|Pe|Su|N)+)$"),
+				new KomandaIVF("IVF"),
+				new KomandaUF("UF"),
+				new KomandaUFS("UFS")
 		};
 		
 //		String oznakaVlaka = parametri.group("oznakaVlaka");

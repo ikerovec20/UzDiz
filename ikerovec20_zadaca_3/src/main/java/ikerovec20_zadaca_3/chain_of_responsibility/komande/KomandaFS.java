@@ -4,17 +4,17 @@ import java.util.regex.Matcher;
 
 import ikerovec20_zadaca_3.App.TvrtkaSingleton;
 
-public class KomandaUNDO extends Komanda {
+public class KomandaFS extends Komanda {
 
-	public KomandaUNDO(String predlozak) {
+	public KomandaFS(String predlozak) {
 		super(predlozak);
 	}
 
 	@Override
 	protected void obradi(Matcher parametri) {
-		TvrtkaSingleton.getInstance().vratiKomanda();
+		String stanica = parametri.group("stanica");
+		
+		TvrtkaSingleton.getInstance().dodajStanicuFilt(stanica);
 	}
-
-	
 
 }

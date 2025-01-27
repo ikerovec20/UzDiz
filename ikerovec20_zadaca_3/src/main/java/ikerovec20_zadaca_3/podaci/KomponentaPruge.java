@@ -47,12 +47,5 @@ public class KomponentaPruge {
 		case "Z":
 			this.stanje = new ZatvorenoStanje(this);
 		}
-	}
-	
-	public void promjeniStanje(StanjePruge stanje) {
-		this.stanje = stanje;
-	}
-	
-	
-	
+	}	
 }

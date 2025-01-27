@@ -13,13 +13,16 @@ public class UTestiranjuStanje extends StanjePruge {
 	public boolean promjeniStanje(String stanje) {
 		switch (stanje) {
 		case "I":
-			pruga.promjeniStanje(new IspravnoStanje(pruga));
+//			pruga.promjeniStanje(new IspravnoStanje(pruga));
+			pruga.stanje = new IspravnoStanje(pruga);
 			return true;
 		case "K":
-			pruga.promjeniStanje(new UKvaruStanje(pruga));
+//			pruga.promjeniStanje(new UKvaruStanje(pruga));
+			pruga.stanje = new UKvaruStanje(pruga);
 			return true;
 		case "Z":
-			pruga.promjeniStanje(new ZatvorenoStanje(pruga));
+//			pruga.promjeniStanje(new ZatvorenoStanje(pruga));
+			pruga.stanje = new ZatvorenoStanje(pruga);
 			return true;
 		case "T":
 			return true;

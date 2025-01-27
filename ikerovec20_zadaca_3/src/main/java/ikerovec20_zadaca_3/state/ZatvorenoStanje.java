@@ -13,7 +13,8 @@ public class ZatvorenoStanje extends StanjePruge {
 	public boolean promjeniStanje(String stanje) {
 		switch (stanje) {
 		case "T":
-			pruga.promjeniStanje(new UTestiranjuStanje(pruga));
+//			pruga.promjeniStanje(new UTestiranjuStanje(pruga));
+			pruga.stanje = new UTestiranjuStanje(pruga);
 			return true;
 		case "Z":
 			return true;
